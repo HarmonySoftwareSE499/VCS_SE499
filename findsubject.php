@@ -35,7 +35,7 @@ $years = $_POST['years'];
 <?
 while ($objResult = mysql_fetch_array($objQuery)) {
 	?>
-	<option value="<?=$objResult['SCODE'].$objResult['SNAME']?>"><?=$objResult['SCODE']."-".$objResult['SNAME']?></option>
+	<option value="<?=$objResult['SCODE'].$objResult['SNAME'].$objResult['subjectID']?>"><?=$objResult['SCODE']."-".$objResult['SNAME']?></option>
 	<?
 }
 ?>

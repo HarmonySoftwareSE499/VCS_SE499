@@ -1,8 +1,10 @@
 <?
 session_start();
 ?>
+
 <?php require_once('Connections/bmks.php'); ?>
 <?php require_once('Connections/bmksl.php'); ?>
+
 <?
 $login_ecode = $_SESSION["login_ecode"]; // รหัสประจำตัวบุคลากร
 $login_type = $_SESSION["login_type"]; // 1 คือ นักเรียนหรือผู้ปกครอง , 2 คือครู , 3 คือบุคลากร , 4 คือผู้บริหาร
@@ -35,7 +37,7 @@ require_once 'encodeUrl/encodeUrl.php';
 
 $charset = "utf-8";
 $mime = "text/html";
-header("Content-Type: $mime;charset=$charset");
+//header("Content-Type: $mime;charset=$charset");
 
 //--- ตรวจสอบให้ใช้งานได้เฉพาะหัวหน้าแผนกเท่านั้น ----
 /*
@@ -164,7 +166,7 @@ $objQuery  = mysql_query($strSQL);
 
 
 <div>
-<table width="100%" >
+<table width="100%" border="1">
    <tr>
         <th width="10%">รหัสวิชา</th>
         <th width="15%">ปีการศึกษา</th>
@@ -173,30 +175,38 @@ $objQuery  = mysql_query($strSQL);
         <th>เลือก</th>
     </tr>
 <?
+$i=0;
 while($objResult = mysql_fetch_array($objQuery))
+  
 {
 ?>
     <tr id='tab_data_<?=$objResult["IDtest"]?>'>
         <td align="center"><?php echo $objResult['id_course'] ;?></td>
         <td align="center"><? echo $objResult['year'];?></td>
         <td ><?
-                            echo $objResult["text1"]."<BR>"; 
-                            if (strlen($objResult["c1"]) > 300 ) {
+        $i++;
+                            if (strlen($objResult["text1"]) > 5000 ) {
+                             
+                             ?><? echo $i;?> <img style="width:100px; float:none;" src="data:image/jpg;base64,<?=$objResult["text1"]?>"><BR><?
+                           }else{
+                            echo "$i".".".$objResult["text1"]."<BR>"; 
+                                }
+                            if (strlen($objResult["c1"]) > 5000 ) {
                              
                              ?>1. <img style="width:100px; float:none;" src="data:image/jpg;base64,<?=$objResult["c1"]?>"><BR><?
                            }else{
                             echo "1. ".$objResult["c1"]."<BR>"; 
                                 }
-                                  if (strlen($objResult["c2"]) > 300 ) {
+                                  if (strlen($objResult["c2"]) > 5000 ) {
                              ?>2. <img style="width:100px; float:none;" src="data:image/jpg;base64,<?=$objResult["c2"]?>"><BR><?
                            }else{
                             echo "2. ".$objResult["c2"]."<BR>"; 
                                 }
-                                if (strlen($objResult["c3"]) > 300 ) {
+                                if (strlen($objResult["c3"]) > 5000 ) {
                            ?>3. <img style="width:100px; float:none;" src="data:image/jpg;base64,<?=$objResult["c3"]?>"><BR><?
                            }else{
                             echo "3. ".$objResult["c3"]."<BR>"; 
-                        }if (strlen($objResult["c4"]) > 300 ) {
+                        }if (strlen($objResult["c4"]) > 5000 ) {
                            ?>4. <img style="width:100px; float:none;" src="data:image/jpg;base64,<?=$objResult["c4"]?>"><BR><?
                            }else{
                             echo "4. ".$objResult["c4"]."<BR>";

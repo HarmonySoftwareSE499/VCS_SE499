@@ -1,8 +1,10 @@
 <?
 session_start();
 ?>
+<? ob_start();?>
 <?php require_once('Connections/bmks.php'); ?>
 <?php require_once('Connections/bmksl.php'); ?>
+<?require_once 'mpdf60/mpdf.php';?>
 <?
 $login_ecode = $_SESSION["login_ecode"]; // รหัสประจำตัวบุคลากร
 $login_type = $_SESSION["login_type"]; // 1 คือ นักเรียนหรือผู้ปกครอง , 2 คือครู , 3 คือบุคลากร , 4 คือผู้บริหาร
@@ -83,7 +85,7 @@ $Id_New_Test = $_GET['Id_New_Test'];
 $strSQL = "SELECT *
 FROM subject
 INNER JOIN new_test
-ON subject.SCODE=new_test.subject Where Id_New_Test = $Id_New_Test ;";
+ON subject.subjectID=new_test.subjectID Where Id_New_Test = $Id_New_Test ;";
 //$strSQL = "SELECT * FROM new_test where Id_New_Test = $Id_New_Test ";
 $objQuery = mysql_query($strSQL) or die ("Error Query [".$strSQL."]");
 while($objResult = mysql_fetch_array($objQuery))
@@ -114,36 +116,67 @@ while($objResult1 = mysql_fetch_array($objQuery1))
     <tr>
         <td width="100%"><?
                   echo $i." ). ";
+                            //echo $objResult1["text1"]."<BR>"; 
+                             if (strlen($objResult1["text1"]) > 5000 ) {
+                             ?><?
+                                  $data = $objResult1["text1"];
+                                  $type = "jpg";
+                                  $base64 = 'data:image/' . $type . ';base64,' . $data;
+                                  base64_to_jpeg($base64, 'text1.jpg');
+                             ?><img src='text1.jpg' width="80"><BR><?
+                           }else{
                             echo $objResult1["text1"]."<BR>"; 
+                                }
                             if (strlen($objResult1["c1"]) > 5000 ) {
                              
-                             ?>1. <img style="width:100px; float:none;" src="data:image/jpg;base64,<?=$objResult1["c1"]?>"><BR><?
+                             ?>1. <?
+                                  $data = $objResult1["c1"];
+                                  $type = "jpg";
+                                  $base64 = 'data:image/' . $type . ';base64,' . $data;
+                                  base64_to_jpeg($base64, 'c1.jpg');
+                             ?><img src='c1.jpg' width="80"><BR><?
                            }else{
                             echo "1. ".$objResult1["c1"]."<BR>"; 
                                 }
                                   if (strlen($objResult1["c2"]) > 5000 ) {
-                             ?>2. <img style="width:100px; float:none;" src="data:image/jpg;base64,<?=$objResult1["c2"]?>"><BR><?
+                             ?>2. <?
+                                  $data = $objResult1["c2"];
+                                  $type = "jpg";
+                                  $base64 = 'data:image/' . $type . ';base64,' . $data;
+                                  base64_to_jpeg($base64, 'c2.jpg');
+                             ?><img src='c2.jpg' width="80"><BR><?
                            }else{
                             echo "2. ".$objResult1["c2"]."<BR>"; 
                                 }
                                 if (strlen($objResult1["c3"]) > 5000 ) {
-                           ?>3. <img style="width:100px; float:none;" src="data:image/jpg;base64,<?=$objResult1["c3"]?>"><BR><?
+                           ?>3. <?
+                                  $data = $objResult1["c3"];
+                                  $type = "jpg";
+                                  $base64 = 'data:image/' . $type . ';base64,' . $data;
+                                  base64_to_jpeg($base64, 'c3.jpg');
+                             ?><img src='c3.jpg' width="80"><BR><?
                            }else{
                             echo "3. ".$objResult1["c3"]."<BR>"; 
                         }if (strlen($objResult1["c4"]) > 5000 ) {
-                           ?>4. <img style="width:100px; float:none;" src="data:image/jpg;base64,<?=$objResult1["c4"]?>"><BR><?
+                           ?>4. <?
+                                  $data = $objResult1["c4"];
+                                  $type = "jpg";
+                                  $base64 = 'data:image/' . $type . ';base64,' . $data;
+                                  base64_to_jpeg($base64, 'c4.jpg');
+                             ?><img src='c4.jpg' width="80"><BR><?
                            }else{
                             echo "4. ".$objResult1["c4"]."<BR>";
                         }
+
                            $i++;
+                           echo "<BR><BR>";
                             ?></td>
   </tr>
+
         <?php
  }
  ?>
 </table>
-  
-  
 
 <?
 }
@@ -152,8 +185,31 @@ while($objResult1 = mysql_fetch_array($objQuery1))
 </body>
 </html>
 <script type="text/javascript">
-  window.print();
+  //window.print();
 
 </script>
 
+<?
+function base64_to_jpeg($base64_string, $output_file) {
+    $ifp = fopen($output_file, "wb");
 
+    $data = explode(',', $base64_string);
+
+    fwrite($ifp, base64_decode($data[1]));
+    fclose($ifp);
+
+    return $output_file;
+}
+
+?>
+
+
+<?Php
+$html = ob_get_contents();
+ob_end_clean();
+$mpdf = new mPDF('th', 'A4-L', '0', 'THSaraban');
+//
+$mpdf->WriteHTML($html);
+//
+$mpdf->Output();
+?>

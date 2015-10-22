@@ -28,13 +28,25 @@ $yeardb = $_POST['year'];
 $termdb = $_POST['term'];
 $subjectdb = $_POST['subject'];
 $typedb = $_POST['type'];
+$subjectdb0 = substr($subjectdb, -4);
 $subjectdb1 = substr($subjectdb, 0,8);
 $subjectdb2 = substr($subjectdb, 8);
+$subjectdb3 = substr($subjectdb2, 0,-4);
+//echo $subjectdb3;
 mysql_query("Set names 'utf8'");
-$sql = "INSERT INTO  new_test (IDtest,year,term,Subject,subjectname,type,creater) VALUES ('','$yeardb','$termdb','$subjectdb1','$subjectdb2','$typedb','$creater')";
+$sql = "INSERT INTO  new_test (Id_New_Test,year,term,subjectID,Subject,subjectname,type,creater) VALUES ('','$yeardb','$termdb','$subjectdb0','$subjectdb1','$subjectdb3','$typedb','$creater')";
 //echo $sql;
-    mysql_query($sql);
+mysql_query($sql);
 header( "refresh:1;url=create_new_test.php" );
 
 
 ?>
+<!DOCTYPE html>
+<html>
+<head>
+	 <meta charset="utf-8" />
+</head>
+<body>
+
+</body>
+</html>

@@ -461,11 +461,11 @@ strlen($chk_que);
     //echo $sql."<BR>";
     
 if (strlen($chk_que) > 5000 ) {
-                             $pic = explode("/", $chk_que);
+                             //$pic = explode("/", $chk_que);
                              //echo $pic[0];
-                            $a1 = ereg_replace($pic[0], "", $chk_que);
+                            //$a1 = ereg_replace($pic[0], "", $chk_que);
                            // echo $a1;
-                             ?><div style="margin-left:20%;"><? echo $i."."." ".$pic[0] ?><br><img style="width:70px; height:100px; float:none;" src="data:image/jpg;base64,<?=$a1?>"></div><BR><?
+                             ?><div style="margin-left:20%;"><? echo $i. "."." "?><img style="width:80px; float:none;" src="data:image/jpg;base64,<?=$chk_que?>"></div><BR><?
                            }else{?>
                            <div style="margin-left:20%;"><p><? echo "$i ".".".$chk_que."<BR>";?></p></div> 
                                 <?}

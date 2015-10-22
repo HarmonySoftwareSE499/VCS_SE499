@@ -205,13 +205,13 @@ $subtwo_name = ""; //หัวข้อย่อย
                                 <tr>
                                     <td align="center" width="10%" height="25" style="border: 1px solid black;"><?=$objResult['Id_New_Test'];?></td>
                                     <td align="center" width="10%" style="border: 1px solid black;padding-left: 5px;padding-right: 5px;" class="paddingLeftTable"><?=$objResult['Subject'];?></td>
-                                    <td width="25%" style="border: 1px solid black;" align="center"><?=$objResult['subjectname'];?></td>
+                                    <td width="25%" style="border: 1px solid black;" align="center"><? echo $objResult['subjectname'] ;?></td>
                                     <td width="10%" style="border: 1px solid black;" align="center"><?=$objResult['type'];?></td>
                                     <td width="10%" style="border: 1px solid black;" align="center"><?=$objResult['year'];?></td>
                                     <td width="10%" style="border: 1px solid black;" align="center"><?=$objResult['term'];?></td>
                                     <td width="10%" align="center" style="border: 1px solid black;"><?=$objResult['creater'];?>
                                     </td>
-                                    <td align="center" width="15%" style="border: 1px solid black;"><a href="choose_test.php?Id_New_Test=<?=$objResult['Id_New_Test']?>"><img src="pic/edit.png" title=" เลือกข้อสอบ "></a><a href=""><img src="pic/delete.gif" title=" ลบข้อสอบ "></a></td>
+                                    <td align="center" width="15%" style="border: 1px solid black;"><a href="choose_test.php?Id_New_Test=<?=$objResult['Id_New_Test']?>"><img src="pic/edit.png" title=" เลือกข้อสอบ "></a><a onclick="return confirm('คุณต้องการลบข้อมูลที่เลือก')" href="DeleteNewTest.php?Id_New_Test=<?php echo $objResult["Id_New_Test"];?>';}"><img src="pic/delete.gif" ></a></td>
                                 </tr>
                       <?
     }
