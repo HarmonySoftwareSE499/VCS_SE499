@@ -73,7 +73,12 @@ $subtwo_name = ""; //หัวข้อย่อย
  
 </head>
 <body>
-  
+  <div align="center">
+  <img width="100px" height="80px"  src="img/varee_logo.jpg">
+    <h1 align="center">โรงเรียนวารีเชียงใหม่ อำเภอเมือง จังหวัดเชียงใหม่</h1>
+    <div align="center"><h3>ข้อสอบ<?echo $objResult['typetest']."\t";?>วิชา <?echo $objResult['Subject_ID'];?><? echo $objResult['Description'];?>ชั้น <? echo $objResult['grade'];?> ประจำปีการศึกษา <? echo $objResult['Year'];?> เวลา <?echo $objResult['time']."\t"."นาที";?></h4></div>
+    
+    <div align="center"><h4>--------------------------------------------------------------------------------------------------------------------------------</h4></div>
 <?
 
 $Id_New_Test = $_GET['Id_New_Test'];
@@ -85,17 +90,6 @@ ON subject.subjectID=new_test.subjectID Where Id_New_Test = $Id_New_Test ;";
 $objQuery = mysql_query($strSQL) or die ("Error Query [".$strSQL."]");
 while($objResult = mysql_fetch_array($objQuery))
 {?>
- <? 
-    $term = $objResult['term'];
-    substr($term, 9);
-    ?>
-<div align="center">
-  <img width="100px" height="80px"  src="img/varee_logo.jpg">
-  </div>
-    <p align="center"><b>โรงเรียนวารีเชียงใหม่</b><br>
-    ข้อสอบวิชา <?echo $objResult['SCODE']."\t";?>(<?echo $objResult['SNAME']."-".$objResult['TSNAME'];?>)    <? echo $objResult['score'];?> คะแนน สอบ<? echo $objResult['type'].substr($term, 9)."/".$objResult['year'];?><br>
-    ระดับชั้น<?echo $objResult['level'];?>    เวลา <?echo $objResult['time'];?> นาที </p>
-    <hr width="100%" size="20" color="black"><p>
   <?  
 $strSQL1 ="SELECT DISTINCT *
 FROM new_test 
@@ -108,9 +102,9 @@ WHERE reference_test.Id_New_Test = $Id_New_Test
 $objQuery1  = mysql_query($strSQL1);
 ?>
 
-<div>
+<div class="col-md-10 col-md-offset-1 col-md-offset-6">
 
-<table width="100%" style="font-size:14px;" class="table table-condensed"  >
+<table width="100%" style="font-size:20px;" class="table table-condensed"  >
    <tr width="100%">      
     </tr>
 <?
@@ -142,7 +136,7 @@ while($objResult1 = mysql_fetch_array($objQuery1))
                                   base64_to_jpeg($base64, 'c1.jpg');
                              ?><img src='c1.jpg' width="80"><BR><?
                            }else{
-                            echo '&nbsp;&nbsp;'."1. ".$objResult1["c1"]."<BR>"; 
+                            echo "1. ".$objResult1["c1"]."<BR>"; 
                                 }
                                   if (strlen($objResult1["c2"]) > 5000 ) {
                              ?>2. <?
@@ -152,7 +146,7 @@ while($objResult1 = mysql_fetch_array($objQuery1))
                                   base64_to_jpeg($base64, 'c2.jpg');
                              ?><img src='c2.jpg' width="80"><BR><?
                            }else{
-                            echo '&nbsp;&nbsp;'."2. ".$objResult1["c2"]."<BR>"; 
+                            echo "2. ".$objResult1["c2"]."<BR>"; 
                                 }
                                 if (strlen($objResult1["c3"]) > 5000 ) {
                            ?>3. <?
@@ -162,7 +156,7 @@ while($objResult1 = mysql_fetch_array($objQuery1))
                                   base64_to_jpeg($base64, 'c3.jpg');
                              ?><img src='c3.jpg' width="80"><BR><?
                            }else{
-                            echo '&nbsp;&nbsp;'."3. ".$objResult1["c3"]."<BR>"; 
+                            echo "3. ".$objResult1["c3"]."<BR>"; 
                         }if (strlen($objResult1["c4"]) > 5000 ) {
                            ?>4. <?
                                   $data = $objResult1["c4"];
@@ -171,7 +165,7 @@ while($objResult1 = mysql_fetch_array($objQuery1))
                                   base64_to_jpeg($base64, 'c4.jpg');
                              ?><img src='c4.jpg' width="80"><BR><?
                            }else{
-                            echo '&nbsp;&nbsp;'."4. ".$objResult1["c4"]."<BR>";
+                            echo "4. ".$objResult1["c4"]."<BR>";
                         }
 
                            $i++;
@@ -213,7 +207,7 @@ function base64_to_jpeg($base64_string, $output_file) {
 <?Php
 $html = ob_get_contents();
 ob_end_clean();
-$mpdf = new mPDF('th', 'A4', '0', 'THSaraban');
+$mpdf = new mPDF('th', 'A4-L', '0', 'THSaraban');
 //
 $mpdf->WriteHTML($html);
 //

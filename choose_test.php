@@ -113,18 +113,17 @@ $subtwo_name = ""; //หัวข้อย่อย
         <?php include '../mainsystem/inc_befordata.php'; ?>
         <!-- เริ่มข้อความ -->
         <center>
-        
          <h2>เลือกข้อสอบ <span class="eng">( Choose Test )</span></h2>
          <div class="panel-body">
-     <form name="frmSearch" method="post" action="choose_test.php?Id_New_Test=<?=$_GET['Id_New_Test']?>">
+     <form name="frmSearch" method="post" action="<?=$_SERVER['SCRIPT_NAME'];?>">
   <table width="599" border="0">
     <tr>
       <th>Select 
         <select name="ddlSelect" id="ddlSelect">
           <option>- Select -</option>
-          <option value="year" <?if($_POST["ddlSelect"]=="year"){echo"selected";}?>>ปีการศึกษา</option>
-          <option value="obj" <?if($_POST["ddlSelect"]=="obj"){echo"selected";}?>>วัตถุประสงค์</option>
-          <option value="Discrimination" <?if($_POST["ddlSelect"]=="Discrimination"){echo"selected";}?>>อำนาจจำแนก</option>
+          <option value="Subject_ID" <?if($_POST["ddlSelect"]=="Subject_ID"){echo"selected";}?>>รหัสวิชา</option>
+          <option value="Year" <?if($_POST["ddlSelect"]=="Year"){echo"selected";}?>>ปีการศึกษา</option>
+          <option value="Email" <?if($_POST["ddlSelect"]=="Email"){echo"selected";}?>>US</option>
         </select>
         Keyword
         <input name="txtKeyword" type="text" id="txtKeyword" value="<?=$_POST["txtKeyword"];?>">
@@ -132,11 +131,9 @@ $subtwo_name = ""; //หัวข้อย่อย
     </tr>
   </table>
 </form>
-<div align="right">
+<div>
 
-<p data-toggle="modal" data-target="#myModal1"><a  target="blank" href="View_Test.php?Id_New_Test=<?=$_GET['Id_New_Test']?>"><h3>ดูตัวอย่างข้อสอบ</h3></a></p>
-<p data-toggle="modal" data-target="#myModal1"><a  target="blank" href="View_Answer.php?Id_New_Test=<?=$_GET['Id_New_Test']?>"><h3>ดูตัวอย่างเฉลย</h3></a></p>
-</div>
+<p data-toggle="modal" data-target="#myModal1"><a target="blank" href="View_Test.php?Id_New_Test=<?=$_GET['Id_New_Test']?>">ดูตัวอย่างข้อสอบ</a></p></div>
 </div><!--View_Test.php?Id_New_Test=<?=$_GET['Id_New_Test']?>-->
 </div>
 <?
@@ -146,7 +143,7 @@ mysql_query("Set names 'utf8'");
 $strSQL = "SELECT * FROM db_test   ";
     if($_POST["ddlSelect"] != "" and  $_POST["txtKeyword"]  != '')
     {
-      $strSQL .= " WHERE (".$_POST["ddlSelect"]." LIKE '%".$_POST["txtKeyword"]."%' ) ";
+      $strSQL .= " AND (".$_POST["ddlSelect"]." LIKE '%".$_POST["txtKeyword"]."%' ) ";
     }   
 
 
@@ -219,12 +216,7 @@ while($objResult = mysql_fetch_array($objQuery))
                             ?></td>
 
         <td align="center"><? echo $objResult['Discrimination'];?></td>
-        <td align="center">
-        <?php
-
-
-        ?>
-        <input onclick="ch_box('<?=$objResult["IDtest"]?>','<?=$_GET['Id_New_Test']?>')" id ='ch_<?=$objResult["IDtest"]?>' type="checkbox" name="MemberID[]" value="<?php echo $objResult["IDtest"];?>">เลือก<br></td>
+        <td align="center"><input onclick="ch_box('<?=$objResult["IDtest"]?>','<?=$_GET['Id_New_Test']?>')" id ='ch_<?=$objResult["IDtest"]?>' type="checkbox" name="MemberID[]" value="<?php echo $objResult["IDtest"];?>">เลือก<br></td>
         </tr>
         <?php
  }
