@@ -122,61 +122,9 @@ while($objResult1 = mysql_fetch_array($objQuery1))
     <tr>
         <td width="100%"><?
                   echo $i." ). ";
-                            //echo $objResult1["text1"]."<BR>"; 
-                             if (strlen($objResult1["text1"]) > 5000 ) {
-                             ?><?
-                                  $data = $objResult1["text1"];
-                                  $type = "jpg";
-                                  $base64 = 'data:image/' . $type . ';base64,' . $data;
-                                  base64_to_jpeg($base64, 'text1.jpg');
-                             ?><img src='text1.jpg' width="80"><BR><?
-                           }else{
-                            echo $objResult1["text1"]."<BR>"; 
-                                }
-                            if (strlen($objResult1["c1"]) > 5000 ) {
-                             
-                             ?>1. <?
-                                  $data = $objResult1["c1"];
-                                  $type = "jpg";
-                                  $base64 = 'data:image/' . $type . ';base64,' . $data;
-                                  base64_to_jpeg($base64, 'c1.jpg');
-                             ?><img src='c1.jpg' width="80"><BR><?
-                           }else{
-                            echo '&nbsp;&nbsp;'."1. ".$objResult1["c1"]."<BR>"; 
-                                }
-                                  if (strlen($objResult1["c2"]) > 5000 ) {
-                             ?>2. <?
-                                  $data = $objResult1["c2"];
-                                  $type = "jpg";
-                                  $base64 = 'data:image/' . $type . ';base64,' . $data;
-                                  base64_to_jpeg($base64, 'c2.jpg');
-                             ?><img src='c2.jpg' width="80"><BR><?
-                           }else{
-                            echo '&nbsp;&nbsp;'."2. ".$objResult1["c2"]."<BR>"; 
-                                }
-                                if (strlen($objResult1["c3"]) > 5000 ) {
-                           ?>3. <?
-                                  $data = $objResult1["c3"];
-                                  $type = "jpg";
-                                  $base64 = 'data:image/' . $type . ';base64,' . $data;
-                                  base64_to_jpeg($base64, 'c3.jpg');
-                             ?><img src='c3.jpg' width="80"><BR><?
-                           }else{
-                            echo '&nbsp;&nbsp;'."3. ".$objResult1["c3"]."<BR>"; 
-                        }if (strlen($objResult1["c4"]) > 5000 ) {
-                           ?>4. <?
-                                  $data = $objResult1["c4"];
-                                  $type = "jpg";
-                                  $base64 = 'data:image/' . $type . ';base64,' . $data;
-                                  base64_to_jpeg($base64, 'c4.jpg');
-                             ?><img src='c4.jpg' width="80"><BR><?
-                           }else{
-                            echo '&nbsp;&nbsp;'."4. ".$objResult1["c4"]."<BR>";
-                        }
-
-                           $i++;
-                           echo "<BR><BR>";
-                            ?></td>
+                            echo $objResult1["ans"]."<BR>"; 
+                             $i++;
+                             ?></td>
   </tr>
 
         <?php

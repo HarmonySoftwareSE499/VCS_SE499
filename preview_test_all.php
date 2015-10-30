@@ -59,7 +59,7 @@ mysql_select_db($database_bmksl, $bmksl);
 <?
 $maintitile_name = "ระบบบันทึกผลการเรียน"; //ชื่อโปรแกรม และหัวเว็บ
 $subtitile_name = "Assessment Record System"; //คำอธิบายโปรแกรม
-$subone_name = "เลือกข้อสอบ (Choose Test)"; //หัวข้อหลัก
+$subone_name = "ดูข้อสอบทั้งหมด (View All Test)"; //หัวข้อหลัก
 $subtwo_name = ""; //หัวข้อย่อย
 ?>
 <!DOCTYPE html>
@@ -114,7 +114,7 @@ $subtwo_name = ""; //หัวข้อย่อย
         <!-- เริ่มข้อความ -->
         <center>
         
-         <h2>เลือกข้อสอบ <span class="eng">( Choose Test )</span></h2>
+         <h2>ค้นหาข้อสอบ <span class="eng">( Search Test )</span></h2>
          <div class="panel-body">
      <form name="frmSearch" method="post" action="choose_test.php?Id_New_Test=<?=$_GET['Id_New_Test']?>">
   <table width="599" border="0">
@@ -134,16 +134,16 @@ $subtwo_name = ""; //หัวข้อย่อย
 </form>
 <div align="right">
 
-<p data-toggle="modal" data-target="#myModal1"><a  target="blank" href="View_Test.php?Id_New_Test=<?=$_GET['Id_New_Test']?>"><h3>ดูตัวอย่างข้อสอบ</h3></a></p>
-<p data-toggle="modal" data-target="#myModal1"><a  target="blank" href="View_Answer.php?Id_New_Test=<?=$_GET['Id_New_Test']?>"><h3>ดูตัวอย่างเฉลย</h3></a></p>
 </div>
 </div><!--View_Test.php?Id_New_Test=<?=$_GET['Id_New_Test']?>-->
 </div>
 <?
 mysql_query("Set names 'utf8'");
 
- 
-$strSQL = "SELECT * FROM db_test   ";
+$subject1 = $_POST['subject'];
+$strSQL = "SELECT * FROM test where id_course = '$subject1'";
+//echo $strSQL;
+
     if($_POST["ddlSelect"] != "" and  $_POST["txtKeyword"]  != '')
     {
       $strSQL .= " WHERE (".$_POST["ddlSelect"]." LIKE '%".$_POST["txtKeyword"]."%' ) ";
@@ -174,8 +174,6 @@ $objQuery  = mysql_query($strSQL);
         <th width="10%">รหัสวิชา</th>
         <th width="15%">ปีการศึกษา</th>
         <th>คำถาม&ตัวเลือก</th>
-        <th>อำนาจจำแนก</th>
-        <th>เลือก</th>
     </tr>
 <?
 $i=0;
@@ -218,13 +216,10 @@ while($objResult = mysql_fetch_array($objQuery))
                             echo "วัตถุประสงค์"."\t".$objResult["obj"];
                             ?></td>
 
-        <td align="center"><? echo $objResult['Discrimination'];?></td>
-        <td align="center">
         <?php
 
 
         ?>
-        <input onclick="ch_box('<?=$objResult["IDtest"]?>','<?=$_GET['Id_New_Test']?>')" id ='ch_<?=$objResult["IDtest"]?>' type="checkbox" name="MemberID[]" value="<?php echo $objResult["IDtest"];?>">เลือก<br></td>
         </tr>
         <?php
  }

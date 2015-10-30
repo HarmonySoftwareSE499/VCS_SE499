@@ -145,7 +145,18 @@ $subtwo_name = ""; //หัวข้อย่อย
             </table>   
             <br/>
             <br/>
+            <? 
+            $id_course_row = $_POST['subject'];
+            //echo $id_course_row;
+            $sql = "SELECT * FROM db_test where id_course = '$id_course_row' ";
+            //echo $sql;
+            $result = mysql_query($sql);
+
+            $num_rows = mysql_num_rows($result);
+             ?>
+            <p align="center">จำนวนข้อสอบทั้งหมดในคลังข้อสอบ <? echo $num_rows;?></p>
             <?
+
             //find structrue this year 
             $sql_new_course_struture = "select * from evaulation.new_course_struture where ";
             $sql_new_course_struture .= " evaulation.new_course_struture.id_course = '" . $_POST['subject_id'] . "'";
@@ -155,6 +166,7 @@ $subtwo_name = ""; //หัวข้อย่อย
                 ?>
 
                 <?php
+
                 //find data this similar this structure 
                 $sql_find_course_before_data = "select * from evaulation.subject 
                     inner join evaulation.new_course_struture
@@ -208,7 +220,24 @@ $subtwo_name = ""; //หัวข้อย่อย
                         </tr>-->
                          
                         
-                            <td ><span id="imgStructure"></span></td>
+                            
+                            <td align="left">
+                                <form action="preview_test_all.php" method="POST" style="padding-top: 15px;">
+                                    <input type="hidden" name="subject_id" value="<?= $_POST['subject_id'] ?>" />
+                                    <input type="hidden" name="subject" value="<?= $_POST['subject']; ?>"/>
+                                    <input type="hidden" name="subject_name" value="<?= $_POST['subject_name']; ?>"/>
+                                    <input type="hidden" name="unit" value="<?= $_POST['unit']; ?>"/>
+                                    <input type="hidden" name="term" value="<?= $_POST['term']; ?>"/>
+                                    <input type="hidden" name="year" value="<?= $_POST['year']; ?>"/>
+                                    <input type="hidden" name="classroom" value="<?= $_POST['classroom']; ?>"/>
+                                    <input type="hidden" name="tname" value="<?= $_POST['tname']; ?>"/> 
+                                    <input type="submit" value="ดูข้อสอบทั้งหมด  ( View Test All )  " style="border: none;background: none;color: #2371E2;cursor: pointer;"/>
+                                </form> 
+                                </td>
+                              
+                                <!--<a href="new_course_structure.php?subject=<?= $_POST['subject']; ?>&&subject_name=<?= $_POST['subject_name']; ?>&&unit=<?= $_POST['unit']; ?>&&term=<?= $_POST['term']; ?>&&year=<?= $_POST['year']; ?>&&classRoom=<?= $_POST['classRoom']; ?>">จัดการโครงสร้างเเนื้อหา <span class="eng"> ( Management of content structure ) </span></a></td>-->
+                        </tr>
+                        <tr>
                             <td align="left">
                                 <form action="new_test.php" method="POST" style="padding-top: 15px;">
                                     <input type="hidden" name="subject_id" value="<?= $_POST['subject_id'] ?>" />
@@ -219,11 +248,25 @@ $subtwo_name = ""; //หัวข้อย่อย
                                     <input type="hidden" name="year" value="<?= $_POST['year']; ?>"/>
                                     <input type="hidden" name="classroom" value="<?= $_POST['classroom']; ?>"/>
                                     <input type="hidden" name="tname" value="<?= $_POST['tname']; ?>"/> 
-                                    <input type="submit" value="การจัดการข้อสอบ  ( Test management )  " style="border: none;background: none;color: #2371E2;cursor: pointer;"/>
+                                    <input type="submit" value="การนำข้อสอบเข้าคลัง  ( Import Test To Bank )  " style="border: none;background: none;color: #2371E2;cursor: pointer;"/>
                                 </form> 
-                                <!--<a href="new_course_structure.php?subject=<?= $_POST['subject']; ?>&&subject_name=<?= $_POST['subject_name']; ?>&&unit=<?= $_POST['unit']; ?>&&term=<?= $_POST['term']; ?>&&year=<?= $_POST['year']; ?>&&classRoom=<?= $_POST['classRoom']; ?>">จัดการโครงสร้างเเนื้อหา <span class="eng"> ( Management of content structure ) </span></a></td>-->
+                                </td>
                         </tr>
-
+                           <tr>
+                            <td align="left">
+                                <form action="new_test.php" method="POST" style="padding-top: 15px;">
+                                    <input type="hidden" name="subject_id" value="<?= $_POST['subject_id'] ?>" />
+                                    <input type="hidden" name="subject" value="<?= $_POST['subject']; ?>"/>
+                                    <input type="hidden" name="subject_name" value="<?= $_POST['subject_name']; ?>"/>
+                                    <input type="hidden" name="unit" value="<?= $_POST['unit']; ?>"/>
+                                    <input type="hidden" name="term" value="<?= $_POST['term']; ?>"/>
+                                    <input type="hidden" name="year" value="<?= $_POST['year']; ?>"/>
+                                    <input type="hidden" name="classroom" value="<?= $_POST['classroom']; ?>"/>
+                                    <input type="hidden" name="tname" value="<?= $_POST['tname']; ?>"/> 
+                                    <input type="submit" value="แก้ไข/ลบ ข้อสอบ  ( Edit/Delete Test )  " style="border: none;background: none;color: #2371E2;cursor: pointer;"/>
+                                </form> 
+                                </td>
+                        </tr>
 <!--                <tr>
                     <td ><span id="planStr"></span></img></td>
                     <td align="left"><a href="course_structure_plan.php?subject=<?= $_POST['subject']; ?>&&subject_name=<?= $_POST['subject_name']; ?>&&unit=<?= $_POST['unit']; ?>&&term=<?= $_POST['term']; ?>&&year=<?= $_POST['year']; ?>&&classRoom=<?= $_POST['classRoom']; ?>">เเผนการประเมินผลการเรียน <span class="eng"> ( Evaluation plan ) </span></a></td>
