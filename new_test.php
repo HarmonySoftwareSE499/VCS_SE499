@@ -71,7 +71,7 @@ $subtwo_name = ""; //หัวข้อย่อย
         <script src="cssAutocomplete/jquery-ui.js" ></script> 
         <script type="text/javascript">
     function chk(){   
-        var fty=new Array(".doc",".docx"); // ประเภทไฟล์ที่อนุญาตให้อัพโหลด   
+        var fty=new Array(".docx"); // ประเภทไฟล์ที่อนุญาตให้อัพโหลด   
         var a=document.form1.file.value; //กำหนดค่าของไฟล์ใหกับตัวแปร a   
         var permiss=0; // เงื่อนไขไฟล์อนุญาต
         a=a.toLowerCase();    
@@ -85,7 +85,7 @@ $subtwo_name = ""; //หัวข้อย่อย
                 }
             }  
             if(permiss==0){ 
-                alert("อัพโหลดได้เฉพาะไฟล์ .doc , .docx");     
+                alert("อัพโหลดได้เฉพาะไฟล์ .docx");     
                 return false;               
             }       
         }        
@@ -128,33 +128,35 @@ $subtwo_name = ""; //หัวข้อย่อย
         </table>  
         <br/>
        
-        <table width="100%" align="center" border="1">
+        <table width="100%" align="center">
             <tr align="center">
+            
                 <td >
-                    <b>ข้อสอบกลางภาค</b>
+                    <b>เลือกไฟล์ข้อสอบ</b>
                 </td>
-                <td >
-                    <b>สถานะข้อสอบ</b>
-                </td>
-                <td >
-                    <b>เฉลย</b>
-                </td>
-                <td >
-                    <b>สถานะเฉลย</b>
-                </td>
-                <td >
-                    <b>ตัวชี้วัด</b>
-                </td>
-                 <td >
-                    <b>อำนาจจำแนก</b>
-                </td>
+              
+              
+             
             </tr>
              <tr align="center">
+
                 <td >
-                     <form align="center"  action="upload_test_2.php?subject=<?php echo $_POST['subject'];?>&year=<?php echo $_POST['year'];?>"  method="post" enctype="multipart/form-data" onSubmit="JavaScript:return fncSubmit();">
+                     <form align="center"  action="upload_test_2.php?>"  method="post" enctype="multipart/form-data" onSubmit="JavaScript:return fncSubmit();">
+                <br>
+                 <select onclick="post" style="width: 300px;" name="type">
+                                    <option value="asdas">-- เลือกชนิดการสอบ ( Type Examination ) --</option>
+                                    <option value="MID1">ข้อสอบสอบกลางภาค 1</option> 
+                                    <option value="FIN1">ข้อสอบสอบปลายภาค 1</option> 
+                                    <option value="MID2">ข้อสอบสอบกลางภาค 2</option> 
+                                    <option value="FIN2">ข้อสอบสอบปลายภาค 2</option>
+                                    <option value="SUM">ข้อสอบสอบซัมเมอร์</option> 
+                                    <option value="EQU">ข้อสอบสอบเทียบโอน</option>
+                                    <option value="ADM">ข้อสอบสอบเข้า</option> 
+                                </select>
                 <div align="center">
-                <br><label><font color="red">*รูปแบบข้อสอบ----></font></label><a target="blank" href="filetemptest/temptest.pdf">"คลิ๊ก"</a><BR>
+                <br><label><font color="red">*รูปแบบข้อสอบ----></font></label><a  href="filetemptest/temptest.docx">"คลิ๊ก"</a><BR>
                 <input  type="file" name="file" />
+
                      <input type="hidden" name="subject_id" value="<?= $_POST['subject_id'] ?>" />
                                     <input type="hidden" name="subject" value="<?= $_POST['subject']; ?>"/>
                                     <input type="hidden" name="subject_name" value="<?= $_POST['subject_name']; ?>"/>
@@ -163,300 +165,46 @@ $subtwo_name = ""; //หัวข้อย่อย
                                     <input type="hidden" name="year" value="<?= $_POST['year']; ?>"/>
                                     <input type="hidden" name="classroom" value="<?= $_POST['classroom']; ?>"/>
                                     <input type="hidden" name="tname" value="<?= $_POST['tname']; ?>"/> 
-                    <br><button type="submit"   name="btn-upload">บันทึก</button>
+                                   
+                    <br><button type="submit"   name="btn-upload">บันทึก</button><BR>
                 </div>
             </form>
                 </td>
-                <td >
-               <?
-$query_statusM = "SELECT * FROM test WHERE type = 'M' AND id_course = '".$_POST['subject']."' ";
-//echo $query_statusM;
-$statusM = mysql_query($query_statusM, $bmksl) or die(mysql_error());
- while ($resultM=mysql_fetch_array($statusM)) {
-     if($resultM['id_course'] = $_POST['subject']){
-       $n = status1;
-     }
-     
-  } 
-  switch ($n) {
-    case status1:
-        echo '<label><font color="green"><B>เพิ่มข้อสอบแล้ว</B></font></label><BR>';
-         ?>
-        <form action="preview_test?type=M" method="POST" style="padding-top: 15px;">
-                                    <input type="hidden" name="subject_id" value="<?= $_POST['subject_id'] ?>" />
-                                    <input type="hidden" name="subject" value="<?= $_POST['subject']; ?>"/>
-                                    <input type="hidden" name="subject_name" value="<?= $_POST['subject_name']; ?>"/>
-                                    <input type="hidden" name="unit" value="<?= $_POST['unit']; ?>"/>
-                                    <input type="hidden" name="term" value="<?= $_POST['term']; ?>"/>
-                                    <input type="hidden" name="year" value="<?= $_POST['year']; ?>"/>
-                                    <input type="hidden" name="classroom" value="<?= $_POST['classroom']; ?>"/>
-                                    <input type="hidden" name="tname" value="<?= $_POST['tname']; ?>"/> 
-                                    <input type="submit" value="ดูข้อสอบ  ( PreviewTest )  " style="border: none;background: none;color: #2371E2;cursor: pointer;"/>
-                                </form> 
-        <?
-        break;
-    default:
-        echo '<label><font color="red"></B>ไม่พบข้อมูล</B></font></label>';
-        break;
-    }
-               ?>
-                </td>
-                <td >
-<form align="center"  action="upload_ans_2.php?subject=<?php echo $_POST['subject'];?>"  method="post" enctype="multipart/form-data" onSubmit="JavaScript:return fncSubmit();">
-                <div align="center">
-                <br><label><font color="red">*รูปแบบเฉลย----></font></label><a target="blank" href="filetemptest/temptest2.pdf">"คลิ๊ก"</a><BR>
-                <input  type="file" name="file" />
-                 <input type="hidden" name="subject_id" value="<?= $_POST['subject_id'] ?>" />
-                                    <input type="hidden" name="subject" value="<?= $_POST['subject']; ?>"/>
-                                    <input type="hidden" name="subject_name" value="<?= $_POST['subject_name']; ?>"/>
-                                    <input type="hidden" name="unit" value="<?= $_POST['unit']; ?>"/>
-                                    <input type="hidden" name="term" value="<?= $_POST['term']; ?>"/>
-                                    <input type="hidden" name="year" value="<?= $_POST['year']; ?>"/>
-                                    <input type="hidden" name="classroom" value="<?= $_POST['classroom']; ?>"/>
-                                    <input type="hidden" name="tname" value="<?= $_POST['tname']; ?>"/> 
-                    <br><button type="submit"   name="btn-upload">บันทึก</button>
-                </div>
-            </form>
-                    
-                </td>
-                <td >
-                    <?
-$query_status_ansM = "SELECT * FROM test WHERE type = 'M' AND ans != '' AND id_course = '".$_POST['subject']."' ";
-//echo $query_statusM;
-$query_status_ansM = mysql_query($query_status_ansM, $bmksl) or die(mysql_error());
- while ($resultansM=mysql_fetch_array($query_status_ansM)) {
-     if($resultansM['id_course'] = $_POST['subject']){
-       $ans1 = status1;
-     }
-     
-  } 
-  switch ($ans1) {
-    case status1:
-        echo '<label><font color="green"><B>เพิ่มเฉลยแล้ว</B></font></label>'; 
-        break;
-    default:
-        echo '<label><font color="red"></B>ไม่พบข้อมูล</B></font></label>';
-        break;
-    }
-               ?>
-                </td>
-                <td >
-                  <form action="test_object.php?type=M" method="POST" style="padding-top: 15px;">
-                                    <input type="hidden" name="subject_id" value="<?= $_POST['subject_id'] ?>" />
-                                    <input type="hidden" name="subject" value="<?= $_POST['subject']; ?>"/>
-                                    <input type="hidden" name="subject_name" value="<?= $_POST['subject_name']; ?>"/>
-                                    <input type="hidden" name="unit" value="<?= $_POST['unit']; ?>"/>
-                                    <input type="hidden" name="term" value="<?= $_POST['term']; ?>"/>
-                                    <input type="hidden" name="year" value="<?= $_POST['year']; ?>"/>
-                                    <input type="hidden" name="classroom" value="<?= $_POST['classroom']; ?>"/>
-                                    <input type="hidden" name="tname" value="<?= $_POST['tname']; ?>"/> 
-                                    <?
-                                     $strSQL2 = "SELECT COUNT(*) FROM test where type = 'M' order by num asc ";
-                                     $objQuery2  = mysql_query($strSQL2);
-                                     $objResult2 = mysql_fetch_array($objQuery2);
-                                    if ($objResult2['COUNT(*)'] == 0) {
-                                    echo '<input disabled type="submit" value="เพิ่ม  ( Add )  " style="border: none;background: none;color: #2371E2; color:red;"/>';
-                                    }
-                                    if ($objResult2['COUNT(*)'] > 0) {
-                                    echo '<input  type="submit" value="เพิ่ม  ( Add )  " style="border: none;background: none;color: #2371E2;cursor: pointer;"/>';
-                                    }
-        ?>
-                                    
-                                </form> 
-                </td>
-                <td >
-                     <form action="test_static.php?type=M" method="POST" style="padding-top: 15px;">
-                                    <input type="hidden" name="subject_id" value="<?= $_POST['subject_id'] ?>" />
-                                    <input type="hidden" name="subject" value="<?= $_POST['subject']; ?>"/>
-                                    <input type="hidden" name="subject_name" value="<?= $_POST['subject_name']; ?>"/>
-                                    <input type="hidden" name="unit" value="<?= $_POST['unit']; ?>"/>
-                                    <input type="hidden" name="term" value="<?= $_POST['term']; ?>"/>
-                                    <input type="hidden" name="year" value="<?= $_POST['year']; ?>"/>
-                                    <input type="hidden" name="classroom" value="<?= $_POST['classroom']; ?>"/>
-                                    <input type="hidden" name="tname" value="<?= $_POST['tname']; ?>"/> 
- <?
-                                     $strSQL2 = "SELECT COUNT(ans) FROM test where type = 'M' order by num asc ";
-                                     $objQuery2  = mysql_query($strSQL2);
-                                     $objResult2 = mysql_fetch_array($objQuery2);
-                                    if ($objResult2['COUNT(ans)'] == 0) {
-                                    echo '<input disabled type="submit" value="เพิ่ม  ( Add )  " style="border: none;background: none;color: #2371E2; color:red;"/>';
-                                    }
-                                    if ($objResult2['COUNT(ans)'] > 0) {
-                                    echo '<input  type="submit" value="เพิ่ม  ( Add )  " style="border: none;background: none;color: #2371E2;cursor: pointer;"/>';
-                                    }?>
-                                                                    </form> 
-                </td>
+               
+                
+                
+               
+               
             </tr>
             
         </table>
+<form align="center" action="new_course_display_detail_test" method="POST" style="padding-top: 15px;">
+                            <input type="hidden" name="subject_id" value="<?= $_POST['subject_id'] ?>" />
+                            <input type="hidden" name="subject" value="<?= $_POST['subject']; ?>"/>
+                            <input type="hidden" name="subject_name" value="<?= $_POST['subject_name']; ?>"/>
+                            <input type="hidden" name="unit" value="<?= $_POST['unit']; ?>"/>
+                            <input type="hidden" name="term" value="<?= $_POST['term']; ?>"/>
+                            <input type="hidden" name="year" value="<?= $_POST['year']; ?>"/>
+                            <input type="hidden" name="classroom" value="<?= $_POST['classroom']; ?>"/>
+                            <input type="hidden" name="tname" value="<?= $_POST['tname']; ?>"/> 
+                            <input type="submit" value="กลับสู่หน้าหลัก  ( Back )  " style="border: none;background: none;color: #2371E2;cursor: pointer;"/>
+</form>
+
+
         <BR><BR>
-        <table width="100%" align="center" border="1">
-            <tr align="center">
-                <td >
-                    <b>ข้อสอบปลายภาค</b>
-                </td>
-                <td >
-                    <b>สถานะข้อสอบ</b>
-                </td>
-                <td >
-                    <b>เฉลย</b>
-                </td>
-                <td >
-                    <b>สถานะเฉลย</b>
-                </td>
-                <td >
-                    <b>ตัวชี้วัด</b>
-                </td>
-                 <td >
-                    <b>อำนาจจำแนก</b>
-                </td>
-            </tr>
-            
-             <tr align="center">
-                <td >
-                     <form align="center"  action="upload_test_2.php?subject=<?php echo $_POST['subject'];?>&year=<?php echo $_POST['year'];?>"  method="post" enctype="multipart/form-data" onSubmit="JavaScript:return fncSubmit();">
-                <div align="center">
-                <br><label><font color="red">*รูปแบบข้อสอบ----></font></label><a target="blank" href="filetemptest/temptest.pdf">"คลิ๊ก"</a><BR>
-                <input  type="file" name="file" />
-<input type="hidden" name="subject_id" value="<?= $_POST['subject_id'] ?>" />
-                                    <input type="hidden" name="subject" value="<?= $_POST['subject']; ?>"/>
-                                    <input type="hidden" name="subject_name" value="<?= $_POST['subject_name']; ?>"/>
-                                    <input type="hidden" name="unit" value="<?= $_POST['unit']; ?>"/>
-                                    <input type="hidden" name="term" value="<?= $_POST['term']; ?>"/>
-                                    <input type="hidden" name="year" value="<?= $_POST['year']; ?>"/>
-                                    <input type="hidden" name="classroom" value="<?= $_POST['classroom']; ?>"/>
-                                    <input type="hidden" name="tname" value="<?= $_POST['tname']; ?>"/> 
-                    <br><button type="submit"   name="btn-upload2">บันทึก</button>
-                </div>
-            </form>
-                </td>
-                <td >
-                     <?
-$query_statusF = "SELECT * FROM test WHERE type = 'F' AND id_course = '".$_POST['subject']."' ";
-//echo $query_statusF;
-$statusF = mysql_query($query_statusF, $bmksl) or die(mysql_error());
- while ($resultF=mysql_fetch_array($statusF)) {
-     if($resultF['id_course'] = $_POST['subject']){
-       $n1 = status1;
-     }
-     
-  } 
-  switch ($n1) {
-    case status1:
-        echo '<label><font color="green"><B>เพิ่มข้อสอบแล้ว</B></font></label><BR>';?>
-        <form action="preview_test?type=F" method="POST" style="padding-top: 15px;">
-                                    <input type="hidden" name="subject_id" value="<?= $_POST['subject_id'] ?>" />
-                                    <input type="hidden" name="subject" value="<?= $_POST['subject']; ?>"/>
-                                    <input type="hidden" name="subject_name" value="<?= $_POST['subject_name']; ?>"/>
-                                    <input type="hidden" name="unit" value="<?= $_POST['unit']; ?>"/>
-                                    <input type="hidden" name="term" value="<?= $_POST['term']; ?>"/>
-                                    <input type="hidden" name="year" value="<?= $_POST['year']; ?>"/>
-                                    <input type="hidden" name="classroom" value="<?= $_POST['classroom']; ?>"/>
-                                    <input type="hidden" name="tname" value="<?= $_POST['tname']; ?>"/> 
-                                    <input type="submit" value="ดูข้อสอบ  ( PreviewTest )  " style="border: none;background: none;color: #2371E2;cursor: pointer;"/>
-                                </form> 
-                                <?
-        break;
-    default:
-        echo '<label><font color="red"></B>ไม่พบข้อมูล</B></font></label>';
-        break;
-    }
-               ?>
-                </td>
-                <td >
-                   <form align="center"  action="upload_ans_2.php?subject=<?php echo $_POST['subject'];?>"  method="post" enctype="multipart/form-data" onSubmit="JavaScript:return fncSubmit();">
-                <div align="center">
-                <br><label><font color="red">*รูปแบบเฉลย----></font></label><a target="blank" href="filetemptest/temptest2.pdf">"คลิ๊ก"</a><BR>
-                <input  type="file" name="file" />
-                <input type="hidden" name="subject_id" value="<?= $_POST['subject_id'] ?>" />
-                                    <input type="hidden" name="subject" value="<?= $_POST['subject']; ?>"/>
-                                    <input type="hidden" name="subject_name" value="<?= $_POST['subject_name']; ?>"/>
-                                    <input type="hidden" name="unit" value="<?= $_POST['unit']; ?>"/>
-                                    <input type="hidden" name="term" value="<?= $_POST['term']; ?>"/>
-                                    <input type="hidden" name="year" value="<?= $_POST['year']; ?>"/>
-                                    <input type="hidden" name="classroom" value="<?= $_POST['classroom']; ?>"/>
-                                    <input type="hidden" name="tname" value="<?= $_POST['tname']; ?>"/> 
-                    <br><button type="submit"   name="btn-upload2">บันทึก</button>
-                </div>
-            </form>
-                </td>
-                <td >
-                   <?
-$query_status_ansF = "SELECT * FROM test WHERE type = 'F' AND ans != '' AND id_course = '".$_POST['subject']."' ";
-//echo $query_statusM;
-$query_status_ansF = mysql_query($query_status_ansF, $bmksl) or die(mysql_error());
- while ($resultansF=mysql_fetch_array($query_status_ansF)) {
-     if($resultansF['id_course'] = $_POST['subject']){
-       $ans2 = status1;
-     }
-     
-  } 
-  switch ($ans2) {
-    case status1:
-        echo '<label><font color="green"><B>เพิ่มเฉลยแล้ว</B></font></label>';
-        break;
-    default:
-        echo '<label><font color="red"></B>ไม่พบข้อมูล</B></font></label>';
-        break;
-    }
-               ?>
-                </td>
-                 <td >
-                     <form action="test_object.php?type=F" method="POST" style="padding-top: 15px;">
-                                    <input type="hidden" name="subject_id" value="<?= $_POST['subject_id'] ?>" />
-                                    <input type="hidden" name="subject" value="<?= $_POST['subject']; ?>"/>
-                                    <input type="hidden" name="subject_name" value="<?= $_POST['subject_name']; ?>"/>
-                                    <input type="hidden" name="unit" value="<?= $_POST['unit']; ?>"/>
-                                    <input type="hidden" name="term" value="<?= $_POST['term']; ?>"/>
-                                    <input type="hidden" name="year" value="<?= $_POST['year']; ?>"/>
-                                    <input type="hidden" name="classroom" value="<?= $_POST['classroom']; ?>"/>
-                                    <input type="hidden" name="tname" value="<?= $_POST['tname']; ?>"/> 
-  <?
-                                     $strSQL2 = "SELECT COUNT(*) FROM test where type = 'F' order by num asc ";
-                                     $objQuery2  = mysql_query($strSQL2);
-                                     $objResult2 = mysql_fetch_array($objQuery2);
-                                    if ($objResult2['COUNT(*)'] == 0) {
-                                    echo '<input disabled type="submit" value="เพิ่ม  ( Add )  " style="border: none;background: none;color: #2371E2; color:red;"/>';
-                                    }
-                                    if ($objResult2['COUNT(*)'] > 0) {
-                                    echo '<input  type="submit" value="เพิ่ม  ( Add )  " style="border: none;background: none;color: #2371E2;cursor: pointer;"/>';
-                                    }
-        ?>                                </form> 
-                </td>
-                <td >
-                     <form action="test_static.php?type=F" method="POST" style="padding-top: 15px;">
-                                    <input type="hidden" name="subject_id" value="<?= $_POST['subject_id'] ?>" />
-                                    <input type="hidden" name="subject" value="<?= $_POST['subject']; ?>"/>
-                                    <input type="hidden" name="subject_name" value="<?= $_POST['subject_name']; ?>"/>
-                                    <input type="hidden" name="unit" value="<?= $_POST['unit']; ?>"/>
-                                    <input type="hidden" name="term" value="<?= $_POST['term']; ?>"/>
-                                    <input type="hidden" name="year" value="<?= $_POST['year']; ?>"/>
-                                    <input type="hidden" name="classroom" value="<?= $_POST['classroom']; ?>"/>
-                                    <input type="hidden" name="tname" value="<?= $_POST['tname']; ?>"/> 
-<?
-                                     $strSQL2 = "SELECT COUNT(ans) FROM test where type = 'F' order by num asc ";
-                                     $objQuery2  = mysql_query($strSQL2);
-                                     $objResult2 = mysql_fetch_array($objQuery2);
-                                    if ($objResult2['COUNT(ans)'] == 0) {
-                                    echo '<input disabled type="submit" value="เพิ่ม  ( Add )  " style="border: none;background: none;color: #2371E2; color:red;"/>';
-                                    }
-                                    if ($objResult2['COUNT(ans)'] > 0) {
-                                    echo '<input  type="submit" value="เพิ่ม  ( Add )  " style="border: none;background: none;color: #2371E2;cursor: pointer;"/>';
-                                    }?>                                </form> 
-                </td>
-            </tr>
-        </table>
+        
       <div style="color:red;">
             <p><b><u>ขั้นตอนการเตรียมข้อสอบ Word ดังต่อไปนี้</u><b></p>
             <p>- ทำการตัดส่วนหัวข้อสอบ ให้มีเฉพาะตัวข้อสอบ ที่มีแต่ คำถาม และตัวลือก 4 ตัวเลือกเท่านั้น</p>
             <br><p><b><u>วิธีการพิมพ์ข้อสอบ</u><b></p>
-            <p>- คำถาม : พิมพ์ เลขข้อ เคาะวรรค 1 ครั้ง แล้วพิมพ์ จุด (.) แล้วตามด้วย เคาะวรรค อีก 1 ครั้งและพิมพ์คำถาม เช่น 1 . ข้อใดต่อไปนี้ถูกต้อง</p>
+            <p>- คำถาม : พิมพ์ เลขข้อตามด้วยเครื่องหมาย ) แล้วพิมพ์ จุด (.) แล้วตามด้วย เคาะวรรค อีก 1 ครั้งและพิมพ์คำถาม เช่น 1 . ข้อใดต่อไปนี้ถูกต้อง</p>
             <p>- ตัวเลือก : พิมพ์หมายเลขตัวเลือก (1,2,3,4) ตามด้วย จุด(.) เคาะวรรค 1 ครั้งและพิมพ์ตัวเลือก เช่น 3. 3+3 = 6</p>
             <p>- กรณีของโจทย์ข้อสอบมีรูปภาพ : พิมพ์ เลขข้อ เคาะวรรค 1 ครั้ง แล้วพิมพ์ จุด (.) แล้วตามด้วย เคาะวรรค อีก 1 ครั้งและทำการเพิ่มรูปภาพ</p>
             <p>- กรณีของตัวเลือกข้อสอบมีรูปภาพ : พิมพ์หมายเลขตัวเลือก (1,2,3,4) ตามด้วย จุด(.) เคาะวรรค 1 ครั้งและทำการเพิ่มรูปภาพ</p>
+            <p>***ระบบยังไม่สามารถรองรับ รูปแบบสมการหรือรูปภาพที่วาดจากโปรแกรม Microsoft Word </p>
             <div border="1" style="margin-left:10%;float:left;color:blue;">
             <p><u>ตัวอย่างข้อสอบที่มีแต่ตัวอักษร</u></p>
-            1 . โรคใดไม่ถ่ายทอดทางพันธุกรรม<br>
+            1). โรคใดไม่ถ่ายทอดทางพันธุกรรม<br>
                   &nbsp;&nbsp;1. เบาหวาน <br>
                   &nbsp;&nbsp;2. โรคเลือดใส <br>
                   &nbsp;&nbsp;3. โรคเหน็บชา <br>
@@ -464,7 +212,7 @@ $query_status_ansF = mysql_query($query_status_ansF, $bmksl) or die(mysql_error(
             </div>
              <div style="margin-left:10%;float:left;color:green;">
             <p><u>ตัวอย่างข้อสอบที่มีรูปภาพประกอบ</u></p>
-            <p>1 . ข้อใดคือสัญลักษณ์ประจำโรงเรียน</p>
+            <p>1). ข้อใดคือสัญลักษณ์ประจำโรงเรียน</p>
                   &nbsp;&nbsp;1. <img width="60px" height="50px" src="/point/img/varee_logo.jpg"> <br>
                   &nbsp;&nbsp;2. รูปภาพ <br>
                   &nbsp;&nbsp;3. รูปภาพ <br>
