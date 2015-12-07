@@ -101,6 +101,7 @@ $subtwo_name = ""; //หัวข้อย่อย
             </tr>
             <tr>
                 <td><b>ปีการศึกษา</b>&nbsp;<span class="eng">(Year)</span>: <?= $_POST['year']; ?></td>
+                <td><b>ขนิดการสอบ</b>&nbsp;<span class="eng">(Type Exam)</span>: <?= $_POST['type']; ?></td>
                 <td></td>
             </tr>
         </table>
@@ -122,8 +123,8 @@ $subtwo_name = ""; //หัวข้อย่อย
  require_once('Connections/bmks.php');
  require_once('Connections/bmksl.php');
 	
- 	$subject = $_GET['subject'];
- 	$year = $_GET['year'];
+ 	$subject = $_POST['subject'];
+ 	$year = $_POST['year'];
  	$a1 = $_POST['a1'];
  	$a2 = $_POST['a2'];
  	$a3 = $_POST['a3'];
@@ -131,7 +132,7 @@ $subtwo_name = ""; //หัวข้อย่อย
  	$Median =$_POST['Median'];
  	$SD = $_POST['SD'];
 	$Variance = $_POST['Variance'];
-	$type = $_GET['type'];
+	$type = $_POST['type'];
 	mysql_query("Set names 'utf8'");
     $sql = "INSERT INTO log_test (id_course,year,Mean,Median,SD,Variance,a1,a2,a3) 
       VALUES ('$subject','$year','$Mean','$Median','$SD','$Variance','$a1','$a2','$a3')";
