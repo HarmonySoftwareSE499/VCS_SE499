@@ -102,6 +102,7 @@ $subtwo_name = ""; //หัวข้อย่อย
             </tr>
             <tr>
                 <td><b>ปีการศึกษา</b>&nbsp;<span class="eng">(Year)</span>: <?= $_POST['year']; ?></td>
+                <td><b>ขนิดการสอบ</b>&nbsp;<span class="eng">(Type Exam)</span>: <?= $_POST['type']; ?></td>
                 <td></td>
             </tr>
         </table>
@@ -113,7 +114,7 @@ if (isset($_POST['btn-upload'])) {
 	$a1 = $_POST['a1'];
     //echo $Indicator;
 
-	$type = $_GET['type'];
+	$type = $_POST['type'];
 	//echo $type;
 	mysql_query("Set names 'utf8'");
     //$sql = "UPDATE test SET obj = $Indicator WHERE num = $i";
@@ -149,7 +150,7 @@ if(empty($obj1)){
 ?>
 <br>
 <h5 align="center">ตัวชี้วัด ที่ <? echo $Indicator ?> ได้แก่ข้อ : <? echo $a1 ?></h5>
-<form align="center" action="test_object.php?type=<? echo $_GET['type'];?>" method="POST" style="padding-top: 15px;">
+<form align="center" action="test_object.php" method="POST" style="padding-top: 15px;">
                                     <input type="hidden" name="subject_id" value="<?= $_POST['subject_id'] ?>" />
                                     <input type="hidden" name="subject" value="<?= $_POST['subject']; ?>"/>
                                     <input type="hidden" name="subject_name" value="<?= $_POST['subject_name']; ?>"/>
@@ -158,19 +159,11 @@ if(empty($obj1)){
                                     <input type="hidden" name="year" value="<?= $_POST['year']; ?>"/>
                                     <input type="hidden" name="classroom" value="<?= $_POST['classroom']; ?>"/>
                                     <input type="hidden" name="tname" value="<?= $_POST['tname']; ?>"/> 
+                                    <input type="hidden" name="type" value="<?= $_POST['type']; ?>"/> 
                                     <input type="submit" value="เพิ่มตัวชี้วัด  " style="border: 2;background: none;color: #2371E2;cursor: pointer;"/>
+                                    
                                 </form> 
-                                <form align="center" action="new_test.php" method="POST" style="padding-top: 15px;">
-                                    <input type="hidden" name="subject_id" value="<?= $_POST['subject_id'] ?>" />
-                                    <input type="hidden" name="subject" value="<?= $_POST['subject']; ?>"/>
-                                    <input type="hidden" name="subject_name" value="<?= $_POST['subject_name']; ?>"/>
-                                    <input type="hidden" name="unit" value="<?= $_POST['unit']; ?>"/>
-                                    <input type="hidden" name="term" value="<?= $_POST['term']; ?>"/>
-                                    <input type="hidden" name="year" value="<?= $_POST['year']; ?>"/>
-                                    <input type="hidden" name="classroom" value="<?= $_POST['classroom']; ?>"/>
-                                    <input type="hidden" name="tname" value="<?= $_POST['tname']; ?>"/> 
-                                    <input type="submit" value="กลับสู่หน้าแรก  " style="border: 2;background: none;color: #2371E2;cursor: pointer;"/>
-                                </form> 
+                                
 </body>
 <script type="text/javascript">
   //window.location.replace('test_object.php')
