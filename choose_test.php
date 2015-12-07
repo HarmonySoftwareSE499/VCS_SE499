@@ -113,37 +113,47 @@ $subtwo_name = ""; //หัวข้อย่อย
         <?php include '../mainsystem/inc_befordata.php'; ?>
         <!-- เริ่มข้อความ -->
         <center>
+        
          <h2>เลือกข้อสอบ <span class="eng">( Choose Test )</span></h2>
          <div class="panel-body">
-     <form name="frmSearch" method="post" action="<?=$_SERVER['SCRIPT_NAME'];?>">
+     <form name="frmSearch" method="post" action="choose_test.php?Id_New_Test=<?=$_GET['Id_New_Test']?>">
   <table width="599" border="0">
     <tr>
       <th>Select 
         <select name="ddlSelect" id="ddlSelect">
           <option>- Select -</option>
-          <option value="Subject_ID" <?if($_POST["ddlSelect"]=="Subject_ID"){echo"selected";}?>>รหัสวิชา</option>
-          <option value="Year" <?if($_POST["ddlSelect"]=="Year"){echo"selected";}?>>ปีการศึกษา</option>
-          <option value="Email" <?if($_POST["ddlSelect"]=="Email"){echo"selected";}?>>US</option>
+          <option value="year" <?if($_POST["ddlSelect"]=="year"){echo"selected";}?>>ปีการศึกษา</option>
+          <option value="obj" <?if($_POST["ddlSelect"]=="obj"){echo"selected";}?>>ตัวชี้วัด</option>
+          <option value="Discrimination" <?if($_POST["ddlSelect"]=="Discrimination"){echo"selected";}?>>คุณภาพข้อสอบ</option>
         </select>
         Keyword
         <input name="txtKeyword" type="text" id="txtKeyword" value="<?=$_POST["txtKeyword"];?>">
+ <input type="hidden" name="subject" value="<?= $_POST['subject']; ?>"/>
+                                    <input type="hidden" name="subject_name" value="<?= $_POST['subject_name']; ?>"/>
+                                    <input type="hidden" name="unit" value="<?= $_POST['unit']; ?>"/>
+                                    <input type="hidden" name="term" value="<?= $_POST['term']; ?>"/>
+                                    <input type="hidden" name="year" value="<?= $_POST['year']; ?>"/>
+                                    <input type="hidden" name="classroom" value="<?= $_POST['classroom']; ?>"/>
+                                    <input type="hidden" name="tname" value="<?= $_POST['tname']; ?>"/> 
       <input type="submit" value="Search"></th>
     </tr>
   </table>
 </form>
-<div>
+<div align="right">
 
-<p data-toggle="modal" data-target="#myModal1"><a target="blank" href="View_Test.php?Id_New_Test=<?=$_GET['Id_New_Test']?>">ดูตัวอย่างข้อสอบ</a></p></div>
+<p data-toggle="modal" data-target="#myModal1"><a  target="blank" href="View_Test.php?Id_New_Test=<?=$_GET['Id_New_Test']?>"><h3>ดูตัวอย่างข้อสอบ</h3></a></p>
+<p data-toggle="modal" data-target="#myModal1"><a  target="blank" href="View_Answer.php?Id_New_Test=<?=$_GET['Id_New_Test']?>"><h3>ดูตัวอย่างเฉลย</h3></a></p>
+</div>
 </div><!--View_Test.php?Id_New_Test=<?=$_GET['Id_New_Test']?>-->
 </div>
 <?
 mysql_query("Set names 'utf8'");
 
- 
-$strSQL = "SELECT * FROM db_test   ";
+ $subject1 = $_POST['subject'];
+ $strSQL = "SELECT * FROM db_test  ";
     if($_POST["ddlSelect"] != "" and  $_POST["txtKeyword"]  != '')
     {
-      $strSQL .= " AND (".$_POST["ddlSelect"]." LIKE '%".$_POST["txtKeyword"]."%' ) ";
+      $strSQL .= " WHERE (".$_POST["ddlSelect"]." LIKE '%".$_POST["txtKeyword"]."%' ) ";
     }   
 
 
@@ -171,7 +181,7 @@ $objQuery  = mysql_query($strSQL);
         <th width="10%">รหัสวิชา</th>
         <th width="15%">ปีการศึกษา</th>
         <th>คำถาม&ตัวเลือก</th>
-        <th>อำนาจจำแนก</th>
+        <th>คุณภาพข้อสอบ</th>
         <th>เลือก</th>
     </tr>
 <?
@@ -179,15 +189,27 @@ $i=0;
 while($objResult = mysql_fetch_array($objQuery))
   
 {
+  $chk_que1 =  explode("/9j/", $objResult["text1"]);
+  //check 
+  $sql_ch_test = "select * from evaulation.reference_test where ";
+  $sql_ch_test .=" evaulation.reference_test.Id_New_Test ='".$_GET['Id_New_Test']."' ";
+  $sql_ch_test .=" and evaulation.reference_test.IDtest ='".$objResult['IDtest']."'";
+  $query_ch_test = mysql_query($sql_ch_test) or die(mysql_error());
+  $ch_test = false;
+  if(mysql_num_rows($query_ch_test)<>0){
+    $ch_test = true;
+
+  }
+
 ?>
-    <tr id='tab_data_<?=$objResult["IDtest"]?>'>
+    <tr  id='tab_data_<?=$objResult["IDtest"]?>'>
         <td align="center"><?php echo $objResult['id_course'] ;?></td>
         <td align="center"><? echo $objResult['year'];?></td>
         <td ><?
         $i++;
                             if (strlen($objResult["text1"]) > 5000 ) {
-                             
-                             ?><? echo $i;?> <img style="width:100px; float:none;" src="data:image/jpg;base64,<?=$objResult["text1"]?>"><BR><?
+                            
+                             ?><? echo $i.".".$chk_que1[0];?><br><img style="width:100px; float:none;" src="data:image/jpg;base64,/9j/<?=$chk_que1[1].$chk_que1[2]?>"><BR><?
                            }else{
                             echo "$i".".".$objResult["text1"]."<BR>"; 
                                 }
@@ -212,12 +234,33 @@ while($objResult = mysql_fetch_array($objQuery))
                             echo "4. ".$objResult["c4"]."<BR>";
                         }
                             echo "คำตอบที่ถูกต้อง"."\t".$objResult["ans"]."<BR>";
-                            echo "วัตถุประสงค์"."\t".$objResult["obj"];
+                            echo "ตัวชี้วัด"."\t".$objResult["obj"];
                             ?></td>
 
         <td align="center"><? echo $objResult['Discrimination'];?></td>
-        <td align="center"><input onclick="ch_box('<?=$objResult["IDtest"]?>','<?=$_GET['Id_New_Test']?>')" id ='ch_<?=$objResult["IDtest"]?>' type="checkbox" name="MemberID[]" value="<?php echo $objResult["IDtest"];?>">เลือก<br></td>
+        <td align="center">
+        <?php
+
+
+        ?>
+        <input 
+        <?php
+        if($ch_test){
+          echo "checked='true'";
+
+        }
+        ?>
+        onclick="ch_box('<?=$objResult["IDtest"]?>','<?=$_GET['Id_New_Test']?>')" id ='ch_<?=$objResult["IDtest"]?>' type="checkbox" name="MemberID[]" value="<?php echo $objResult["IDtest"];?>">เลือก<br></td>
         </tr>
+        <?
+ if($ch_test){
+  ?>
+  <script type="text/javascript">
+      document.getElementById("tab_data_"+<?=$objResult["IDtest"]?>).style.backgroundColor = "#99FFCC";
+  </script>
+  <?
+ }
+        ?>
         <?php
  }
  ?>
