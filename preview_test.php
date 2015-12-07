@@ -183,19 +183,27 @@ $objQuery  = mysql_query($strSQL);
         <th>ตัวชี้วัด</th>
         
     </tr>
+
 <?
 $i = 1;
 while($objResult = mysql_fetch_array($objQuery))
 {
 ?>
+<?  
 
+  echo  $chk_que1 =  explode("/9j/", $objResult["text1"]);
+    echo print_r($chk_que1); 
+    // $chk_que1[0];
+    //echo $chk_que1[1];
+    //echo $chk_que1[2];
+?>
     <tr id='tab_data_<?=$objResult["IDtest"]?>'>
       
         <td align="center"><? echo $objResult['type'];?></td>
         <td width="60%;"><?
                              if (strlen($objResult["text1"]) > 5000 ) {
-                             
-                             ?><? echo $i;?> <img style="width:100px; float:none;" src="data:image/jpg;base64,<?=$objResult["text1"]?>"><BR><?
+                                echo "string";
+                             ?><? echo $i;?> <img style="width:100px; float:none;" src="data:image/jpg;base64,/9j/<?=$chk_que1[1]?>"><BR><?
                            }else{
                             echo "$i".".".$objResult["text1"]."<BR>"; 
                                 }

@@ -124,6 +124,8 @@ $subtwo_name = ""; //หัวข้อย่อย
             </tr>
             <tr>
                 <td><b>ปีการศึกษา</b>&nbsp;<span class="eng">(Year)</span>: <?= $_POST['year']; ?></td>
+                <td><b>ขนิดการสอบ</b>&nbsp;<span class="eng">(Type Exam)</span>: <?= $_POST['type']; ?></td>
+
                 <td></td>
             </tr>
         </table>  
@@ -390,7 +392,7 @@ for ($i = 0; $i < $num_que_new;) {
     //echo "<br><br>";
    
     //$delete = mysql_query($Delet_Record, $bmksl) or die(mysql_error());
-$type = $_GET['type'];
+$type = $_POST['type'];
      strlen($chk_que);
     if(strlen($chk_que) > 2){
         $chk_que = substr($arr_all[$i]['q'], 4);
@@ -432,12 +434,27 @@ $type = $_GET['type'];
     <?
   
 }
+
 if ($num_rows != $i) {
        $message = "กรุณาตรวจสอบไฟล์เฉลย จำนวนเฉลยมีจำนวนไม่เท่ากับข้อสอบ";
                         echo "<script type='text/javascript'>alert('$message');</script>";
                        $sql = "UPDATE test SET ans = '' WHERE  type = '$type'";
     //echo $sql;
     mysql_query($sql);
+    ?>
+<form align="center" action="new_ans.php" method="POST" style="padding-top: 15px;">
+                            <input type="hidden" name="subject_id" value="<?= $_POST['subject_id'] ?>" />
+                            <input type="hidden" name="subject" value="<?= $_POST['subject']; ?>"/>
+                            <input type="hidden" name="subject_name" value="<?= $_POST['subject_name']; ?>"/>
+                            <input type="hidden" name="unit" value="<?= $_POST['unit']; ?>"/>
+                            <input type="hidden" name="term" value="<?= $_POST['term']; ?>"/>
+                            <input type="hidden" name="year" value="<?= $_POST['year']; ?>"/>
+                            <input type="hidden" name="classroom" value="<?= $_POST['classroom']; ?>"/>
+                            <input type="hidden" name="tname" value="<?= $_POST['tname']; ?>"/>
+                            <input type="hidden" name="type" value="<?= $_POST['type']; ?>"/>
+                            <input type="submit" value="ย้อนกลับ  ( Back )  " style="border: none;background: none;color: #2371E2;cursor: pointer;"/>
+</form>
+    <?
            $check_b = 'false';
            //break;
     }
@@ -470,8 +487,12 @@ $reader->close();
 // if $res === TRUE
 // if btn-upload
 ?>
+<? 
+if ($check_b == 'true'){?>
 
-<form align="center" action="new_test.php" method="POST" style="padding-top: 15px;">
+
+
+<form align="center" action="test_object.php" method="POST" style="padding-top: 15px;">
                             <input type="hidden" name="subject_id" value="<?= $_POST['subject_id'] ?>" />
                             <input type="hidden" name="subject" value="<?= $_POST['subject']; ?>"/>
                             <input type="hidden" name="subject_name" value="<?= $_POST['subject_name']; ?>"/>
@@ -480,8 +501,10 @@ $reader->close();
                             <input type="hidden" name="year" value="<?= $_POST['year']; ?>"/>
                             <input type="hidden" name="classroom" value="<?= $_POST['classroom']; ?>"/>
                             <input type="hidden" name="tname" value="<?= $_POST['tname']; ?>"/> 
-                            <input type="submit" value="กลับสู่หน้าหลัก  ( Back )  " style="border: 2;background: none;color: #2371E2;cursor: pointer;"/>
+                            <input type="hidden" name="type" value="<?= $_POST['type']; ?>"/>
+                            <input type="submit" value="เพิ่มตัวชี้วัด  ( Add Indicator )  " style="border: 2;background: none;color: #2371E2;cursor: pointer;"/>
 </form>
+<? } ?>
 <script type="text/javascript">
   //window.location.replace('new_test.php')
 </script>

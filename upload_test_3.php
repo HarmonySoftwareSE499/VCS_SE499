@@ -72,7 +72,7 @@ $subtwo_name = ""; //หัวข้อย่อย
         <script src="cssAutocomplete/jquery-ui.js" ></script> 
         <script type="text/javascript">
     function chk(){   
-        var fty=new Array(".doc",".docx"); // ประเภทไฟล์ที่อนุญาตให้อัพโหลด   
+        var fty=new Array(".docx"); // ประเภทไฟล์ที่อนุญาตให้อัพโหลด   
         var a=document.form1.file.value; //กำหนดค่าของไฟล์ใหกับตัวแปร a   
         var permiss=0; // เงื่อนไขไฟล์อนุญาต
         a=a.toLowerCase();    
@@ -86,7 +86,7 @@ $subtwo_name = ""; //หัวข้อย่อย
                 }
             }  
             if(permiss==0){ 
-                alert("อัพโหลดได้เฉพาะไฟล์ .doc , .docx");     
+                alert("อัพโหลดได้เฉพาะไฟล์ .docx");   
                 return false;               
             }       
         }        
@@ -124,14 +124,15 @@ $subtwo_name = ""; //หัวข้อย่อย
             </tr>
             <tr>
                 <td><b>ปีการศึกษา</b>&nbsp;<span class="eng">(Year)</span>: <?= $_POST['year']; ?></td>
+                <td><b>ขนิดการสอบ</b>&nbsp;<span class="eng">(Type Exam)</span>: <?= $_POST['type']; ?></td>
                 <td></td>
             </tr>
         </table>  
-
+<h2 align="center">ข้อสอบที่นำเข้าทั้งหมด</h2>
         <br/>
 <?
 function showimage($file_name_image) {
-    $pic = 'docx/word/' . $file_name_image;
+    $pic = 'Docx/word/' . $file_name_image;
 
     $picture = base64_encode(file_get_contents($pic));
    // echo '<img src="' . $pic . '">';
@@ -191,7 +192,7 @@ function showimage($file_name_image) {
                     }
 // set location of docx text content file
 $reader2->close();
-$xmlFile = "docx/word/document.xml";
+$xmlFile = "Docx/word/document.xml";
 $reader = new XMLReader;
 $reader->open($xmlFile);
 
@@ -276,7 +277,7 @@ while ($reader->read()) {
                 $attri_r = $paragraph->getAttribute("r:embed");
                 $current_image_name = $repo[$attri_r];
                 $image_stream = "" . showimage($current_image_name) . ""; //return the base64 string 
-                //echo $image_stream;
+                //echo $image_stream.$current_image_name."asdasdasd";
 
 
                 $text.="" . '<img height="150" width="200" src="data:image/jpg;base64,' . $image_stream . '">';
@@ -298,24 +299,28 @@ $html = new simple_html_dom();
 
 $html->load($text);
 
-
+$array_p  = $html->find('p');
 
 $arr_all = array();
 
 $q = 0;
  
-foreach ($html->find('p') as $element) {
+foreach ($array_p  as $keys=>$element) {
     //echo $i." ".$element->plaintext . '<br>';
     //echo $element;
+        //echo $keys."<br/>";
+
     $dot  =  explode(".", $element->plaintext);
     if ($element != "") {
         # code...
    
-    //$dot[0]."<br/>"; 
+    //echo  ($dot[0])."<br/>"; 
     if(!is_numeric($dot[0])){
          
-        $arr_all [$q]['q'] = $element->plaintext;
+         $arr_all [$q]['q'] = $element->plaintext;
+         $ch_quetion = $arr_all [$q]['q'].'<br>';
         ++$q;
+
     }else{
          //echo $q;
         if($dot[0]=='1'){
@@ -327,19 +332,143 @@ foreach ($html->find('p') as $element) {
         }else if($dot[0]=='4'){
               $arr_all [$q-1]['d'] = $element->plaintext;
              
+        }else{
+           //error
+           //echo  $array_p[$keys];
+          // exit(); 
         }
     }
+
  }
     
 }
 
-$check_b = 'true';
+
 //print_r($arr_all);
+$check_qq = ture;
+$num_q = 0;
+foreach ($arr_all as $key => $value) {
+    # code...
+    $ex = explode(").",$value['q']);
+    $num_q++;
+    //echo $num_q.'<BR>';
+    if($num_q!=$ex[0] || $ex[0]== ""){
+        //error
+        //echo $value['q']."  ".$num_q.$value['q'].'<BR>';
+        echo "กรุณาตรวจสอบรูปแบบไฟล์ข้อสอบ ข้อที่ ".$num_q;
+        ?>
+<form align="center" action="new_test.php" method="POST" style="padding-top: 15px;">
+                            <input type="hidden" name="subject_id" value="<?= $_POST['subject_id'] ?>" />
+                            <input type="hidden" name="subject" value="<?= $_POST['subject']; ?>"/>
+                            <input type="hidden" name="subject_name" value="<?= $_POST['subject_name']; ?>"/>
+                            <input type="hidden" name="unit" value="<?= $_POST['unit']; ?>"/>
+                            <input type="hidden" name="term" value="<?= $_POST['term']; ?>"/>
+                            <input type="hidden" name="year" value="<?= $_POST['year']; ?>"/>
+                            <input type="hidden" name="classroom" value="<?= $_POST['classroom']; ?>"/>
+                            <input type="hidden" name="tname" value="<?= $_POST['tname']; ?>"/> 
+                            <input type="submit" value="กลับสู่หน้าหลัก  ( Back )  " style="border: none;background: none;color: #2371E2;cursor: pointer;"/>
+</form>
+        <?
+       //echo $num_q; // lose question.. 
+        exit();
+    }
+
+    $exc1 = explode(".",$value['a']);
+    
+    if($exc1[0] != "1"){
+        //error
+        echo "กรุณาตรวจสอบตัวเลือกที่ 1 ข้อ ".($num_q).'<BR>'; // lose question.. 
+        ?>
+<form align="center" action="new_test.php" method="POST" style="padding-top: 15px;">
+                            <input type="hidden" name="subject_id" value="<?= $_POST['subject_id'] ?>" />
+                            <input type="hidden" name="subject" value="<?= $_POST['subject']; ?>"/>
+                            <input type="hidden" name="subject_name" value="<?= $_POST['subject_name']; ?>"/>
+                            <input type="hidden" name="unit" value="<?= $_POST['unit']; ?>"/>
+                            <input type="hidden" name="term" value="<?= $_POST['term']; ?>"/>
+                            <input type="hidden" name="year" value="<?= $_POST['year']; ?>"/>
+                            <input type="hidden" name="classroom" value="<?= $_POST['classroom']; ?>"/>
+                            <input type="hidden" name="tname" value="<?= $_POST['tname']; ?>"/> 
+                            <input type="submit" value="กลับสู่หน้าหลัก  ( Back )  " style="border: none;background: none;color: #2371E2;cursor: pointer;"/>
+</form>
+        <?
+        exit();
+    }
+      $exc2 = explode(".",$value['b']);
+    
+    if($exc2[0] != "2"){
+        //error
+          echo "กรุณาตรวจสอบตัวเลือกที่ 2 ข้อ ".($num_q).'<BR>'; // lose question.. 
+        ?>
+<form align="center" action="new_test.php" method="POST" style="padding-top: 15px;">
+                            <input type="hidden" name="subject_id" value="<?= $_POST['subject_id'] ?>" />
+                            <input type="hidden" name="subject" value="<?= $_POST['subject']; ?>"/>
+                            <input type="hidden" name="subject_name" value="<?= $_POST['subject_name']; ?>"/>
+                            <input type="hidden" name="unit" value="<?= $_POST['unit']; ?>"/>
+                            <input type="hidden" name="term" value="<?= $_POST['term']; ?>"/>
+                            <input type="hidden" name="year" value="<?= $_POST['year']; ?>"/>
+                            <input type="hidden" name="classroom" value="<?= $_POST['classroom']; ?>"/>
+                            <input type="hidden" name="tname" value="<?= $_POST['tname']; ?>"/> 
+                            <input type="submit" value="กลับสู่หน้าหลัก  ( Back )  " style="border: none;background: none;color: #2371E2;cursor: pointer;"/>
+</form>
+        <?
+        exit();
+    }
+      $exc3 = explode(".",$value['c']);
+    
+    if($exc3[0] != "3"){
+        //error
+         echo "กรุณาตรวจสอบตัวเลือกที่ 3 ข้อ ".($num_q).'<BR>'; // lose question.. 
+        ?>
+<form align="center" action="new_test.php" method="POST" style="padding-top: 15px;">
+                            <input type="hidden" name="subject_id" value="<?= $_POST['subject_id'] ?>" />
+                            <input type="hidden" name="subject" value="<?= $_POST['subject']; ?>"/>
+                            <input type="hidden" name="subject_name" value="<?= $_POST['subject_name']; ?>"/>
+                            <input type="hidden" name="unit" value="<?= $_POST['unit']; ?>"/>
+                            <input type="hidden" name="term" value="<?= $_POST['term']; ?>"/>
+                            <input type="hidden" name="year" value="<?= $_POST['year']; ?>"/>
+                            <input type="hidden" name="classroom" value="<?= $_POST['classroom']; ?>"/>
+                            <input type="hidden" name="tname" value="<?= $_POST['tname']; ?>"/> 
+                            <input type="submit" value="กลับสู่หน้าหลัก  ( Back )  " style="border: none;background: none;color: #2371E2;cursor: pointer;"/>
+</form>
+        <?
+        exit();
+    }
+      $exc4 = explode(".",$value['d']);
+    
+    if($exc4[0] != "4"){
+        //error
+         echo "กรุณาตรวจสอบตัวเลือกที่ 4 ข้อ ".($num_q).'<BR>'; // lose question.. 
+        ?>
+<form align="center" action="new_test.php" method="POST" style="padding-top: 15px;">
+                            <input type="hidden" name="subject_id" value="<?= $_POST['subject_id'] ?>" />
+                            <input type="hidden" name="subject" value="<?= $_POST['subject']; ?>"/>
+                            <input type="hidden" name="subject_name" value="<?= $_POST['subject_name']; ?>"/>
+                            <input type="hidden" name="unit" value="<?= $_POST['unit']; ?>"/>
+                            <input type="hidden" name="term" value="<?= $_POST['term']; ?>"/>
+                            <input type="hidden" name="year" value="<?= $_POST['year']; ?>"/>
+                            <input type="hidden" name="classroom" value="<?= $_POST['classroom']; ?>"/>
+                            <input type="hidden" name="tname" value="<?= $_POST['tname']; ?>"/> 
+                            <input type="submit" value="กลับสู่หน้าหลัก  ( Back )  " style="border: none;background: none;color: #2371E2;cursor: pointer;"/>
+</form>
+        <?
+        exit();
+    }
+
+
+
+}
+
+$check_b = 'true';
+//exit();
  $num_que_new  = sizeof($arr_all);
 
-for ($i = 1; $i < $num_que_new; $i++) {
+for ($i = 0; $i < $num_que_new; $i++) {
 //echo  $chk_que.'asd<br/>';
+       //echo $arr_all[$i]['q']."<br/>";
        //echo $arr_all[$i]['a']."<br/>";
+       //echo $arr_all[$i]['b']."<br/>";
+       //echo $arr_all[$i]['c']."<br/>";
+       //echo $arr_all[$i]['d']."<br/>";
       $chk_que = substr($arr_all[$i]['q'], 3) ;
       
         $chk_a = substr($arr_all[$i]['a'], 3) ;
@@ -348,7 +477,9 @@ for ($i = 1; $i < $num_que_new; $i++) {
        $chk_d = substr($arr_all[$i]['d'], 3);
 
         if (empty($chk_que) || empty($chk_a) || empty($chk_b) || empty($chk_c) || empty($chk_d))  {
-         // echo $chk_que;
+          //echo $chk_que;
+           // $i = $i+1;
+             //echo  "*ข้อที่ ".$i.'<font color="red">รูปแบบไม่ถูกต้องกรุณาตรวจเช็ค</font>';
            $check_b = 'false';
         
            break;
@@ -376,12 +507,12 @@ $ans_d = 4;
 
 //mysql_connect($dbhost, $dbuser, $dbpass) or die('cannot connect to the server');
 //mysql_select_db($dbname) or die('database selection problem');
-$subject = $_GET['subject'];
- $type = $_GET['type'];
- $year = $_GET['year'];
+$subject = $_POST['subject'];
+$type = $_POST['type'];
+$year = $_POST['year'];
 
 ?>
-<form align="center" action="new_test.php" method="POST" style="padding-top: 15px;">
+<!--<form align="center" action="new_test.php" method="POST" style="padding-top: 15px;">
                             <input type="hidden" name="subject_id" value="<?= $_POST['subject_id'] ?>" />
                             <input type="hidden" name="subject" value="<?= $_POST['subject']; ?>"/>
                             <input type="hidden" name="subject_name" value="<?= $_POST['subject_name']; ?>"/>
@@ -391,7 +522,7 @@ $subject = $_GET['subject'];
                             <input type="hidden" name="classroom" value="<?= $_POST['classroom']; ?>"/>
                             <input type="hidden" name="tname" value="<?= $_POST['tname']; ?>"/> 
                             <input type="submit" value="กลับสู่หน้าหลัก  ( Back )  " style="border: none;background: none;color: #2371E2;cursor: pointer;"/>
-</form>
+</form>-->
 <?
 if ($check_b == 'true' ) {
 ?> 
@@ -406,7 +537,8 @@ if ($check_b == 'true' ) {
 
            exit();
        }
-    $Delet_Record = "DELETE FROM test WHERE type = '".$_GET['type']."' AND id_course = '".$_GET['subject']."'";
+    $Delet_Record = "DELETE FROM test WHERE type = '".$_POST['type']."' AND id_course = '".$_POST['subject']."'";
+    
     //echo $Delet_Record;
     mysql_query($Delet_Record); 
 }
@@ -459,13 +591,22 @@ strlen($chk_que);
     mysql_query($sql)or die("รูปแบบไฟล์ข้อสอบผิดพลาด");
 }
     //echo $sql."<BR>";
-    
-if (strlen($chk_que) > 5000 ) {
+
+if (strlen($chk_que) > 10000 ) {
                              //$pic = explode("/", $chk_que);
                              //echo $pic[0];
                             //$a1 = ereg_replace($pic[0], "", $chk_que);
                            // echo $a1;
-                             ?><div style="margin-left:20%;"><? echo $i. "."." "?><img style="width:80px; float:none;" src="data:image/jpg;base64,<?=$chk_que?>"></div><BR><?
+                             ?>
+
+<?  
+   $chk_que1 =  explode("/9j/", $chk_que);
+    //print_r($chk_que1); 
+    //echo $chk_que1[0];
+    //echo $chk_que1[1];
+    //echo $chk_que1[2];
+?>
+                             <div style="margin-left:20%;"><? echo $i. "."." ".$chk_que1[0];?><img style="width:80px; float:none;" src="data:image/jpg;base64,/9j/<?=$chk_que1[1].$chk_que1[2]?>"></div><BR><?
                            }else{?>
                            <div style="margin-left:20%;"><p><? echo "$i ".".".$chk_que."<BR>";?></p></div> 
                                 <?}
@@ -484,16 +625,43 @@ if (strlen($chk_que) > 5000 ) {
         $message = "ทำการอัพโหลดไฟล์ข้อสอบเสร็จเรียบร้อย";
                         echo "<script type='text/javascript'>alert('$message');</script>";
                        //   echo "<script type='text/javascript'>
+                        ?>
+<form align="center" action="new_ans.php" method="POST" style="padding-top: 15px;">
+                                    <input type="hidden" name="subject_id" value="<?= $_POST['subject_id'] ?>" />
+                                    <input type="hidden" name="subject" value="<?= $_POST['subject']; ?>"/>
+                                    <input type="hidden" name="subject_name" value="<?= $_POST['subject_name']; ?>"/>
+                                    <input type="hidden" name="unit" value="<?= $_POST['unit']; ?>"/>
+                                    <input type="hidden" name="term" value="<?= $_POST['term']; ?>"/>
+                                    <input type="hidden" name="year" value="<?= $_POST['year']; ?>"/>
+                                    <input type="hidden" name="classroom" value="<?= $_POST['classroom']; ?>"/>
+                                    <input type="hidden" name="tname" value="<?= $_POST['tname']; ?>"/> 
+                                    <input type="hidden" name="type" value="<?= $_POST['type']; ?>"/>
+                                    <input type="submit" value="เพิ่มเฉลย  ( Add_Answer)  " style="border: 2;background: none;color: #2371E2;cursor: pointer;"/>
+                                </form>
+                        <?
                        // window.location.replace('new_test.php');
                     //</script>";# code...
     }   
 
 }else{
     $message = "กรุณาตรวจสอบรูปแบบไฟล์ข้อสอบ";
-                        echo "<script type='text/javascript'>alert('$message');</script>";
+                       echo "<script type='text/javascript'>alert('$message');</script>";
                       // echo "<script type='text/javascript'>
                        // window.location.replace('new_test.php');
                     //</script>";
+                       ?>
+<form align="center" action="new_test.php" method="POST" style="padding-top: 15px;">
+                            <input type="hidden" name="subject_id" value="<?= $_POST['subject_id'] ?>" />
+                            <input type="hidden" name="subject" value="<?= $_POST['subject']; ?>"/>
+                            <input type="hidden" name="subject_name" value="<?= $_POST['subject_name']; ?>"/>
+                            <input type="hidden" name="unit" value="<?= $_POST['unit']; ?>"/>
+                            <input type="hidden" name="term" value="<?= $_POST['term']; ?>"/>
+                            <input type="hidden" name="year" value="<?= $_POST['year']; ?>"/>
+                            <input type="hidden" name="classroom" value="<?= $_POST['classroom']; ?>"/>
+                            <input type="hidden" name="tname" value="<?= $_POST['tname']; ?>"/> 
+                            <input type="submit" value="กลับสู่หน้าหลัก  ( Back )  " style="border: none;background: none;color: #2371E2;cursor: pointer;"/>
+</form>
+                       <?
                     exit();
 
 }
@@ -512,7 +680,7 @@ $reader->close();
 // if $res === TRUE
 // if btn-upload
 ?>
-<form align="center" action="new_test.php" method="POST" style="padding-top: 15px;">
+<!--<form align="center" action="new_test.php" method="POST" style="padding-top: 15px;">
                             <input type="hidden" name="subject_id" value="<?= $_POST['subject_id'] ?>" />
                             <input type="hidden" name="subject" value="<?= $_POST['subject']; ?>"/>
                             <input type="hidden" name="subject_name" value="<?= $_POST['subject_name']; ?>"/>
@@ -522,7 +690,8 @@ $reader->close();
                             <input type="hidden" name="classroom" value="<?= $_POST['classroom']; ?>"/>
                             <input type="hidden" name="tname" value="<?= $_POST['tname']; ?>"/> 
                             <input type="submit" value="กลับสู่หน้าหลัก  ( Back )  " style="border: none;background: none;color: #2371E2;cursor: pointer;"/>
-</form>
+</form>-->
+
 <script type="text/javascript">
   //window.location.replace('new_test.php')
 </script>

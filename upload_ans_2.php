@@ -102,6 +102,7 @@ $subtwo_name = ""; //หัวข้อย่อย
             </tr>
             <tr>
                 <td><b>ปีการศึกษา</b>&nbsp;<span class="eng">(Year)</span>: <?= $_POST['year']; ?></td>
+                <td><b>ขนิดการสอบ</b>&nbsp;<span class="eng">(Type Exam)</span>: <?= $_POST['type']; ?></td>
                 <td></td>
             </tr>
         </table>
@@ -183,6 +184,7 @@ $subtwo_name = ""; //หัวข้อย่อย
                             <input type="hidden" name="year" value="<?= $_POST['year']; ?>"/>
                             <input type="hidden" name="classroom" value="<?= $_POST['classroom']; ?>"/>
                             <input type="hidden" name="tname" value="<?= $_POST['tname']; ?>"/> 
+                            <input type="hidden" name="type" value="<?= $_POST['type']; ?>"/>
                             <input type="submit" value="กลับสู่หน้าหลัก  ( Back )  " style="border: none;background: none;color: #2371E2;cursor: pointer;"/>
 </form>
                        <?
@@ -198,7 +200,7 @@ $subtwo_name = ""; //หัวข้อย่อย
                         $zip->close();
                     }
                     ?>
-<form align="center" action="upload_ans_3.php?subject=<? echo $_GET['subject']?>&type=<? echo "M"?> " method="POST" style="padding-top: 15px;">
+<form align="center" action="upload_ans_3.php" method="POST" style="padding-top: 15px;">
                                     <input type="hidden" name="subject_id" value="<?= $_POST['subject_id'] ?>" />
                                     <input type="hidden" name="subject" value="<?= $_POST['subject']; ?>"/>
                                     <input type="hidden" name="subject_name" value="<?= $_POST['subject_name']; ?>"/>
@@ -207,12 +209,13 @@ $subtwo_name = ""; //หัวข้อย่อย
                                     <input type="hidden" name="year" value="<?= $_POST['year']; ?>"/>
                                     <input type="hidden" name="classroom" value="<?= $_POST['classroom']; ?>"/>
                                     <input type="hidden" name="tname" value="<?= $_POST['tname']; ?>"/> 
+                                    <input type="hidden" name="type" value="<?= $_POST['type']; ?>"/>
                                     <input type="submit" value="เพิ่มเฉลย  ( Add_Test Answer)  " style="border: 2;background: none;color: #2371E2;cursor: pointer;"/>
                                 </form> 
                     <script type="text/javascript">
                         //window.location.replace('upload_ans_3.php?subject=<? echo $_GET['subject']?>&type=<? echo "M"?>');
                     </script>
-<form align="center" action="new_test.php" method="POST" style="padding-top: 15px;">
+<!--<form align="center" action="new_test.php" method="POST" style="padding-top: 15px;">
                             <input type="hidden" name="subject_id" value="<?= $_POST['subject_id'] ?>" />
                             <input type="hidden" name="subject" value="<?= $_POST['subject']; ?>"/>
                             <input type="hidden" name="subject_name" value="<?= $_POST['subject_name']; ?>"/>
@@ -221,131 +224,14 @@ $subtwo_name = ""; //หัวข้อย่อย
                             <input type="hidden" name="year" value="<?= $_POST['year']; ?>"/>
                             <input type="hidden" name="classroom" value="<?= $_POST['classroom']; ?>"/>
                             <input type="hidden" name="tname" value="<?= $_POST['tname']; ?>"/> 
+                            <input type="hidden" name="type" value="<?= $_POST['type']; ?>"/>
                             <input type="submit" value="กลับสู่หน้าหลัก  ( Back )  " style="border: none;background: none;color: #2371E2;cursor: pointer;"/>
-</form>
+</form>-->
                     <?php
                 exit(); }
 /////////////////////////////////////////////////////////////////////////////////////////////////////////////
-                    if (isset($_POST['btn-upload2'])) {
-
-                    include("simple_html_dom.php");
-                    require("class.DOCX-HTML.php");
-
-              
-                
-                    //require ("wp-includes/option.
-
-////////////////////////////////////////////////
-//                    function showimage($file_name_image) {
-//                        $pic = 'docx/word/' . $file_name_image;
-//
-//                        $picture = base64_encode(file_get_contents($pic));
-//                        echo '<img src="' . $pic . '">';
-//                        exit();
-////    
-//////    echo $zip_file_original = $zip_file_original;
-//////    $file_name_image = 'docx/word/' . $file_name_image . ''; // getting the image in the zip using its name
-//////    //echo "<br/>";
-//////    $z_show = new ZipArchive();
-//////    if ($z_show->open($zip_file_original) !== true) {
-//////        echo "File not found.";
-//////        return false;
-//////    }
-//////
-//////    $stat = $z_show->statName($file_name_image);
-//////    $fp = $z_show->getStream($file_name_image);
-//////    if (!$fp) {
-//////        echo "Could not load image.";
-//////        return false;
-//////    }
-////
-////    header('Content-Type: image/jpeg');
-////    header('Content-Length: ' . $stat['size']);
-////    $image = stream_get_contents($fp);
-////    $picture = base64_encode($image);
-//                        return $picture; //return the base62 string for the current image.
-////    fclose($fp);
-//                    }
-
-                  
-//var_dump($repo);
-/////////////////////////////////////////
-//$extract = new DOCXtoHTML();
-//$extract->docxPath = $_FILES['file']['tmp_name'];
-//$extract->content_folder = strtolower(str_replace(".".$path_info['extension'],"",str_replace(" ","-",$path_info['basename'])));
-//$extract->image_max_width = get_option('docxhtml_max_image_width');
-//$extract->imagePathPrefix = plugins_url();
-//$extract->keepOriginalImage = ($_POST['docxhtml_original_images']=="true") ? true:false;
-//echo $post_data;
-
-                    $file_name = $_FILES['file']['name'];
-                    $file_loc = $_FILES['file']['tmp_name'];
-                    $file_size = $_FILES['file']['size'];
-                    $file_type = strrchr($file_name,".");
-                    $folder = "files/";
-                    $folderdocx = "Docx/word/";
-                    $folder1 = "image/" . $file_name;
-
-                    if(($file_type==".doc")||($file_type==".docx"))
-                    {
                     
-                     move_uploaded_file($file_loc, $folder . $file_name);
-                    }
-                    else{
-                        $message = "ชนิดของไฟล์เฉลยข้อสอบไม่ถูกต้อง";
-                        echo "<script type='text/javascript'>alert('$message');</script>";
-                       ?>
-                        <form align="center" action="new_test.php" method="POST" style="padding-top: 15px;">
-                            <input type="hidden" name="subject_id" value="<?= $_POST['subject_id'] ?>" />
-                            <input type="hidden" name="subject" value="<?= $_POST['subject']; ?>"/>
-                            <input type="hidden" name="subject_name" value="<?= $_POST['subject_name']; ?>"/>
-                            <input type="hidden" name="unit" value="<?= $_POST['unit']; ?>"/>
-                            <input type="hidden" name="term" value="<?= $_POST['term']; ?>"/>
-                            <input type="hidden" name="year" value="<?= $_POST['year']; ?>"/>
-                            <input type="hidden" name="classroom" value="<?= $_POST['classroom']; ?>"/>
-                            <input type="hidden" name="tname" value="<?= $_POST['tname']; ?>"/> 
-                            <input type="submit" value="กลับสู่หน้าหลัก  ( Back )  " style="border: none;background: none;color: #2371E2;cursor: pointer;"/>
-</form>
-                       <?
-                        break;
-                    }
                    
-/////////////////////////////////////////
-                    $zip = new ZipArchive;
-                    $res = $zip->open("files/" . $file_name);
-                    if ($res === TRUE) {
-                        // echo 'ok';
-                        $zip->extractTo('Docx');
-                        $zip->close();
-                    }
-                    ?>
-<form align="center" action="upload_ans_3.php?subject=<? echo $_GET['subject']?>&type=<? echo "F"?> " method="POST" style="padding-top: 15px;">
-                                    <input type="hidden" name="subject_id" value="<?= $_POST['subject_id'] ?>" />
-                                    <input type="hidden" name="subject" value="<?= $_POST['subject']; ?>"/>
-                                    <input type="hidden" name="subject_name" value="<?= $_POST['subject_name']; ?>"/>
-                                    <input type="hidden" name="unit" value="<?= $_POST['unit']; ?>"/>
-                                    <input type="hidden" name="term" value="<?= $_POST['term']; ?>"/>
-                                    <input type="hidden" name="year" value="<?= $_POST['year']; ?>"/>
-                                    <input type="hidden" name="classroom" value="<?= $_POST['classroom']; ?>"/>
-                                    <input type="hidden" name="tname" value="<?= $_POST['tname']; ?>"/> 
-                                    <input type="submit" value="เพิ่มเฉลย  ( Add_Test Answer)  " style="border: 2;background: none;color: #2371E2;cursor: pointer;"/>
-                                </form> 
-                    <script type="text/javascript">
-                      //  window.location.replace('upload_ans_3.php?subject=<? echo $_GET['subject']?>&type=<? echo "F"?>');
-                    </script>
-<form align="center" action="new_test.php" method="POST" style="padding-top: 15px;">
-                            <input type="hidden" name="subject_id" value="<?= $_POST['subject_id'] ?>" />
-                            <input type="hidden" name="subject" value="<?= $_POST['subject']; ?>"/>
-                            <input type="hidden" name="subject_name" value="<?= $_POST['subject_name']; ?>"/>
-                            <input type="hidden" name="unit" value="<?= $_POST['unit']; ?>"/>
-                            <input type="hidden" name="term" value="<?= $_POST['term']; ?>"/>
-                            <input type="hidden" name="year" value="<?= $_POST['year']; ?>"/>
-                            <input type="hidden" name="classroom" value="<?= $_POST['classroom']; ?>"/>
-                            <input type="hidden" name="tname" value="<?= $_POST['tname']; ?>"/> 
-                            <input type="submit" value="กลับสู่หน้าหลัก  ( Back )  " style="border: none;background: none;color: #2371E2;cursor: pointer;"/>
-</form>
-                    <?php
-                exit(); }
                     ?>
 
 

@@ -45,7 +45,7 @@ mysql_select_db($database_bmksl, $bmksl);
 <?
 $maintitile_name = "ระบบบันทึกผลการเรียน"; //ชื่อโปรแกรม และหัวเว็บ
 $subtitile_name = "Assessment Record System"; //คำอธิบายโปรแกรม
-$subone_name = "การจัดการข้อสอบ ( Test management )"; //หัวข้อหลัก
+$subone_name = "การกำหนดตัวชี้วัด ( Add Indicator )"; //หัวข้อหลัก
 $subtwo_name = ""; //หัวข้อย่อย
 ?>
 <!DOCTYPE html>
@@ -101,6 +101,7 @@ $subtwo_name = ""; //หัวข้อย่อย
             </tr>
             <tr>
                 <td><b>ปีการศึกษา</b>&nbsp;<span class="eng">(Year)</span>: <?= $_POST['year']; ?></td>
+                <td><b>ขนิดการสอบ</b>&nbsp;<span class="eng">(Type Exam)</span>: <?= $_POST['type']; ?></td>
                 <td></td>
             </tr>
         </table>  
@@ -108,7 +109,7 @@ $subtwo_name = ""; //หัวข้อย่อย
                //$type = $_GET['type'];
         ?>
         <br/><?
-        $type = $_GET['type'];
+        $type = $_POST['type'];
         $subject = $_POST['subject'];
         $strSQL1 = "SELECT * FROM test WHERE type = '$type' and id_course =  '$subject' order by num asc ";
         $strSQL2 = "SELECT COUNT(*) FROM test WHERE type = '$type' and id_course =  '$subject' order by num asc ";
@@ -118,8 +119,8 @@ $subtwo_name = ""; //หัวข้อย่อย
     $objResult2 = mysql_fetch_array($objQuery2);
        $n = 1;
        ?>
-<table  border="1" style=" border: none;background: none;color: #2371E2;">
-    <tr>
+<table align="center" border="1" style=" border: none;background: none;color: #2371E2;">
+    <tr align="center">
         <th width="70%">โจทย์</th>
         <th width="30%">ตัวชี้วัด</th>
         <?
@@ -141,8 +142,9 @@ $subtwo_name = ""; //หัวข้อย่อย
         <td >
         <? 
         if (strlen($objResult["text1"]) > 5000 ) {
-                             
-                             ?><? echo $n.".";?> <img style="width:70; height:60px; float:none;" src="data:image/jpg;base64,<?=$objResult["text1"]?>"><BR><?
+                              $chk_que1 =  explode("/9j/", $objResult["text1"]);
+
+                             ?><? echo $n.". ".$chk_que1[0];?> <img style="width:80px; float:none;" src="data:image/jpg;base64,/9j/<?=$chk_que1[1].$chk_que1[2]?>"><BR><?
                            }else{
                             echo "$n".".".$objResult["text1"]."<BR>"; 
                                 }
@@ -161,7 +163,7 @@ $subtwo_name = ""; //หัวข้อย่อย
 </table>
 
         <p align="center">-- เลือกตัวชี้วัด ( Indicator ) --</p>
-        <form style="margin-left:20%;" action="Add_Test_Indicator.php?type=<? echo $_GET['type'];?>" method="POST" >
+        <form style="margin-left:20%;" action="Add_Test_Indicator.php" method="POST" >
         <div  align="left">
         <input type="hidden" name="subject_id" value="<?= $_POST['subject_id'] ?>" />
                                     <input type="hidden" name="subject" value="<?= $_POST['subject']; ?>"/>
@@ -170,7 +172,8 @@ $subtwo_name = ""; //หัวข้อย่อย
                                     <input type="hidden" name="term" value="<?= $_POST['term']; ?>"/>
                                     <input type="hidden" name="year" value="<?= $_POST['year']; ?>"/>
                                     <input type="hidden" name="classroom" value="<?= $_POST['classroom']; ?>"/>
-                                    <input type="hidden" name="tname" value="<?= $_POST['tname']; ?>"/> 
+                                    <input type="hidden" name="tname" value="<?= $_POST['tname']; ?>"/>
+                                    <input type="hidden" name="type" value="<?= $_POST['type']; ?>"/> 
                              
             <select size="10" name="lmName1">
             <?
@@ -208,11 +211,25 @@ $subtwo_name = ""; //หัวข้อย่อย
                                <br></div><br>
                                 <div>
                                     <input type="submit" name="btn-upload" value="บันทึก" >
+
                                 </div>
                                  
                                  
         </form>
- <form align="center" action="new_test.php" method="POST" style="padding-top: 15px;">
+
+        <form align="center" action="test_static.php" method="POST" style="padding-top: 15px;">
+                                    <input type="hidden" name="subject_id" value="<?= $_POST['subject_id'] ?>" />
+                                    <input type="hidden" name="subject" value="<?= $_POST['subject']; ?>"/>
+                                    <input type="hidden" name="subject_name" value="<?= $_POST['subject_name']; ?>"/>
+                                    <input type="hidden" name="unit" value="<?= $_POST['unit']; ?>"/>
+                                    <input type="hidden" name="term" value="<?= $_POST['term']; ?>"/>
+                                    <input type="hidden" name="year" value="<?= $_POST['year']; ?>"/>
+                                    <input type="hidden" name="classroom" value="<?= $_POST['classroom']; ?>"/>
+                                    <input type="hidden" name="tname" value="<?= $_POST['tname']; ?>"/> 
+                                    <input type="hidden" name="type" value="<?= $_POST['type']; ?>"/> 
+                                    <input type="submit" value="เพิ่มข้อมูลสถิติ  " style="border: 2;background: none;color: #2371E2;cursor: pointer;"/>
+                                </form> 
+ <!--<form align="center" action="new_test.php" method="POST" style="padding-top: 15px;">
                             <input type="hidden" name="subject_id" value="<?= $_POST['subject_id'] ?>" />
                             <input type="hidden" name="subject" value="<?= $_POST['subject']; ?>"/>
                             <input type="hidden" name="subject_name" value="<?= $_POST['subject_name']; ?>"/>
@@ -220,7 +237,8 @@ $subtwo_name = ""; //หัวข้อย่อย
                             <input type="hidden" name="term" value="<?= $_POST['term']; ?>"/>
                             <input type="hidden" name="year" value="<?= $_POST['year']; ?>"/>
                             <input type="hidden" name="classroom" value="<?= $_POST['classroom']; ?>"/>
-                            <input type="hidden" name="tname" value="<?= $_POST['tname']; ?>"/> 
+                            <input type="hidden" name="tname" value="<?= $_POST['tname']; ?>"/>
+                            <input type="hidden" name="type" value="<?= $_POST['type']; ?>"/>
                             <input type="submit" value="กลับสู่หน้าหลัก  ( Back )  " style="border: none;background: none;color: #2371E2;cursor: pointer;"/>
-</form>
+</form>-->
         </body>

@@ -1,10 +1,10 @@
 <?
 session_start();
 ?>
-<? ob_start();?>
+<? ob_start(); ?>
 <?php require_once('Connections/bmks.php'); ?>
 <?php require_once('Connections/bmksl.php'); ?>
-<?require_once 'mpdf60/mpdf.php';?>
+<? require_once 'mpdf60/mpdf.php'; ?>
 <?
 $login_ecode = $_SESSION["login_ecode"]; // รหัสประจำตัวบุคลากร
 $login_type = $_SESSION["login_type"]; // 1 คือ นักเรียนหรือผู้ปกครอง , 2 คือครู , 3 คือบุคลากร , 4 คือผู้บริหาร
@@ -61,7 +61,6 @@ $maintitile_name = "ระบบบันทึกผลการเรียน
 $subtitile_name = "Assessment Record System"; //คำอธิบายโปรแกรม
 $subone_name = "เลือกข้อสอบ (Choose Test)"; //หัวข้อหลัก
 $subtwo_name = ""; //หัวข้อย่อย
-
 //- See more at: http://sixhead.com/2008/09/28/easy-export-to-microsoft-word/#sthash.tgoLHWHZ.dpuf
 ?>
 <html xmlns:o="urn:schemas-microsoft-com:office:office"
@@ -69,29 +68,46 @@ $subtwo_name = ""; //หัวข้อย่อย
       xmlns="http://www.w3.org/TR/REC-html40">
 
     <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
-<head>
- 
-</head>
-<body>
-  <div align="center">
-  <img width="100px" height="80px"  src="img/varee_logo.jpg">
-    <h1 align="center">โรงเรียนวารีเชียงใหม่ อำเภอเมือง จังหวัดเชียงใหม่</h1>
-    <div align="center"><h3>ข้อสอบ<?echo $objResult['typetest']."\t";?>วิชา <?echo $objResult['Subject_ID'];?><? echo $objResult['Description'];?>ชั้น <? echo $objResult['grade'];?> ประจำปีการศึกษา <? echo $objResult['Year'];?> เวลา <?echo $objResult['time']."\t"."นาที";?></h4></div>
-    
-    <div align="center"><h4>--------------------------------------------------------------------------------------------------------------------------------</h4></div>
-<?
+    <head>
+    <style type="text/css">
+    body{
+        font-size: 14px;
+    }
+    table tr td {
+        font-size: 10px;
+    }
+    div {
+font-size: 10px;
 
-$Id_New_Test = $_GET['Id_New_Test'];
-$strSQL = "SELECT *
+    }
+    </style>
+
+    </head>
+    <body>
+
+        <?
+        $Id_New_Test = $_GET['Id_New_Test'];
+        $strSQL = "SELECT *
 FROM subject
 INNER JOIN new_test
 ON subject.subjectID=new_test.subjectID Where Id_New_Test = $Id_New_Test ;";
 //$strSQL = "SELECT * FROM new_test where Id_New_Test = $Id_New_Test ";
-$objQuery = mysql_query($strSQL) or die ("Error Query [".$strSQL."]");
-while($objResult = mysql_fetch_array($objQuery))
-{?>
-  <?  
-$strSQL1 ="SELECT DISTINCT *
+        $objQuery = mysql_query($strSQL) or die("Error Query [" . $strSQL . "]");
+        while ($objResult = mysql_fetch_array($objQuery)) {
+            ?>
+            <?
+            $term = $objResult['term'];
+            substr($term, 9);
+            ?>
+            <div align="center">
+                <img width="100px" height="80px"  src="img/varee_logo.jpg">
+            </div>
+            <p align="center"><b>โรงเรียนวารีเชียงใหม่</b><br>
+                    ข้อสอบวิชา <? echo $objResult['SCODE'] . "\t"; ?>(<? echo $objResult['SNAME'] . "-" . $objResult['TSNAME']; ?>)    <? echo $objResult['score']; ?> คะแนน สอบ<? echo $objResult['type'] . substr($term, 9) . "/" . $objResult['year']; ?><br>
+                        ระดับชั้น<? echo $objResult['level']; ?>    เวลา <? echo $objResult['time']; ?> นาที </p>
+                        <hr width="100%" size="20" color="black"><p>
+                                <?
+                                $strSQL1 = "SELECT DISTINCT *
 FROM new_test 
 INNER JOIN reference_test
 ON new_test.Id_New_Test= reference_test.Id_New_Test
@@ -99,117 +115,122 @@ INNER JOIN db_test
 ON reference_test.IDtest = db_test.IDtest
 WHERE reference_test.Id_New_Test = $Id_New_Test
 ";
-$objQuery1  = mysql_query($strSQL1);
-?>
+                                $objQuery1 = mysql_query($strSQL1);
+                                ?>
 
-<div class="col-md-10 col-md-offset-1 col-md-offset-6">
+                                <div>
 
-<table width="100%" style="font-size:20px;" class="table table-condensed"  >
-   <tr width="100%">      
-    </tr>
-<?
-$i = 1;
-while($objResult1 = mysql_fetch_array($objQuery1))
-{
-?>
+                                    <table width="100%" style="font-size:14px;" class="table table-condensed"  >
+                                        <tr width="100%">      
+                                        </tr>
+                                        <?
+                                        $i = 1;
+                                        while ($objResult1 = mysql_fetch_array($objQuery1)) {
+                                            $chk_que1 =  explode("/9j/", $objResult1["text1"]);
+                                            //echo $objResult1['text1'];
+                                            ?>
 
-    <tr>
-        <td width="100%"><?
-                  echo $i." ). ";
-                            //echo $objResult1["text1"]."<BR>"; 
-                             if (strlen($objResult1["text1"]) > 5000 ) {
-                             ?><?
-                                  $data = $objResult1["text1"];
-                                  $type = "jpg";
-                                  $base64 = 'data:image/' . $type . ';base64,' . $data;
-                                  base64_to_jpeg($base64, 'text1.jpg');
-                             ?><img src='text1.jpg' width="80"><BR><?
-                           }else{
-                            echo $objResult1["text1"]."<BR>"; 
-                                }
-                            if (strlen($objResult1["c1"]) > 5000 ) {
-                             
-                             ?>1. <?
-                                  $data = $objResult1["c1"];
-                                  $type = "jpg";
-                                  $base64 = 'data:image/' . $type . ';base64,' . $data;
-                                  base64_to_jpeg($base64, 'c1.jpg');
-                             ?><img src='c1.jpg' width="80"><BR><?
-                           }else{
-                            echo "1. ".$objResult1["c1"]."<BR>"; 
-                                }
-                                  if (strlen($objResult1["c2"]) > 5000 ) {
-                             ?>2. <?
-                                  $data = $objResult1["c2"];
-                                  $type = "jpg";
-                                  $base64 = 'data:image/' . $type . ';base64,' . $data;
-                                  base64_to_jpeg($base64, 'c2.jpg');
-                             ?><img src='c2.jpg' width="80"><BR><?
-                           }else{
-                            echo "2. ".$objResult1["c2"]."<BR>"; 
-                                }
-                                if (strlen($objResult1["c3"]) > 5000 ) {
-                           ?>3. <?
-                                  $data = $objResult1["c3"];
-                                  $type = "jpg";
-                                  $base64 = 'data:image/' . $type . ';base64,' . $data;
-                                  base64_to_jpeg($base64, 'c3.jpg');
-                             ?><img src='c3.jpg' width="80"><BR><?
-                           }else{
-                            echo "3. ".$objResult1["c3"]."<BR>"; 
-                        }if (strlen($objResult1["c4"]) > 5000 ) {
-                           ?>4. <?
-                                  $data = $objResult1["c4"];
-                                  $type = "jpg";
-                                  $base64 = 'data:image/' . $type . ';base64,' . $data;
-                                  base64_to_jpeg($base64, 'c4.jpg');
-                             ?><img src='c4.jpg' width="80"><BR><?
-                           }else{
-                            echo "4. ".$objResult1["c4"]."<BR>";
-                        }
+                                            <tr>
+                                                <td width="100%"><?
+                                                    echo $i . " ). ".$chk_que1[0].'<BR>';
+                                                    //echo $objResult1["text1"]."<BR>"; 
+                                                    if (strlen($objResult1["text1"]) > 5000) {
+                                                        ?><?
+                                                        $data = $chk_que1[1].$chk_que1[2];
+                                                        $type = "jpg";
+                                                        $base64 = 'data:image/' . $type . ';base64,' . "/9j/".$data;
 
-                           $i++;
-                           echo "<BR><BR>";
-                            ?></td>
-  </tr>
+                                                        base64_to_jpeg($base64, 'text'.$i.'.jpg');
+                                                        ?><img src='img_buffer_test/text<?=$i?>.jpg' width="80" /><BR><?
+                                                            } else {
+                                                                echo $objResult1["text1"] . "<BR>";
+                                                            }
+                                                            if (strlen($objResult1["c1"]) > 5000) {
+                                                                ?>1. <?
+                                                                $data = $objResult1["c1"];
+                                                                $type = "jpg";
+                                                                $base64 = 'data:image/' . $type . ';base64,' . "/9j/".$data;
+                                                                base64_to_jpeg($base64, 'c1_'.$i.'.jpg');
+                                                                ?><img src='img_buffer_test/c1_<?=$i?>.jpg' width="80"><BR><?
+                                                                    } else {
+                                                                        echo '&nbsp;&nbsp;' . "1. " . $objResult1["c1"] . "<BR>";
+                                                                    }
+                                                                    if (strlen($objResult1["c2"]) > 5000) {
+                                                                        ?>2. <?
+                                                                        $data = $objResult1["c2"];
+                                                                        $type = "jpg";
+                                                                        $base64 = 'data:image/' . $type . ';base64,' . "/9j/".$data;
+                                                                        base64_to_jpeg($base64, 'c2_'.$i.'.jpg');
+                                                                        ?><img src='img_buffer_test/c2_<?=$i?>.jpg' width="80" /><BR><?
+                                                                            } else {
+                                                                                echo '&nbsp;&nbsp;' . "2. " . $objResult1["c2"] . "<BR>";
+                                                                            }
+                                                                            if (strlen($objResult1["c3"]) > 5000) {
+                                                                                ?>3. <?
+                                                                                $data = $objResult1["c3"];
+                                                                                $type = "jpg";
+                                                                                $base64 = 'data:image/' . $type . ';base64,' . "/9j/".$data;
+                                                                                base64_to_jpeg($base64, 'c3_'.$i.'.jpg');
+                                                                                ?><img src='img_buffer_test/c3_<?=$i?>.jpg' width="80"><BR><?
+                                                                                    } else {
+                                                                                        echo '&nbsp;&nbsp;' . "3. " . $objResult1["c3"] . "<BR>";
+                                                                                    }if (strlen($objResult1["c4"]) > 5000) {
+                                                                                        ?>4. <?
+                                                                                        $data = $objResult1["c4"];
+                                                                                        $type = "jpg";
+                                                                                        $base64 = 'data:image/' . $type . ';base64,' . "/9j/".$data;
+                                                                                        base64_to_jpeg($base64, 'c4_'.$i.'.jpg');
+                                                                                        ?><img src='img_buffer_test/c4_<?=$i?>.jpg' width="80"><BR><?
+                                                                                            } else {
+                                                                                                echo '&nbsp;&nbsp;' . "4. " . $objResult1["c4"] . "<BR>";
+                                                                                            }
 
-        <?php
- }
- ?>
-</table>
+                                                                                            $i++;
+                                                                                            echo "<BR><BR>";
+                                                                                            ?></td>
+                                                                                            </tr>
 
-<?
-}
-?>
+                                                                                            <?php
+                                                                                        }
+                                                                                        ?>
+                                                                                        </table>
 
-</body>
-</html>
-<script type="text/javascript">
-  //window.print();
+                                                                                        <?
+                                                                                    }
+                                                                                    ?>
 
-</script>
+                                                                                    </body>
+                                                                                    </html>
+                                                                                    <script type="text/javascript">
+                                                                                        //window.print();
 
-<?
-function base64_to_jpeg($base64_string, $output_file) {
-    $ifp = fopen($output_file, "wb");
+                                                                                    </script>
 
-    $data = explode(',', $base64_string);
+                                                                                    <?
 
-    fwrite($ifp, base64_decode($data[1]));
-    fclose($ifp);
+                                                                                    function base64_to_jpeg($base64_string, $output_file) {
+                                                                                        $ifp = fopen("img_buffer_test/" . $output_file, "wb");
+                                                                                       // echo $base64_string.'<BR>'; exit();  
+                                                                                        $data = explode(',', $base64_string);
 
-    return $output_file;
-}
+                                                                                        fwrite($ifp, base64_decode($data[1]));
+                                                                                        fclose($ifp);
 
-?>
+                                                                                        return $output_file;
+                                                                                    }
+                                                                                    ?>
 
 
-<?Php
-$html = ob_get_contents();
-ob_end_clean();
-$mpdf = new mPDF('th', 'A4-L', '0', 'THSaraban');
+                                                                                    <?Php
+                                                                                    //exit();
+                                                                                      $html = ob_get_contents();
+                                                                                    ob_end_clean();
+                                                                                    set_time_limit(0);
+                                                                                    ini_set('memory_limit','512M');
+                                                                                     
+                                                                                    $mpdf = new mPDF('th', 'A4', '0', 'THSaraban');
 //
-$mpdf->WriteHTML($html);
+                                                                                    $mpdf->WriteHTML($html);
 //
-$mpdf->Output();
-?>
+                                                                                    $mpdf->Output();
+                                                                                    ?>

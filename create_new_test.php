@@ -123,6 +123,21 @@ $subtwo_name = ""; //หัวข้อย่อย
                                 </select>
                             </td>
                         </tr>
+                         <tr>
+                            <td>ชนิดการสอบ <span class="eng">( Type Test )</span></td>
+                            <td>
+                                <select style="width: 170px;" name="type">
+                                    <option value="">-- เลือกชนิดการสอบ ( Type Examination ) --</option>
+                                    <option value="กลางภาค 1">ข้อสอบสอบกลางภาค 1</option> 
+                                    <option value="ปลายภาค 1">ข้อสอบสอบปลายภาค 1</option> 
+                                    <option value="กลางภาค 2">ข้อสอบสอบกลางภาค 2</option> 
+                                    <option value="ปลายภาค 2">ข้อสอบสอบปลายภาค 2</option>
+                                    <option value="ซัมเมอร์">ข้อสอบสอบซัมเมอร์</option> 
+                                    <option value="เทียบโอน">ข้อสอบสอบเทียบโอน</option>
+                                    <option value="สอบเข้า">ข้อสอบสอบเข้า</option> 
+                                </select>
+                            </td>
+                        </tr> 
                         <tr>   
                             <td>ภาคเรียน <span class="eng">( Semester )</span></td>
                             <td>
@@ -135,25 +150,50 @@ $subtwo_name = ""; //หัวข้อย่อย
                                 </select>
                             </td>
                         </tr>
+
                          <tr>
                             <td>ชื่อวิชา <span class="eng">( Subject )</span></td>
                             <td>
                                 <select id="subject" style="width: 170px;" name="subject">
                                     <option value="" >-- เลือกวิชา ( Subject ) --</option>
-                                   
                                 </select>
                             </td>
-                            <tr>
-                            <td>ชนิดการสอบ <span class="eng">( Type Test )</span></td>
-                            <td>
-                                <select style="width: 170px;" name="type">
-                                    <option value="">-- เลือกชนิดการสอบ ( Type Test )--</option>
-                                    <option value="กลางภาค">ข้อสอบกลางภาค ( Midterm  )</option>
-                                    <option value="ปลายภาค">ข้อสอบปลายภาค  ( Final )</option>
-                                </select>
-                            </td>
-                        </tr> 
+                           </tr>
                         <tr>
+                            <td>ระดับชั้น <span class="eng">( Level )</span></td>
+                            <td>
+                                <select id="level" style="width: 170px;" name="level">
+                                    <option value="" >-- เลือกระดับชั้น ( Level ) --</option>
+                                    <?
+                                    $strSQL1 ="SELECT DISTINCT CNAME from room ";
+
+                                    $objQuery1  = mysql_query($strSQL1);
+                                    ?>  
+                        <?php 
+                        while($objResult1 = mysql_fetch_array($objQuery1)){?>
+                        <option value="<? echo $objResult1["CNAME"];?>" ><? echo $objResult1["CNAME"];?></option>
+                       <?
+                        }
+                        ?> 
+                                </select>
+                            </td>
+                        </tr>
+                        <tr>
+                        <tr>
+                            <td>คะแนน <span class="eng">( Score )</span></td>
+                            <td>
+                                <input type="text" name="score" placeholder="กรุณากรอกจำนวนคะแนน">  คะแนน
+                            </td>
+                        </tr>
+                         <tr>
+                            <td>เวลาสอบ <span class="eng">( Time )</span></td>
+                            <td>
+                                <input type="text" name="time" id="time" placeholder="กรุณากรอกเวลาการสอบ">  นาที
+                            </td>
+                        </tr>
+                        <tr>
+
+
                             <td></td>
                             <td><input onclick="create_test()" type="submit" name="create"  value=" สร้าง "/></td>
                         </tr>
@@ -211,7 +251,9 @@ $subtwo_name = ""; //หัวข้อย่อย
                                     <td width="10%" style="border: 1px solid black;" align="center"><?=$objResult['term'];?></td>
                                     <td width="10%" align="center" style="border: 1px solid black;"><?=$objResult['creater'];?>
                                     </td>
-                                    <td align="center" width="15%" style="border: 1px solid black;"><a href="choose_test.php?Id_New_Test=<?=$objResult['Id_New_Test']?>"><img src="pic/edit.png" title=" เลือกข้อสอบ "></a><a onclick="return confirm('คุณต้องการลบข้อมูลที่เลือก')" href="DeleteNewTest.php?Id_New_Test=<?php echo $objResult["Id_New_Test"];?>';}"><img src="pic/delete.gif" ></a></td>
+                                    <td align="center" width="15%" style="border: 1px solid black;">
+                                    <a href="choose_test.php?Id_New_Test=<?=$objResult['Id_New_Test']?>&Subject=<?=$objResult['Subject']?>"><img src="pic/edit.png" title=" เลือกข้อสอบ "></a>
+                                    <a onclick="return confirm('คุณต้องการลบข้อมูลที่เลือก')" href="DeleteNewTest.php?Id_New_Test=<?php echo $objResult["Id_New_Test"];?>';}"><img src="pic/delete.gif" ></a></td>
                                 </tr>
                       <?
     }
