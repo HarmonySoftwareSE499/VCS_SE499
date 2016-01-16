@@ -165,6 +165,7 @@ $objQuery = mysql_query($strSQL);
                             <input type="hidden" name="term" value="<?= $_POST['term']; ?>"/>
                             <input type="hidden" name="year" value="<?= $_POST['year']; ?>"/>
                             <input type="hidden" name="classroom" value="<?= $_POST['classroom']; ?>"/>
-                            <input type="hidden" name="tname" value="<?= $_POST['tname']; ?>"/> 
+                            <input type="hidden" name="tname" value="<?= $_POST['tname']; ?>"/>
+                            <input type="hidden" name="Id_Issue" value="<?=$_POST['Id_Issue'];?>"/>  
                             <input type="submit" value="กลับสู่หน้าหลัก  ( Back )  " style="border: none;background: none;color: #2371E2;cursor: pointer;"/>
 </form>

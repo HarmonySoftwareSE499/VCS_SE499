@@ -149,8 +149,10 @@ $subtwo_name = ""; //หัวข้อย่อย
 <?
 mysql_query("Set names 'utf8'");
 
- $subject1 = $_POST['subject'];
- $strSQL = "SELECT * FROM db_test  ";
+ $subject = $_GET['Subject'];
+ $strSQL = "SELECT * FROM question INNER JOIN Examination ON question.IDtest=Examination.IDtest
+            INNER JOIN issue_question ON issue_question.id_Issue=question.id_Issue
+            WHERE issue_question.id_course  = '$subject' ";
     if($_POST["ddlSelect"] != "" and  $_POST["txtKeyword"]  != '')
     {
       $strSQL .= " WHERE (".$_POST["ddlSelect"]." LIKE '%".$_POST["txtKeyword"]."%' ) ";
@@ -169,10 +171,20 @@ $Num_Rows = mysql_num_rows($objQuery);
 
 
 
-$strSQL .=" order  by IDtest DESC ";
+//echo $strSQL .=" order  by IDtest DESC ";
 $objQuery  = mysql_query($strSQL);
 ?>
-
+<form align="center" action="create_new_test.php" method="POST" style="padding-top: 15px;">
+                            <input type="hidden" name="subject_id" value="<?= $_POST['subject_id'] ?>" />
+                            <input type="hidden" name="subject" value="<?= $_POST['subject']; ?>"/>
+                            <input type="hidden" name="subject_name" value="<?= $_POST['subject_name']; ?>"/>
+                            <input type="hidden" name="unit" value="<?= $_POST['unit']; ?>"/>
+                            <input type="hidden" name="term" value="<?= $_POST['term']; ?>"/>
+                            <input type="hidden" name="year" value="<?= $_POST['year']; ?>"/>
+                            <input type="hidden" name="classroom" value="<?= $_POST['classroom']; ?>"/>
+                            <input type="hidden" name="tname" value="<?= $_POST['tname']; ?>"/> 
+                            <input type="submit" value="กลับสู่หน้าหลัก  ( Back )  " style="border: none;background: none;color: #2371E2;cursor: pointer;"/>
+</form>
 
 
 <div>
@@ -204,7 +216,7 @@ while($objResult = mysql_fetch_array($objQuery))
 ?>
     <tr  id='tab_data_<?=$objResult["IDtest"]?>'>
         <td align="center"><?php echo $objResult['id_course'] ;?></td>
-        <td align="center"><? echo $objResult['year'];?></td>
+        <td align="center"><? echo $objResult['yeardb'];?></td>
         <td ><?
         $i++;
                             if (strlen($objResult["text1"]) > 5000 ) {
@@ -267,4 +279,15 @@ while($objResult = mysql_fetch_array($objQuery))
 </table>
 
 </h4></div>
+<form align="center" action="create_new_test.php" method="POST" style="padding-top: 15px;">
+                            <input type="hidden" name="subject_id" value="<?= $_POST['subject_id'] ?>" />
+                            <input type="hidden" name="subject" value="<?= $_POST['subject']; ?>"/>
+                            <input type="hidden" name="subject_name" value="<?= $_POST['subject_name']; ?>"/>
+                            <input type="hidden" name="unit" value="<?= $_POST['unit']; ?>"/>
+                            <input type="hidden" name="term" value="<?= $_POST['term']; ?>"/>
+                            <input type="hidden" name="year" value="<?= $_POST['year']; ?>"/>
+                            <input type="hidden" name="classroom" value="<?= $_POST['classroom']; ?>"/>
+                            <input type="hidden" name="tname" value="<?= $_POST['tname']; ?>"/> 
+                            <input type="submit" value="กลับสู่หน้าหลัก  ( Back )  " style="border: none;background: none;color: #2371E2;cursor: pointer;"/>
+</form>
 </div>

@@ -107,9 +107,9 @@ $subtwo_name = ""; //หัวข้อย่อย
         <?
 mysql_query("Set names 'utf8'");
 
- $type = $_GET['type'];
+ $Id_Issue = $_POST['Id_Issue'];
   $subject = $_POST['subject'];
-$strSQL = "SELECT * FROM test WHERE type = '$type' and id_course =  '$subject' ";
+$strSQL = "SELECT * FROM question WHERE Id_Issue = '$Id_Issue'  ";
     if($_POST["ddlSelect"] != "" and  $_POST["txtKeyword"]  != '')
     {
       $strSQL .= " AND (".$_POST["ddlSelect"]." LIKE '%".$_POST["txtKeyword"]."%' ) ";
@@ -162,22 +162,23 @@ $objQuery  = mysql_query($strSQL);
 
 
 <div >
-<form align="center" action="new_test.php" method="POST" style="padding-top: 15px;">
-                            <input type="hidden" name="subject_id" value="<?= $_POST['subject_id'] ?>" />
-                            <input type="hidden" name="subject" value="<?= $_POST['subject']; ?>"/>
-                            <input type="hidden" name="subject_name" value="<?= $_POST['subject_name']; ?>"/>
-                            <input type="hidden" name="unit" value="<?= $_POST['unit']; ?>"/>
-                            <input type="hidden" name="term" value="<?= $_POST['term']; ?>"/>
-                            <input type="hidden" name="year" value="<?= $_POST['year']; ?>"/>
-                            <input type="hidden" name="classroom" value="<?= $_POST['classroom']; ?>"/>
-                            <input type="hidden" name="tname" value="<?= $_POST['tname']; ?>"/> 
-                            <input type="submit" value="กลับสู่หน้าหลัก  ( Back )  " style="border: none;background: none;color: #2371E2;cursor: pointer;"/>
-</form>
+<form align="center" action="new_course_display_detail_test.php" method="POST" style="padding-top: 15px;">
+                                    <input type="hidden" name="subject_id" value="<?= $_POST['subject_id'] ?>" />
+                                    <input type="hidden" name="subject" value="<?= $_POST['subject']; ?>"/>
+                                    <input type="hidden" name="subject_name" value="<?= $_POST['subject_name']; ?>"/>
+                                    <input type="hidden" name="unit" value="<?= $_POST['unit']; ?>"/>
+                                    <input type="hidden" name="term" value="<?= $_POST['term']; ?>"/>
+                                    <input type="hidden" name="year" value="<?= $_POST['year']; ?>"/>
+                                    <input type="hidden" name="classroom" value="<?= $_POST['classroom']; ?>"/>
+                                    <input type="hidden" name="tname" value="<?= $_POST['tname']; ?>"/> 
+                                    <input type="submit" value="กลับสู่หน้าหลัก  ( Back )  " style="border: none;background: none;color: #2371E2;cursor: pointer;"/>
+                                </form> 
 <table width="100%" style="font-size:14px;" border="1"  >
 <BR>
    <tr>
         
         <th>ชนิดข้อสอบ</th>
+        <th>ข้อ</th>
         <th>คำถาม&ตัวเลือก</th>
         <th>คำตอบ</th>
         <th>ตัวชี้วัด</th>
@@ -188,22 +189,25 @@ $objQuery  = mysql_query($strSQL);
 $i = 1;
 while($objResult = mysql_fetch_array($objQuery))
 {
+     $chk_que1 =  explode("/9j/", $objResult["text1"]);
 ?>
 <?  
 
-  echo  $chk_que1 =  explode("/9j/", $objResult["text1"]);
-    echo print_r($chk_que1); 
+  //echo  $chk_que1 =  explode("/9j/", $objResult["text1"]);
+    //echo print_r($chk_que1); 
     // $chk_que1[0];
     //echo $chk_que1[1];
     //echo $chk_que1[2];
 ?>
     <tr id='tab_data_<?=$objResult["IDtest"]?>'>
       
-        <td align="center"><? echo $objResult['type'];?></td>
-        <td width="60%;"><?
-                             if (strlen($objResult["text1"]) > 5000 ) {
-                                echo "string";
-                             ?><? echo $i;?> <img style="width:100px; float:none;" src="data:image/jpg;base64,/9j/<?=$chk_que1[1]?>"><BR><?
+        <td width="10%" align="center"><?= $_POST['term']; ?></td>
+        <td width="10%" align="center"><?= $objResult["num"] ?></td>
+        <td ><?
+        $i++;
+                            if (strlen($objResult["text1"]) > 5000 ) {
+                            
+                             ?><? echo $i.".".$chk_que1[0];?><br><img style="width:100px; float:none;" src="data:image/jpg;base64,/9j/<?=$chk_que1[1].$chk_que1[2]?>"><BR><?
                            }else{
                             echo "$i".".".$objResult["text1"]."<BR>"; 
                                 }
@@ -227,8 +231,8 @@ while($objResult = mysql_fetch_array($objQuery))
                            }else{
                             echo "4. ".$objResult["c4"]."<BR>";
                         }
-                            
-                          $i++; 
+                            echo "คำตอบที่ถูกต้อง"."\t".$objResult["ans"]."<BR>";
+                            echo "ตัวชี้วัด"."\t".$objResult["obj"];
                             ?></td>
  
         <td align="center"><? echo $objResult["ans"];?></td>
@@ -238,17 +242,17 @@ while($objResult = mysql_fetch_array($objQuery))
  }
  ?>
 </table>
-<form align="center" action="new_test.php" method="POST" style="padding-top: 15px;">
-                            <input type="hidden" name="subject_id" value="<?= $_POST['subject_id'] ?>" />
-                            <input type="hidden" name="subject" value="<?= $_POST['subject']; ?>"/>
-                            <input type="hidden" name="subject_name" value="<?= $_POST['subject_name']; ?>"/>
-                            <input type="hidden" name="unit" value="<?= $_POST['unit']; ?>"/>
-                            <input type="hidden" name="term" value="<?= $_POST['term']; ?>"/>
-                            <input type="hidden" name="year" value="<?= $_POST['year']; ?>"/>
-                            <input type="hidden" name="classroom" value="<?= $_POST['classroom']; ?>"/>
-                            <input type="hidden" name="tname" value="<?= $_POST['tname']; ?>"/> 
-                            <input type="submit" value="กลับสู่หน้าหลัก  ( Back )  " style="border: none;background: none;color: #2371E2;cursor: pointer;"/>
-</form>
+<form align="center" action="new_course_display_detail_test.php" method="POST" style="padding-top: 15px;">
+                                    <input type="hidden" name="subject_id" value="<?= $_POST['subject_id'] ?>" />
+                                    <input type="hidden" name="subject" value="<?= $_POST['subject']; ?>"/>
+                                    <input type="hidden" name="subject_name" value="<?= $_POST['subject_name']; ?>"/>
+                                    <input type="hidden" name="unit" value="<?= $_POST['unit']; ?>"/>
+                                    <input type="hidden" name="term" value="<?= $_POST['term']; ?>"/>
+                                    <input type="hidden" name="year" value="<?= $_POST['year']; ?>"/>
+                                    <input type="hidden" name="classroom" value="<?= $_POST['classroom']; ?>"/>
+                                    <input type="hidden" name="tname" value="<?= $_POST['tname']; ?>"/> 
+                                    <input type="submit" value="กลับสู่หน้าหลัก  ( Back )  " style="border: none;background: none;color: #2371E2;cursor: pointer;"/>
+                                </form> 
 
 
 

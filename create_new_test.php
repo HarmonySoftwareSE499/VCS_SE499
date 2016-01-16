@@ -232,9 +232,9 @@ $subtwo_name = ""; //หัวข้อย่อย
                             <br/>
                             <span class="eng">Period/Semester</span>
                         </td>
-                        <td align="center" width="15%" bgcolor="#DFECFF" style="border: 1px solid black;"><strong>สถานะการแสดง</strong>
+                        <td align="center" width="15%" bgcolor="#DFECFF" style="border: 1px solid black;"><strong>เลือกข้อสอบ/ลบ</strong>
                             <br/>
-                            <span class="eng">Status</span>
+                            <span class="eng">Choose/Delete</span>
                         </td>
                     </tr>
     <?

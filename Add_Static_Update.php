@@ -101,13 +101,12 @@ $subtwo_name = ""; //หัวข้อย่อย
             </tr>
             <tr>
                 <td><b>ปีการศึกษา</b>&nbsp;<span class="eng">(Year)</span>: <?= $_POST['year']; ?></td>
-                <td><b>ขนิดการสอบ</b>&nbsp;<span class="eng">(Type Exam)</span>: <?= $_POST['type']; ?></td>
                 <td></td>
             </tr>
         </table>
         <br>
         <h5 align="center"><font color="red">ทำการบันทึกเรียบร้อย</font></h5>
-        <form align="center" action="new_test.php" method="POST" style="padding-top: 15px;">
+        <form align="center" action="new_course_display_detail_test.php" method="POST" style="padding-top: 15px;">
                             <input type="hidden" name="subject_id" value="<?= $_POST['subject_id'] ?>" />
                             <input type="hidden" name="subject" value="<?= $_POST['subject']; ?>"/>
                             <input type="hidden" name="subject_name" value="<?= $_POST['subject_name']; ?>"/>
@@ -128,41 +127,44 @@ $subtwo_name = ""; //หัวข้อย่อย
  	$a1 = $_POST['a1'];
  	$a2 = $_POST['a2'];
  	$a3 = $_POST['a3'];
- 	$Mean = $_POST['Mean'];
- 	$Median =$_POST['Median'];
- 	$SD = $_POST['SD'];
-	$Variance = $_POST['Variance'];
+ 	//$Mean = $_POST['Mean'];
+ 	//$Median =$_POST['Median'];
+ 	//$SD = $_POST['SD'];
+	//$Variance = $_POST['Variance'];
 	$type = $_POST['type'];
 	mysql_query("Set names 'utf8'");
-    $sql = "INSERT INTO log_test (id_course,year,Mean,Median,SD,Variance,a1,a2,a3) 
-      VALUES ('$subject','$year','$Mean','$Median','$SD','$Variance','$a1','$a2','$a3')";
+    $sql = "INSERT INTO log_test (id_course,year,a1,a2,a3) 
+      VALUES ('$subject','$year','$a1','$a2','$a3')";
     mysql_query($sql);
     //echo $sql;
 
 //////////////////////////////////////////////////////////////////////////////////////////////////
     if($a1 != ""){
     $tags = explode(',',$a1);
-
+ $Id_Issue = $_POST['Id_Issue'];
 foreach($tags as $key) {    
    // echo $key."<br/>"; 
-      	 $sql = "SELECT * FROM test WHERE id_course	 = '$subject' And num = $key AND type = '$type' ";
+      	 $sql = "SELECT question.IDtest,question.Id_Issue, question.num
+                    FROM question
+                    INNER JOIN issue_question
+                    ON question.Id_Issue=issue_question.Id_Issue where  question.Id_Issue = '$Id_Issue' And num = $key";
 //echo $sql;
     $objQuery = mysql_query($sql);
     while($objResult = mysql_fetch_array($objQuery))
 {
-	$Subject_ID1 = $objResult["id_course"];
-	$year1 = $objResult['year'];
+	//$Subject_ID1 = $objResult["id_course"];
+	$IDtest = $objResult['IDtest'];
 	$num1 =  $objResult["num"];
-	$text1 =  $objResult["text1"];
-	$c11 = $objResult["c1"];
-	$c21 =  $objResult["c2"];
-	$c31 =  $objResult["c3"];
-	$c41 =  $objResult["c4"];
-	$ans1 =  $objResult["ans"];
-	$obj1 =  $objResult["obj"];
+	//$text1 =  $objResult["text1"];
+	//$c11 = $objResult["c1"];
+	//$c21 =  $objResult["c2"];
+	//$c31 =  $objResult["c3"];
+	//$c41 =  $objResult["c4"];
+	//$ans1 =  $objResult["ans"];
+	//$obj1 =  $objResult["obj"];
 	$Easy = "E";
-		$sql2 = "INSERT INTO db_test (id_course,year,type,num,text1,c1,c2,c3,c4,ans,obj,Discrimination) 
-      VALUES ('$Subject_ID1','$year1','$type','$num1','$text1','$c11','$c21','$c31','$c41','$ans1','$obj1','$Easy')";
+		$sql2 = "INSERT INTO Examination (IDtest,IDtest,num,Discrimination) 
+      VALUES ('','$IDtest','$num1','$Easy')";
     mysql_query($sql2);
 }
  }
@@ -174,24 +176,28 @@ foreach($tags as $key) {
 
 foreach($tags2 as $key2) {    
    // echo $key."<br/>"; 
-      	 $sql = "SELECT * FROM test WHERE id_course	 = '$subject' And num = $key2  AND type = '$type'  ";
+      	 $sql = "SELECT question.IDtest,question.Id_Issue, question.num
+                    FROM question
+                    INNER JOIN issue_question
+                    ON question.Id_Issue=issue_question.Id_Issue where  question.Id_Issue = '$Id_Issue' And num = $key2";
 //echo $sql;
     $objQuery = mysql_query($sql);
     while($objResult = mysql_fetch_array($objQuery))
 {
-	$Subject_ID1 = $objResult["id_course"];
-	$year1 = $objResult['year'];
+	//$Subject_ID1 = $objResult["id_course"];
+	//$year1 = $objResult['year'];
+    $IDtest = $objResult['IDtest'];
 	$num1 =  $objResult["num"];
-	$text1 =  $objResult["text1"];
-	$c11 = $objResult["c1"];
-	$c21 =  $objResult["c2"];
-	$c31 =  $objResult["c3"];
-	$c41 =  $objResult["c4"];
-	$ans1 =  $objResult["ans"];
-	$obj1 =  $objResult["obj"];
+	//$text1 =  $objResult["text1"];
+	//$c11 = $objResult["c1"];
+	//$c21 =  $objResult["c2"];
+	//$c31 =  $objResult["c3"];
+	//$c41 =  $objResult["c4"];
+	//$ans1 =  $objResult["ans"];
+	//$obj1 =  $objResult["obj"];
 	$Med = "M";
-		$sql2 = "INSERT INTO db_test (id_course,year,type,num,text1,c1,c2,c3,c4,ans,obj,Discrimination) 
-      VALUES ('$Subject_ID1','$year1','$type','$num1','$text1','$c11','$c21','$c31','$c41','$ans1','$obj1','$Med')";
+		$sql2 = "INSERT INTO Examination (IDtest,IDtest,num,Discrimination) 
+      VALUES ('','$IDtest','$num1','$Med')";
     mysql_query($sql2);
 }
  }
@@ -203,24 +209,28 @@ if ($a3 != "") {
 
 foreach($tags3 as $key3) {    
    // echo $key."<br/>"; 
-      	 $sql = "SELECT * FROM test WHERE id_course	 = '$subject' And num = $key3  AND type = '$type'  ";
+      	 $sql = "SELECT question.IDtest,question.Id_Issue, question.num
+                    FROM question
+                    INNER JOIN issue_question
+                    ON question.Id_Issue=issue_question.Id_Issue where  question.Id_Issue = '$Id_Issue' And num = $key3";
 //echo $sql;
     $objQuery = mysql_query($sql);
     while($objResult = mysql_fetch_array($objQuery))
 {
-	$Subject_ID1 = $objResult["id_course"];
-	$year1 = $objResult['year'];
+	//$Subject_ID1 = $objResult["id_course"];
+	//$year1 = $objResult['year'];
+    $IDtest = $objResult['IDtest'];
 	$num1 =  $objResult["num"];
-	$text1 =  $objResult["text1"];
-	$c11 = $objResult["c1"];
-	$c21 =  $objResult["c2"];
-	$c31 =  $objResult["c3"];
-	$c41 =  $objResult["c4"];
-	$ans1 =  $objResult["ans"];
-	$obj1 =  $objResult["obj"];
+	//$text1 =  $objResult["text1"];
+	//$c11 = $objResult["c1"];
+	//$c21 =  $objResult["c2"];
+	//$c31 =  $objResult["c3"];
+	//$c41 =  $objResult["c4"];
+	//$ans1 =  $objResult["ans"];
+	//$obj1 =  $objResult["obj"];
 	$Hard = "H";
-		$sql2 = "INSERT INTO db_test (id_course,year,type,num,text1,c1,c2,c3,c4,ans,obj,Discrimination) 
-      VALUES ('$Subject_ID1','$year1','$type','$num1','$text1','$c11','$c21','$c31','$c41','$ans1','$obj1','$Hard')";
+		$sql2 = "INSERT INTO Examination (IDtest,IDtest,num,Discrimination) 
+      VALUES ('','$IDtest','$num1','$Hard')";
     mysql_query($sql2);
 }
  }

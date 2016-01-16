@@ -46,7 +46,7 @@ mysql_select_db($database_bmksl, $bmksl);
 <?
 $maintitile_name = "ระบบบันทึกผลการเรียน"; //ชื่อโปรแกรม และหัวเว็บ
 $subtitile_name = "Assessment Record System"; //คำอธิบายโปรแกรม
-$subone_name = "การจัดการข้อสอบ ( Test management )"; //หัวข้อหลัก
+$subone_name = "การเพิ่มเฉลย ( Add Answer )"; //หัวข้อหลัก
 $subtwo_name = ""; //หัวข้อย่อย
 ?>
 <!DOCTYPE html>
@@ -124,11 +124,10 @@ $subtwo_name = ""; //หัวข้อย่อย
             </tr>
             <tr>
                 <td><b>ปีการศึกษา</b>&nbsp;<span class="eng">(Year)</span>: <?= $_POST['year']; ?></td>
-                <td><b>ขนิดการสอบ</b>&nbsp;<span class="eng">(Type Exam)</span>: <?= $_POST['type']; ?></td>
-
+                <td><b>ขนิดการสอบ</b>&nbsp;<span class="eng">(Type Exam)</span>: <?= $_POST['Id_Issue']; ?></td>
                 <td></td>
             </tr>
-        </table>  
+        </table>
         <br/>
 <?php
 function showimage($file_name_image) {
@@ -401,7 +400,8 @@ $type = $_POST['type'];
     }
     $i++;
     $ans1  = trim($chk_que);
-    $result = mysql_query("SELECT * FROM test where type = '$type'");
+    $result = mysql_query("SELECT * FROM question WHERE Id_Issue = '$type0' ");
+    //echo $result;
     $num_rows = mysql_num_rows($result);
         if (!is_numeric($ans1))
 {
@@ -416,8 +416,9 @@ $type = $_POST['type'];
 
 
     mysql_query("Set names 'utf8'");
-    $sql = "UPDATE test SET ans = '$ans1' WHERE num = $i AND type = '$type'";
-    
+    $type0 = $_POST['Id_Issue'];
+    $sql = "UPDATE question SET ans = '$ans1' WHERE num = $i AND Id_Issue = $type0 ";
+    //echo $sql;
     //echo $sql;
     mysql_query($sql);
     //echo $sql."<BR>";
@@ -452,6 +453,7 @@ if ($num_rows != $i) {
                             <input type="hidden" name="classroom" value="<?= $_POST['classroom']; ?>"/>
                             <input type="hidden" name="tname" value="<?= $_POST['tname']; ?>"/>
                             <input type="hidden" name="type" value="<?= $_POST['type']; ?>"/>
+                            <input type="hidden" name="Id_Issue" value="<?=$_POST['Id_Issue'];?>"/> 
                             <input type="submit" value="ย้อนกลับ  ( Back )  " style="border: none;background: none;color: #2371E2;cursor: pointer;"/>
 </form>
     <?
@@ -492,7 +494,20 @@ if ($check_b == 'true'){?>
 
 
 
-<form align="center" action="test_object.php" method="POST" style="padding-top: 15px;">
+<form align="center" action="test_object.php" method="POST">
+                                    <input type="hidden" name="subject_id" value="<?= $_POST['subject_id'] ?>" />
+                                    <input type="hidden" name="subject" value="<?= $_POST['subject']; ?>"/>
+                                    <input type="hidden" name="subject_name" value="<?= $_POST['subject_name']; ?>"/>
+                                    <input type="hidden" name="unit" value="<?= $_POST['unit']; ?>"/>
+                                    <input type="hidden" name="term" value="<?= $_POST['term']; ?>"/>
+                                    <input type="hidden" name="year" value="<?= $_POST['year']; ?>"/>
+                                    <input type="hidden" name="classroom" value="<?= $_POST['classroom']; ?>"/>
+                                    <input type="hidden" name="tname" value="<?= $_POST['tname']; ?>"/> 
+                                    <input type="hidden" name="type" value="<?= $_POST['type']; ?>"/>
+                                    <input type="hidden" name="Id_Issue" value="<?=$_POST['Id_Issue'];?>"/> 
+                                    <input type="submit" value="กำหนดตัวชี้วัด" style=" border: 2;background: none;color: #2371E2;cursor: pointer;"/>
+                                </form>  
+<form align="center" action="new_course_display_detail_test.php" method="POST" style="padding-top: 15px;">
                             <input type="hidden" name="subject_id" value="<?= $_POST['subject_id'] ?>" />
                             <input type="hidden" name="subject" value="<?= $_POST['subject']; ?>"/>
                             <input type="hidden" name="subject_name" value="<?= $_POST['subject_name']; ?>"/>
@@ -500,9 +515,10 @@ if ($check_b == 'true'){?>
                             <input type="hidden" name="term" value="<?= $_POST['term']; ?>"/>
                             <input type="hidden" name="year" value="<?= $_POST['year']; ?>"/>
                             <input type="hidden" name="classroom" value="<?= $_POST['classroom']; ?>"/>
-                            <input type="hidden" name="tname" value="<?= $_POST['tname']; ?>"/> 
+                            <input type="hidden" name="tname" value="<?= $_POST['tname']; ?>"/>
                             <input type="hidden" name="type" value="<?= $_POST['type']; ?>"/>
-                            <input type="submit" value="เพิ่มตัวชี้วัด  ( Add Indicator )  " style="border: 2;background: none;color: #2371E2;cursor: pointer;"/>
+                            <input type="hidden" name="Id_Issue" value="<?=$_POST['Id_Issue'];?>"/> 
+                            <input type="submit" value="ย้อนกลับ  ( Back )  " style="border: none;background: none;color: #2371E2;cursor: pointer;"/>
 </form>
 <? } ?>
 <script type="text/javascript">

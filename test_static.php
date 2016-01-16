@@ -53,7 +53,7 @@ mysql_select_db($database_bmksl, $bmksl);
 <?
 $maintitile_name = "ระบบบันทึกผลการเรียน"; //ชื่อโปรแกรม และหัวเว็บ
 $subtitile_name = "Assessment Record System"; //คำอธิบายโปรแกรม
-$subone_name = "การเพิ่มข้อมูลทางสถิติ/การกำหนดอำนาจจำแนก "; //หัวข้อหลัก
+$subone_name = "กำหนดคุณภาพข้อสอบ"; //หัวข้อหลัก
 $subtwo_name = ""; //หัวข้อย่อย
 ?>
 <!DOCTYPE html>
@@ -110,7 +110,6 @@ $subtwo_name = ""; //หัวข้อย่อย
             </tr>
             <tr>
                 <td><b>ปีการศึกษา</b>&nbsp;<span class="eng">(Year)</span>: <?= $_POST['year']; ?></td>
-                <td><b>ขนิดการสอบ</b>&nbsp;<span class="eng">(Type Exam)</span>: <?= $_POST['type']; ?></td>
                 <td></td>
             </tr>
         </table>  
@@ -119,8 +118,8 @@ $subtwo_name = ""; //หัวข้อย่อย
         ?>
         <br/>
         
-        <form align="center" method="post" action="Add_Static_Update.php?subject=<?= $_POST['subject']; ?>&year=<?php echo $_POST['year'];?>&type=<? echo $_GET['type'];?>">
-                    
+        <form align="center" method="post" action="Add_Static_Update.php?subject=<?= $_POST['subject']; ?>">
+                    <!--
                         <h2 align="center">เพิ่มรายละเอียดข้อสอบ</h2>
                         <div>
                         <p>Mean</p>
@@ -131,7 +130,7 @@ $subtwo_name = ""; //หัวข้อย่อย
                         <input required OnKeyPress="return chkNumber(this)" style="width:50%;" type="text" name="SD" id="SD" placeholder="Standard Divtion">
                         <p>Variance</p>
                         <input required OnKeyPress="return chkNumber(this)" style="width:50%;" type="text" name="Variance" id="Variance" placeholder="Variance">
-                        </div>
+                        </div>-->
                     <h2 style="margin-top:10px;" align="center">ข้อสอบที่ควรเก็บ</h2>
                     <div>
                     <p>1.ข้อที่ค่อนข้างง่าย อำนาจจำแนกดี ได้แก่ข้อ</p>
@@ -150,11 +149,25 @@ $subtwo_name = ""; //หัวข้อย่อย
                                     <input type="hidden" name="year" value="<?= $_POST['year']; ?>"/>
                                     <input type="hidden" name="classroom" value="<?= $_POST['classroom']; ?>"/>
                                     <input type="hidden" name="tname" value="<?= $_POST['tname']; ?>"/> 
-                                    <input type="hidden" name="type" value="<?= $_POST['type']; ?>"/> 
+                                    <input type="hidden" name="type" value="<?= $_POST['type']; ?>"/>
+                                    <input type="hidden" name="Id_Issue" value="<?=$_POST['Id_Issue'];?>"/>  
                                     <input  type="submit" value="บันทึก ( Save)  " style="border: 2;background: none;color: #2371E2;cursor: pointer;"/>
                     
                        </div>
                 </form>
+                <form align="center" action="new_course_display_detail_test.php" method="POST" style="padding-top: 15px;">
+                                    <input type="hidden" name="subject_id" value="<?= $_POST['subject_id'] ?>" />
+                                    <input type="hidden" name="subject" value="<?= $_POST['subject']; ?>"/>
+                                    <input type="hidden" name="subject_name" value="<?= $_POST['subject_name']; ?>"/>
+                                    <input type="hidden" name="unit" value="<?= $_POST['unit']; ?>"/>
+                                    <input type="hidden" name="term" value="<?= $_POST['term']; ?>"/>
+                                    <input type="hidden" name="year" value="<?= $_POST['year']; ?>"/>
+                                    <input type="hidden" name="classroom" value="<?= $_POST['classroom']; ?>"/>
+                                    <input type="hidden" name="tname" value="<?= $_POST['tname']; ?>"/> 
+                                    <input type="hidden" name="type" value="<?= $_POST['type']; ?>"/>
+                                    <input type="hidden" name="Id_Issue" value="<?=$_POST['Id_Issue'];?>"/> 
+                                    <input type="submit" value="กลับสู่หน้าหลัก  ( Back )  " style="border: 2;background: none;color: #2371E2;cursor: pointer;"/>
+                                </form>
                 <!--<form align="center" action="new_test.php" method="POST" style="padding-top: 15px;">
                             <input type="hidden" name="subject_id" value="<?= $_POST['subject_id'] ?>" />
                             <input type="hidden" name="subject" value="<?= $_POST['subject']; ?>"/>

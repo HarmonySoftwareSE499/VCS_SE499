@@ -137,7 +137,7 @@ $subtwo_name = ""; //หัวข้อย่อย
         </table> 
 <?
 $IDtest = $_POST['IDtest'];
-$sql = "SELECT * FROM test where IDtest = $IDtest";
+$sql = "SELECT * FROM question where IDtest = $IDtest";
 $objQuery = mysql_query($sql);
 ?>
 <?
@@ -149,7 +149,7 @@ while($objResult = mysql_fetch_array($objQuery))
 <br>
 <form action="Edit_Save_Test.php" method="post">
 <table>
-<tr><td width="10%">โจทย์</td><td width="100%"><input name="text1" style="width:90%;" type="text" value="<?=$objResult['text1'];?>"><br><br></td></tr>
+<tr><td width="10%">โจทย์</td><td width="100%"><input name="text1" size="5" style="width:90%;" type="text" value="<?=$objResult['text1'];?>"><br><br></td></tr>
 <tr><td width="10%">คัวเลือกที่ 1</td><td width="100%"><input name="c1" style="width:90%;" type="text" value="<?=$objResult['c1'];?>"><br><br></td></tr>
 <tr><td width="10%">คัวเลือกที่ 2</td><td width="100%"><input name="c2" style="width:90%;" type="text" value="<?=$objResult['c2'];?>"><br><br></td></tr>
 <tr><td width="10%">คัวเลือกที่ 3</td><td width="100%"><input name="c3" style="width:90%;" type="text" value="<?=$objResult['c3'];?>"><br><br></td></tr>
@@ -160,9 +160,7 @@ while($objResult = mysql_fetch_array($objQuery))
         <?
         }
         ?>
-
-    <input type="submit" value="บันทึก">
-      <input type="hidden" name="subject_id" value="<?= $_POST['subject_id']; ?>" />
+<input type="hidden" name="subject_id" value="<?= $_POST['subject_id']; ?>" />
                             <input type="hidden" name="subject" value="<?= $_POST['subject']; ?>"/>
                             <input type="hidden" name="subject_name" value="<?= $_POST['subject_name']; ?>"/>
                             <input type="hidden" name="unit" value="<?= $_POST['unit']; ?>"/>
@@ -171,4 +169,21 @@ while($objResult = mysql_fetch_array($objQuery))
                             <input type="hidden" name="classroom" value="<?= $_POST['classroom']; ?>"/>
                             <input type="hidden" name="tname" value="<?= $_POST['tname']; ?>"/> 
                             <input type="hidden" name="IDtest" value="<?= $_POST['IDtest']; ?>"/> 
+                            <input type="hidden" name="Id_Issue" value="<?=$_POST['Id_Issue'];?>"/> 
+    <input type="submit" value="บันทึก">
+   
+</form>
+      
+
+<form align="center" action="Edit_Delete_AllTest.php" method="POST" style="padding-top: 15px;">
+                            <input type="hidden" name="subject_id" value="<?= $_POST['subject_id']; ?>" />
+                            <input type="hidden" name="subject" value="<?= $_POST['subject']; ?>"/>
+                            <input type="hidden" name="subject_name" value="<?= $_POST['subject_name']; ?>"/>
+                            <input type="hidden" name="unit" value="<?= $_POST['unit']; ?>"/>
+                            <input type="hidden" name="term" value="<?= $_POST['term']; ?>"/>
+                            <input type="hidden" name="year" value="<?= $_POST['year']; ?>"/>
+                            <input type="hidden" name="classroom" value="<?= $_POST['classroom']; ?>"/>
+                            <input type="hidden" name="tname" value="<?= $_POST['tname']; ?>"/> 
+                            <input type="hidden" name="Id_Issue" value="<?=$_POST['Id_Issue'];?>"/> 
+                            <input type="submit" value="ยกเลิก" />
 </form>

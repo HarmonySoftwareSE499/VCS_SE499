@@ -123,7 +123,7 @@ $subtwo_name = ""; //หัวข้อย่อย
             </tr>
             <tr>
                 <td><b>ปีการศึกษา</b>&nbsp;<span class="eng">(Year)</span>: <?= $_POST['year']; ?></td>
-                <td></td>
+               <td><b>ชุด</b>&nbsp;<span class="eng">(Year)</span>: <?=$_POST['Id_Issue']; ?></td>
             </tr>
         </table>  
         <br/>
@@ -143,16 +143,7 @@ $subtwo_name = ""; //หัวข้อย่อย
                 <td >
                      <form align="center"  action="upload_test_2.php?>"  method="post" enctype="multipart/form-data" onSubmit="JavaScript:return fncSubmit();">
                 <br>
-                 <select onclick="post" style="width: 300px;" name="type">
-                                    <option value="asdas">-- เลือกชนิดการสอบ ( Type Examination ) --</option>
-                                    <option value="MID1">ข้อสอบสอบกลางภาค 1</option> 
-                                    <option value="FIN1">ข้อสอบสอบปลายภาค 1</option> 
-                                    <option value="MID2">ข้อสอบสอบกลางภาค 2</option> 
-                                    <option value="FIN2">ข้อสอบสอบปลายภาค 2</option>
-                                    <option value="SUM">ข้อสอบสอบซัมเมอร์</option> 
-                                    <option value="EQU">ข้อสอบสอบเทียบโอน</option>
-                                    <option value="ADM">ข้อสอบสอบเข้า</option> 
-                                </select>
+                
                 <div align="center">
                 <br><label><font color="red">*รูปแบบข้อสอบ----></font></label><a  href="filetemptest/temptest.docx">"คลิ๊ก"</a><BR>
                 <input  type="file" name="file" />
@@ -165,7 +156,7 @@ $subtwo_name = ""; //หัวข้อย่อย
                                     <input type="hidden" name="year" value="<?= $_POST['year']; ?>"/>
                                     <input type="hidden" name="classroom" value="<?= $_POST['classroom']; ?>"/>
                                     <input type="hidden" name="tname" value="<?= $_POST['tname']; ?>"/> 
-                                   
+                                     <input type="hidden" name="Id_Issue" value="<?=$_POST['Id_Issue'];?>"/> 
                     <br><button type="submit"   name="btn-upload">บันทึก</button><BR>
                 </div>
             </form>

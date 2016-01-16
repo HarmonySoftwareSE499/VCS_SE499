@@ -156,6 +156,7 @@ $subtwo_name = ""; //หัวข้อย่อย
                                     <input type="hidden" name="year" value="<?= $_POST['year']; ?>"/>
                                     <input type="hidden" name="classroom" value="<?= $_POST['classroom']; ?>"/>
                                     <input type="hidden" name="tname" value="<?= $_POST['tname']; ?>"/> 
+                                    <input type="hidden" name="Id_Issue" value="<?=$_POST['Id_Issue'];?>"/> 
       <input type="submit" value="Search"></th>
     </tr>
   </table>
@@ -173,6 +174,7 @@ $subtwo_name = ""; //หัวข้อย่อย
                             <input type="hidden" name="year" value="<?= $_POST['year']; ?>"/>
                             <input type="hidden" name="classroom" value="<?= $_POST['classroom']; ?>"/>
                             <input type="hidden" name="tname" value="<?= $_POST['tname']; ?>"/> 
+                             <input type="hidden" name="Id_Issue" value="<?=$_POST['Id_Issue'];?>"/> 
                             <input type="submit" value="กลับสู่หน้าหลัก  ( Back )  " style="border: none;background: none;color: #2371E2;cursor: pointer;"/>
 </form>
 </div>
@@ -180,7 +182,8 @@ $subtwo_name = ""; //หัวข้อย่อย
 mysql_query("Set names 'utf8'");
 
 $subject1 = $_POST['subject'];
-$strSQL = "SELECT * FROM test where id_course = '$subject1'";
+$Id_Issue = $_POST['Id_Issue'];
+$strSQL = "SELECT * FROM question where Id_Issue = $Id_Issue ";
 //echo $strSQL;
 
     if($_POST["ddlSelect"] != "" )
@@ -204,7 +207,7 @@ $Num_Rows = mysql_num_rows($objQuery);
 
 
 
-$strSQL .=" order  by IDtest DESC ";
+$strSQL .=" order  by num asc ";
 $objQuery  = mysql_query($strSQL);
 ?>
 <div>
@@ -225,11 +228,11 @@ $objQuery  = mysql_query($strSQL);
         </script>
 <table width="100%" border="1">
    <tr>
-        <th width="10%">รหัสวิชา</th>
-        <th width="15%">ปีการศึกษา</th>
+        <th width="10%">ข้อ</th>
+        
         <th>คำถาม&ตัวเลือก</th>
-        <th>แก้ไข</th>
-        <th>ลบ</th>
+        <th width="5%">แก้ไข</th>
+        <th width="5%">ลบ</th>
     </tr>
 <?
 $i=0;
@@ -239,8 +242,8 @@ while($objResult = mysql_fetch_array($objQuery))
 { $chk_que1 =  explode("/9j/", $objResult["text1"]);
 ?>
     <tr id='tab_data_<?=$objResult["IDtest"]?>'>
-        <td align="center"><?php echo $objResult['id_course'] ;?></td>
-        <td align="center"><? echo $objResult['year'];?></td>
+        <td align="center"><?php echo $objResult['num'] ;?></td>
+        
         <td ><?
         $i++;
                             if (strlen($objResult["text1"]) > 5000 ) {
@@ -290,6 +293,7 @@ while($objResult = mysql_fetch_array($objQuery))
                             <input type="hidden" name="classroom" value="<?= $_POST['classroom']; ?>"/>
                             <input type="hidden" name="tname" value="<?= $_POST['tname']; ?>"/> 
                             <input type="hidden" name="IDtest" value="<?= $objResult['IDtest']; ?>"/> 
+                            <input type="hidden" name="Id_Issue" value="<?=$_POST['Id_Issue'];?>"/> 
 
         </form>
         </td>
@@ -308,7 +312,8 @@ while($objResult = mysql_fetch_array($objQuery))
                             <input type="hidden" name="year" value="<?= $_POST['year']; ?>"/>
                             <input type="hidden" name="classroom" value="<?= $_POST['classroom']; ?>"/>
                             <input type="hidden" name="tname" value="<?= $_POST['tname']; ?>"/> 
-                            <input type="hidden" name="IDtest" value="<?= $objResult['IDtest']; ?>"/> 
+                            <input type="hidden" name="IDtest" value="<?= $objResult['IDtest']; ?>"/>
+                            <input type="hidden" name="Id_Issue" value="<?=$_POST['Id_Issue'];?>"/>  
 
         </form>
         </td></td>
@@ -327,6 +332,7 @@ while($objResult = mysql_fetch_array($objQuery))
                             <input type="hidden" name="year" value="<?= $_POST['year']; ?>"/>
                             <input type="hidden" name="classroom" value="<?= $_POST['classroom']; ?>"/>
                             <input type="hidden" name="tname" value="<?= $_POST['tname']; ?>"/> 
+                            <input type="hidden" name="Id_Issue" value="<?=$_POST['Id_Issue'];?>"/> 
                             <input type="submit" value="กลับสู่หน้าหลัก  ( Back )  " style="border: none;background: none;color: #2371E2;cursor: pointer;"/>
 </form>
 </h4></div>

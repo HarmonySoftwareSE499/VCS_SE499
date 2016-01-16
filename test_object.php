@@ -101,7 +101,6 @@ $subtwo_name = ""; //หัวข้อย่อย
             </tr>
             <tr>
                 <td><b>ปีการศึกษา</b>&nbsp;<span class="eng">(Year)</span>: <?= $_POST['year']; ?></td>
-                <td><b>ขนิดการสอบ</b>&nbsp;<span class="eng">(Type Exam)</span>: <?= $_POST['type']; ?></td>
                 <td></td>
             </tr>
         </table>  
@@ -111,9 +110,17 @@ $subtwo_name = ""; //หัวข้อย่อย
         <br/><?
         $type = $_POST['type'];
         $subject = $_POST['subject'];
-        $strSQL1 = "SELECT * FROM test WHERE type = '$type' and id_course =  '$subject' order by num asc ";
-        $strSQL2 = "SELECT COUNT(*) FROM test WHERE type = '$type' and id_course =  '$subject' order by num asc ";
-       
+         $Id_Issue = $_POST['Id_Issue'];
+        
+        $strSQL1 ="SELECT question.Id_Issue, issue_question.id_course, issue_question.name_course,question.num, question.text1,question.c1,question.c2,question.c3,question.c4,question.ans,question.obj
+                    FROM question
+                    INNER JOIN issue_question
+                    ON question.Id_Issue=issue_question.Id_Issue
+                    WHERE issue_question.Id_Issue = '$Id_Issue' ";
+        
+        $strSQL2 = "SELECT COUNT(*) FROM question WHERE  Id_Issue =  $_POST[Id_Issue] order by num asc ";
+       //echo $strSQL1;
+       //echo $strSQL2;
        $objQuery  = mysql_query($strSQL1);
        $objQuery2  = mysql_query($strSQL2);
     $objResult2 = mysql_fetch_array($objQuery2);
@@ -174,6 +181,7 @@ $subtwo_name = ""; //หัวข้อย่อย
                                     <input type="hidden" name="classroom" value="<?= $_POST['classroom']; ?>"/>
                                     <input type="hidden" name="tname" value="<?= $_POST['tname']; ?>"/>
                                     <input type="hidden" name="type" value="<?= $_POST['type']; ?>"/> 
+                                    <input type="hidden" name="Id_Issue" value="<?=$_POST['Id_Issue'];?>"/> 
                              
             <select size="10" name="lmName1">
             <?
@@ -227,8 +235,20 @@ $subtwo_name = ""; //หัวข้อย่อย
                                     <input type="hidden" name="classroom" value="<?= $_POST['classroom']; ?>"/>
                                     <input type="hidden" name="tname" value="<?= $_POST['tname']; ?>"/> 
                                     <input type="hidden" name="type" value="<?= $_POST['type']; ?>"/> 
-                                    <input type="submit" value="เพิ่มข้อมูลสถิติ  " style="border: 2;background: none;color: #2371E2;cursor: pointer;"/>
+                                    <input type="submit" value="เพิ่มข้อสอบที่ควรเก็บไว้" style="border: 2;background: none;color: #2371E2;cursor: pointer;"/>
                                 </form> 
+                                <form align="center" action="new_course_display_detail_test.php" method="POST" style="padding-top: 15px;">
+                                    <input type="hidden" name="subject_id" value="<?= $_POST['subject_id'] ?>" />
+                                    <input type="hidden" name="subject" value="<?= $_POST['subject']; ?>"/>
+                                    <input type="hidden" name="subject_name" value="<?= $_POST['subject_name']; ?>"/>
+                                    <input type="hidden" name="unit" value="<?= $_POST['unit']; ?>"/>
+                                    <input type="hidden" name="term" value="<?= $_POST['term']; ?>"/>
+                                    <input type="hidden" name="year" value="<?= $_POST['year']; ?>"/>
+                                    <input type="hidden" name="classroom" value="<?= $_POST['classroom']; ?>"/>
+                                    <input type="hidden" name="tname" value="<?= $_POST['tname']; ?>"/> 
+                                    <input type="hidden" name="type" value="<?= $_POST['type']; ?>"/>
+                                    <input type="submit" value="กลับสู่หน้าหลัก  ( Back )  " style="border: 2;background: none;color: #2371E2;cursor: pointer;"/>
+                                </form>
  <!--<form align="center" action="new_test.php" method="POST" style="padding-top: 15px;">
                             <input type="hidden" name="subject_id" value="<?= $_POST['subject_id'] ?>" />
                             <input type="hidden" name="subject" value="<?= $_POST['subject']; ?>"/>

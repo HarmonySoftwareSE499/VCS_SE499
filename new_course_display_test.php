@@ -96,7 +96,7 @@ $subtwo_name = ""; //หัวข้อย่อย
                                 <select style="width: 170px;" name="year">
                                     <option value="" >-- เลือกปีการศึกษา ( Year ) --</option>
                                     <!--<option value="<?= date('Y') + 542; ?>"><?= date('Y') + 542; ?></option> -->
-                                    <option value="<?= date('Y') + 543; ?>"><?= date('Y') + 543; ?></option> 
+                                    <option value="<?= date('Y') + 542; ?>"><?= date('Y') + 542; ?></option> 
                                 </select>
                             </td>
                         </tr>

@@ -45,7 +45,7 @@ mysql_select_db($database_bmksl, $bmksl);
 <?
 $maintitile_name = "ระบบบันทึกผลการเรียน"; //ชื่อโปรแกรม และหัวเว็บ
 $subtitile_name = "Assessment Record System"; //คำอธิบายโปรแกรม
-$subone_name = "การจัดการข้อสอบ ( Test management )"; //หัวข้อหลัก
+$subone_name = "การเพิ่มเฉลย ( Add Answer )"; //หัวข้อหลัก
 $subtwo_name = ""; //หัวข้อย่อย
 ?>
 <!DOCTYPE html>
@@ -102,7 +102,7 @@ $subtwo_name = ""; //หัวข้อย่อย
             </tr>
             <tr>
                 <td><b>ปีการศึกษา</b>&nbsp;<span class="eng">(Year)</span>: <?= $_POST['year']; ?></td>
-                <td><b>ขนิดการสอบ</b>&nbsp;<span class="eng">(Type Exam)</span>: <?= $_POST['type']; ?></td>
+                <td><b>ขนิดการสอบ</b>&nbsp;<span class="eng">(Type Exam)</span>: <?= $_POST['Id_Issue']; ?></td>
                 <td></td>
             </tr>
         </table>
@@ -185,6 +185,7 @@ $subtwo_name = ""; //หัวข้อย่อย
                             <input type="hidden" name="classroom" value="<?= $_POST['classroom']; ?>"/>
                             <input type="hidden" name="tname" value="<?= $_POST['tname']; ?>"/> 
                             <input type="hidden" name="type" value="<?= $_POST['type']; ?>"/>
+                            <input type="hidden" name="Id_Issue" value="<?=$_POST['Id_Issue'];?>"/> 
                             <input type="submit" value="กลับสู่หน้าหลัก  ( Back )  " style="border: none;background: none;color: #2371E2;cursor: pointer;"/>
 </form>
                        <?
@@ -210,6 +211,7 @@ $subtwo_name = ""; //หัวข้อย่อย
                                     <input type="hidden" name="classroom" value="<?= $_POST['classroom']; ?>"/>
                                     <input type="hidden" name="tname" value="<?= $_POST['tname']; ?>"/> 
                                     <input type="hidden" name="type" value="<?= $_POST['type']; ?>"/>
+                                    <input type="hidden" name="Id_Issue" value="<?=$_POST['Id_Issue'];?>"/> 
                                     <input type="submit" value="เพิ่มเฉลย  ( Add_Test Answer)  " style="border: 2;background: none;color: #2371E2;cursor: pointer;"/>
                                 </form> 
                     <script type="text/javascript">

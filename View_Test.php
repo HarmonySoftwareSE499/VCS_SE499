@@ -111,8 +111,10 @@ ON subject.subjectID=new_test.subjectID Where Id_New_Test = $Id_New_Test ;";
 FROM new_test 
 INNER JOIN reference_test
 ON new_test.Id_New_Test= reference_test.Id_New_Test
-INNER JOIN db_test 
-ON reference_test.IDtest = db_test.IDtest
+INNER JOIN Examination 
+ON reference_test.IDtest = Examination.IDtest
+INNER JOIN question
+ON question.IDtest = Examination.IDtest
 WHERE reference_test.Id_New_Test = $Id_New_Test
 ";
                                 $objQuery1 = mysql_query($strSQL1);

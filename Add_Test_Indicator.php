@@ -102,7 +102,7 @@ $subtwo_name = ""; //หัวข้อย่อย
             </tr>
             <tr>
                 <td><b>ปีการศึกษา</b>&nbsp;<span class="eng">(Year)</span>: <?= $_POST['year']; ?></td>
-                <td><b>ขนิดการสอบ</b>&nbsp;<span class="eng">(Type Exam)</span>: <?= $_POST['type']; ?></td>
+                
                 <td></td>
             </tr>
         </table>
@@ -125,7 +125,11 @@ if (isset($_POST['btn-upload'])) {
 //echo "string";
 foreach($tags as $key) {    
     //echo $key."<br/>"; 
-        $sql1 = "SELECT obj FROM test where `test`.`num` = $key AND type = '$type'";
+        $sql1 = "SELECT question.obj
+                    FROM question
+                    INNER JOIN issue_question
+                    ON question.Id_Issue=issue_question.Id_Issue where `num` = $key";
+        //$sql1 = "where `num` = $key";
         //echo $sql1;
         $objQuery = mysql_query($sql1);
        while($objResult = mysql_fetch_array($objQuery))
@@ -133,13 +137,13 @@ foreach($tags as $key) {
     $obj1 = $objResult['obj'];
 }
 if(empty($obj1)){
-      	 $sql = "UPDATE  `evaulation`.`test` SET  `obj` =  '$Indicator' WHERE  `test`.`num` = $key AND type = '$type'";
+      	 $sql = "UPDATE  `evaulation`.`question` SET  `obj` =  '$Indicator' WHERE  `num` = $key ";
         }
         if(!empty($obj1)){
            $strobj = $obj1.",".$Indicator ;
            $a = implode(',',array_unique(explode(',', $strobj)));
            //echo $a;
-         $sql = "UPDATE  `evaulation`.`test` SET  `obj` =  '$a'  WHERE  `test`.`num` = $key AND type = '$type'";
+         $sql = "UPDATE  `evaulation`.`question` SET  `obj` =  '$a'  WHERE `num` = $key ";
         }
 //echo $sql."<BR>";
     mysql_query($sql);
@@ -159,7 +163,8 @@ if(empty($obj1)){
                                     <input type="hidden" name="year" value="<?= $_POST['year']; ?>"/>
                                     <input type="hidden" name="classroom" value="<?= $_POST['classroom']; ?>"/>
                                     <input type="hidden" name="tname" value="<?= $_POST['tname']; ?>"/> 
-                                    <input type="hidden" name="type" value="<?= $_POST['type']; ?>"/> 
+                                    <input type="hidden" name="type" value="<?= $_POST['type']; ?>"/>
+                                    <input type="hidden" name="Id_Issue" value="<?=$_POST['Id_Issue'];?>"/>  
                                     <input type="submit" value="เพิ่มตัวชี้วัด  " style="border: 2;background: none;color: #2371E2;cursor: pointer;"/>
                                     
                                 </form> 

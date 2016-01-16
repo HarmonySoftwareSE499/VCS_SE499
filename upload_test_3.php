@@ -537,7 +537,7 @@ if ($check_b == 'true' ) {
 
            exit();
        }
-    $Delet_Record = "DELETE FROM test WHERE type = '".$_POST['type']."' AND id_course = '".$_POST['subject']."'";
+    $Delet_Record = "DELETE FROM question WHERE Id_Issue = '".$_POST['Id_Issue']."' ";
     
     //echo $Delet_Record;
     mysql_query($Delet_Record); 
@@ -584,11 +584,12 @@ strlen($chk_que);
     if($check_b == 'true'){
    $i++;
     mysql_query("Set names 'utf8'");
-    $sql = "INSERT INTO test (IDtest,id_course,year,type,num,text1,c1,c2,c3,c4) 
-      VALUES ('','$subject','$year','$type','$i','" .$chk_que. "','" .$chk_a. "','" .$chk_b. "','" .$chk_c. "','" .$chk_d. "'
+    $Id_Issue = $_POST['Id_Issue'];
+    $sql = "INSERT INTO question (IDtest,Id_Issue,num,text1,c1,c2,c3,c4) 
+      VALUES ('','$Id_Issue','$i','" .$chk_que. "','" .$chk_a. "','" .$chk_b. "','" .$chk_c. "','" .$chk_d. "'
         )";
     
-    mysql_query($sql)or die("รูปแบบไฟล์ข้อสอบผิดพลาด");
+    mysql_query($sql);
 }
     //echo $sql."<BR>";
 
@@ -626,7 +627,7 @@ if (strlen($chk_que) > 10000 ) {
                         echo "<script type='text/javascript'>alert('$message');</script>";
                        //   echo "<script type='text/javascript'>
                         ?>
-<form align="center" action="new_ans.php" method="POST" style="padding-top: 15px;">
+ <form  align="center" action="new_ans.php" method="POST">
                                     <input type="hidden" name="subject_id" value="<?= $_POST['subject_id'] ?>" />
                                     <input type="hidden" name="subject" value="<?= $_POST['subject']; ?>"/>
                                     <input type="hidden" name="subject_name" value="<?= $_POST['subject_name']; ?>"/>
@@ -636,8 +637,22 @@ if (strlen($chk_que) > 10000 ) {
                                     <input type="hidden" name="classroom" value="<?= $_POST['classroom']; ?>"/>
                                     <input type="hidden" name="tname" value="<?= $_POST['tname']; ?>"/> 
                                     <input type="hidden" name="type" value="<?= $_POST['type']; ?>"/>
-                                    <input type="submit" value="เพิ่มเฉลย  ( Add_Answer)  " style="border: 2;background: none;color: #2371E2;cursor: pointer;"/>
+                                    <input type="hidden" name="Id_Issue" value="<?=$_POST['Id_Issue'];?>"/> 
+                                    <input type="submit" value="นำเข้าเฉลย (Add Answer)" style="border: 2;background: none;color: #2371E2;cursor: pointer;"/>
                                 </form>
+<form align="center" action="new_course_display_detail_test.php" method="POST" style="padding-top: 15px;">
+                                    <input type="hidden" name="subject_id" value="<?= $_POST['subject_id'] ?>" />
+                                    <input type="hidden" name="subject" value="<?= $_POST['subject']; ?>"/>
+                                    <input type="hidden" name="subject_name" value="<?= $_POST['subject_name']; ?>"/>
+                                    <input type="hidden" name="unit" value="<?= $_POST['unit']; ?>"/>
+                                    <input type="hidden" name="term" value="<?= $_POST['term']; ?>"/>
+                                    <input type="hidden" name="year" value="<?= $_POST['year']; ?>"/>
+                                    <input type="hidden" name="classroom" value="<?= $_POST['classroom']; ?>"/>
+                                    <input type="hidden" name="tname" value="<?= $_POST['tname']; ?>"/> 
+                                    <input type="hidden" name="type" value="<?= $_POST['type']; ?>"/>
+                                    <input type="submit" value="กลับสู่หน้าหลัก  ( Back )  " style="border: 2;background: none;color: #2371E2;cursor: pointer;"/>
+                                </form>
+
                         <?
                        // window.location.replace('new_test.php');
                     //</script>";# code...

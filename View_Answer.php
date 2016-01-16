@@ -97,12 +97,14 @@ while($objResult = mysql_fetch_array($objQuery))
     ระดับชั้น<?echo $objResult['level'];?>    เวลา <?echo $objResult['time'];?> นาที </p>
     <hr width="100%" size="20" color="black"><p>
   <?  
-$strSQL1 ="SELECT DISTINCT *
+ $strSQL1 ="SELECT DISTINCT *
 FROM new_test 
 INNER JOIN reference_test
 ON new_test.Id_New_Test= reference_test.Id_New_Test
-INNER JOIN db_test 
-ON reference_test.IDtest = db_test.IDtest
+INNER JOIN Examination 
+ON reference_test.IDtest = Examination.IDtest
+INNER JOIN question 
+ON question.IDtest = Examination.IDtest
 WHERE reference_test.Id_New_Test = $Id_New_Test
 ";
 $objQuery1  = mysql_query($strSQL1);

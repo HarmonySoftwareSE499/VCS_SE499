@@ -188,6 +188,7 @@ $subtwo_name = ""; //หัวข้อย่อย
                             <input type="hidden" name="classroom" value="<?= $_POST['classroom']; ?>"/>
                             <input type="hidden" name="tname" value="<?= $_POST['tname']; ?>"/> 
                             <input type="hidden" name="type" value="<?= $_POST['type']; ?>"/>
+                            <input type="hidden" name="Id_Issue" value="<?=$_POST['Id_Issue'];?>"/>
                             <input type="submit" value="กลับสู่หน้าหลัก  ( Back )  " style="border: none;background: none;color: #2371E2;cursor: pointer;"/>
 </form>
                        <?
@@ -213,6 +214,7 @@ $subtwo_name = ""; //หัวข้อย่อย
                                     <input type="hidden" name="classroom" value="<?= $_POST['classroom']; ?>"/>
                                     <input type="hidden" name="tname" value="<?= $_POST['tname']; ?>"/>
                                     <input type="hidden" name="type" value="<?= $_POST['type']; ?>"/> 
+                                    <input type="hidden" name="Id_Issue" value="<?=$_POST['Id_Issue'];?>"/> 
                                     <input type="submit" value="เพิ่มข้อสอบ  ( Add_Test )  " style="border: 2;background: none;color: #2371E2;cursor: pointer;"/>
                                 </form> 
                     <script type="text/javascript">
