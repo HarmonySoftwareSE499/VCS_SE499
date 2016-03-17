@@ -103,6 +103,26 @@ $subtwo_name = ""; //หัวข้อย่อย
                 $("#useStruture").hide();
             }
         </script>
+        <script>
+function chk_q() {
+    document.getElementById("chk_qus").disabled = false;
+}
+</script>
+<script>
+function chk_a() {
+    document.getElementById("chk_ans").disabled = false;
+}
+</script>
+<script>
+function chk_o() {
+    document.getElementById("chk_obj").disabled = false;
+}
+</script>
+<script>
+function chk_d() {
+    document.getElementById("chk_des").disabled = false;
+}
+</script>
         <style type="text/css">
     .textAlignVer{  
         display:block;  
@@ -179,13 +199,13 @@ $subtwo_name = ""; //หัวข้อย่อย
                                   <select onclick="post" style="width: 300px;" name="type">
                                     <option value="">-- เลือกชนิดการสอบ ( Type Examination ) --</option>
                                     <option value="GNRL">ข้อสอบทั่วไป</option> 
-                                    <option value="MID1">ข้อสอบสอบกลางภาค 1</option> 
-                                    <option value="FIN1">ข้อสอบสอบปลายภาค 1</option> 
-                                    <option value="MID2">ข้อสอบสอบกลางภาค 2</option> 
-                                    <option value="FIN2">ข้อสอบสอบปลายภาค 2</option>
-                                    <option value="SUM">ข้อสอบสอบซัมเมอร์</option> 
-                                    <option value="EQU">ข้อสอบสอบเทียบโอน</option>
-                                    <option value="ADM">ข้อสอบสอบเข้า</option> 
+                                    <option value="กลางภาค 1">ข้อสอบสอบกลางภาค 1</option> 
+                                    <option value="ปลายภาค 1">ข้อสอบสอบปลายภาค 1</option> 
+                                    <option value="กลางภาค 2">ข้อสอบสอบกลางภาค 2</option> 
+                                    <option value="ปลายภาค 2">ข้อสอบสอบปลายภาค 2</option>
+                                    <option value="ซัมเมอร์">ข้อสอบสอบซัมเมอร์</option> 
+                                    <option value="เทียบโอน">ข้อสอบสอบเทียบโอน</option>
+                                    <option value="สอบเข้า">ข้อสอบสอบเข้า</option> 
                                 </select>
                                     <input type="hidden" name="subject_id" value="<?= $_POST['subject_id']; ?>" />
                                     <input type="hidden" name="subject" value="<?= $_POST['subject']; ?>"/>
@@ -216,6 +236,7 @@ $subject0 = $_POST['subject'];
     <th>เวลาที่สร้าง</th>
     <th>ผู้สร้าง</th>
     <th>จัดการข้อสอบ</th>
+    <th>สถานะ</th>
     <th>แก้ไข</th>
     <th>ลบ</th>
     <?
@@ -223,7 +244,7 @@ $subject0 = $_POST['subject'];
     while ($objResult = mysql_fetch_array($objquery)) {?>
     
                                 <tr>
-                                    <td align="center" width="10%" height="25" style="border: 1px solid black;"><? echo $i ;?></td>
+                                    <td align="center" width="5%" height="25" style="border: 1px solid black;"><? echo $i ;?></td>
                                     <td align="center" width="10%" style="border: 1px solid black;padding-left: 5px;padding-right: 5px;" class="paddingLeftTable"><?=$objResult['id_course'];?></td>
                                     <td width="20%" style="border: 1px solid black;" align="center">
                                      <form align="Left" action="preview_test.php" method="POST">
@@ -241,7 +262,7 @@ $subject0 = $_POST['subject'];
                                 </form>
                                     
                                     </td>
-                                    <td width="10%" style="border: 1px solid black;" align="center"><?=$objResult['type'];?></td>
+                                    <td width="5%" style="border: 1px solid black;" align="center"><?=$objResult['type'];?></td>
                                     <? 
                                     $Id_Issue_SQL = $objResult['Id_Issue'];
                                     $result_count = mysql_query("SELECT * FROM question Where Id_Issue = '$Id_Issue_SQL' ");
@@ -275,8 +296,22 @@ $subject0 = $_POST['subject'];
                                     <input type="hidden" name="classroom" value="<?= $_POST['classroom']; ?>"/>
                                     <input type="hidden" name="tname" value="<?= $_POST['tname']; ?>"/> 
                                     <input type="hidden" name="type" value="<?= $_POST['type']; ?>"/>
-                                    <input type="hidden" name="Id_Issue" value="<?=$objResult['Id_Issue'];?>"/> 
-                                    <input type="submit" value="นำเข้าเฉลย" style=" width:100%;border: 2;background: none;color: #2371E2;cursor: pointer;"/>
+                                    <input type="hidden" name="Id_Issue" value="<?=$objResult['Id_Issue'];?>"/>
+                                      <?
+                                     if ($result_count1 == 0) {?>
+
+                                        <input disabled id="chk_qus" type="submit" value="นำเข้าเฉลย" style=" width:100%;border: 2;background: none;color: #2371E2;cursor: pointer;"/>
+                                        <?
+
+                                        ?>
+                                     <?
+                                    }
+                                      else {?>
+                                   <input  id="chk_qus" type="submit" value="นำเข้าเฉลย" style=" width:100%;border: 2;background: none;color: #2371E2;cursor: pointer;"/>
+                                     <?
+                                    }
+                                     ?>
+                                    
                                 </form>
                                  <form align="Left" action="test_object.php" method="POST">
                                     <input type="hidden" name="subject_id" value="<?= $_POST['subject_id'] ?>" />
@@ -288,8 +323,41 @@ $subject0 = $_POST['subject'];
                                     <input type="hidden" name="classroom" value="<?= $_POST['classroom']; ?>"/>
                                     <input type="hidden" name="tname" value="<?= $_POST['tname']; ?>"/> 
                                     <input type="hidden" name="type" value="<?= $_POST['type']; ?>"/>
-                                    <input type="hidden" name="Id_Issue" value="<?=$objResult['Id_Issue'];?>"/> 
-                                    <input type="submit" value="กำหนดตัวชี้วัด" style="width:100%; border: 2;background: none;color: #2371E2;cursor: pointer;"/>
+                                    <input type="hidden" name="Id_Issue" value="<?=$objResult['Id_Issue'];?>"/>
+                                       <? 
+                                    //$Id_Issue_SQL = $objResult['Id_Issue'];
+                                    $sql_count = "SELECT * FROM question Where ans = '' and Id_Issue = '$Id_Issue_SQL' order by question.Id_Issue ASC";
+                                    $result_count_ans = mysql_query($sql_count);
+                                   $sql_count2 = "SELECT * FROM question Where ans != '' and Id_Issue = '$Id_Issue_SQL' order by question.Id_Issue ASC";
+                                    $result_count2_ans = mysql_query($sql_count2);
+                                   
+                                    $result_count1_ans = mysql_num_rows($result_count_ans);
+                                    $result_count2_ans = mysql_num_rows($result_count2_ans);
+                                    
+                                    //check ex null
+                                   if ($result_count1_ans >= 0 ) {
+                                       $result_count1_ans_chk = 'NULL';
+
+                                   }
+                                   //check ex full
+                                   if ($result_count2_ans > 0 ) {
+                                       $result_count1_ans_chk = 'FULL';
+
+                                   }
+                                    ?>
+                                  <?
+                                  switch ($result_count1_ans_chk) {
+                                    
+                                    case 'NULL':
+                                          ?><input disabled id="chk_ans" type="submit" value="กำหนดตัวชี้วัด" style="width:100%; border: 2;background: none;color: #2371E2;cursor: pointer;"/><?
+                                          break;
+                                    case 'FULL':
+                                    ?><input  id="chk_ans" type="submit" value="กำหนดตัวชี้วัด" style="width:100%; border: 2;background: none;color: #2371E2;cursor: pointer;"/><?
+                                    break;
+                                      
+                                     
+                                  }
+                                     ?>
                                 </form>
                                 <form align="Left" action="test_static.php" method="POST">
                                     <input type="hidden" name="subject_id" value="<?= $_POST['subject_id'] ?>" />
@@ -302,9 +370,191 @@ $subject0 = $_POST['subject'];
                                     <input type="hidden" name="tname" value="<?= $_POST['tname']; ?>"/> 
                                     <input type="hidden" name="type" value="<?= $_POST['type']; ?>"/>
                                     <input type="hidden" name="Id_Issue" value="<?=$objResult['Id_Issue'];?>"/> 
-                                    <input type="submit" value="เพิ่มข้อสอบที่ควรเก็บ" style="width:100%; border: 2;background: none;color: #2371E2;cursor: pointer;"/>
+                                     <? 
+                                    $sql_count_obj = "SELECT * FROM question Where obj = '' and Id_Issue = '$Id_Issue_SQL'";
+                                    $result_count_obj = mysql_query($sql_count_obj);
+                                   $sql_count2_obj = "SELECT * FROM question Where obj != '' and Id_Issue = '$Id_Issue_SQL'";
+                                    $result_count2_obj = mysql_query($sql_count2_obj);
+                                   
+                                    $result_count1_obj = mysql_num_rows($result_count_obj);
+                                    $result_count2_obj = mysql_num_rows($result_count2_obj);
+                                      if ($result_count1_obj >= 0 ) {
+                                       $result_count1_obj_chk = 'NULL';
+
+                                   }
+                                   
+                                   if ($result_count2_obj > 0 ) {
+                                    $result_count3_obj = $result_count1_obj+$result_count2_obj;
+                                        if ($result_count3_obj > $result_count2_obj ) 
+                                        { 
+
+                                           $result_count1_obj_chk = 'NULL';
+                                        }
+                                      
+                                        if ($result_count2_obj == $result_count3_obj  ) {
+                                            $result_count1_obj_chk = 'FULL';
+                                            
+                                        }
+                                     
+                                   //check ex full
+                                 
+
+                                   }
+
+                                    ?>
+                                  <?
+                                  switch ($result_count1_obj_chk) {
+                                    case 'NULL':
+                                          ?><input disabled id="chk_obj" type="submit" value="กำหนดคุณภาพข้อสอบ" style="width:100%; border: 2;background: none;color: #2371E2;cursor: pointer;"/><?
+                                          break;
+                                    case 'FULL':
+                                    ?>                                    <input  id="chk_obj" type="submit" value="กำหนดคุณภาพข้อสอบ" style="width:100%; border: 2;background: none;color: #2371E2;cursor: pointer;"/><?
+                                    break;
+
+                                  }
+                                     ?>
                                 </form>  
                                 </td>
+
+                                <td align="center" width="10%" style="border: 1px solid black;">
+                                     <form   align="center" action="new_ans.php" method="POST">
+                                     <?
+                                     if ($result_count1 == 0) {?>
+
+                                        <img  src="pic/No-entry.gif">
+
+                                        <?
+
+                                        ?>
+                                     <?
+                                    }
+                                      else {?>
+                                    <img onload="chk_q()" src="pic/OK.gif">
+                                     <?
+                                    }
+                                     ?>
+                                </form>
+                                <form  align="center" action="new_ans.php" method="POST">
+                                <? 
+                                    //$Id_Issue_SQL = $objResult['Id_Issue'];
+                                    $sql_count = "SELECT * FROM question Where ans = '' and Id_Issue = '$Id_Issue_SQL' order by question.Id_Issue ASC";
+                                    $result_count_ans = mysql_query($sql_count);
+                                   $sql_count2 = "SELECT * FROM question Where ans != '' and Id_Issue = '$Id_Issue_SQL' order by question.Id_Issue ASC";
+                                    $result_count2_ans = mysql_query($sql_count2);
+                                   
+                                    $result_count1_ans = mysql_num_rows($result_count_ans);
+                                    $result_count2_ans = mysql_num_rows($result_count2_ans);
+                                    
+                                    //check ex null
+                                   if ($result_count1_ans >= 0 ) {
+                                       $result_count1_ans_chk = 'NULL';
+
+                                   }
+                                   //check ex full
+                                   if ($result_count2_ans > 0 ) {
+                                       $result_count1_ans_chk = 'FULL';
+
+                                   }
+                                    ?>
+                                  <?
+                                  switch ($result_count1_ans_chk) {
+                                     default:
+                                          ?><img src="pic/No-entry.gif"><?
+                                          break;
+                                    case 'NULL':
+                                          ?><img src="pic/No-entry.gif"><?
+                                          break;
+                                    case 'FULL':
+                                    ?><img onload="chk_a()" src="pic/OK.gif"><?
+                                    break;
+                                      
+                                     
+                                  }
+                                     ?>
+                                </form>
+                                <form  align="center" action="new_ans.php" method="POST">
+                                    <? 
+                                    $sql_count_obj = "SELECT * FROM question Where obj = '' and Id_Issue = '$Id_Issue_SQL'";
+                                    $result_count_obj = mysql_query($sql_count_obj);
+                                   $sql_count2_obj = "SELECT * FROM question Where obj != '' and Id_Issue = '$Id_Issue_SQL'";
+                                    $result_count2_obj = mysql_query($sql_count2_obj);
+                                   
+                                    $result_count1_obj = mysql_num_rows($result_count_obj);
+                                    $result_count2_obj = mysql_num_rows($result_count2_obj);
+                                      if ($result_count1_obj >= 0 ) {
+                                       $result_count1_obj_chk = 'NULL';
+
+                                   }
+                                   
+                                   if ($result_count2_obj > 0 ) {
+                                    $result_count3_obj = $result_count1_obj+$result_count2_obj;
+                                        if ($result_count3_obj > $result_count2_obj ) 
+                                        { 
+
+                                           $result_count1_obj_chk = 'NULL';
+                                        }
+                                      
+                                        if ($result_count2_obj == $result_count3_obj  ) {
+                                            $result_count1_obj_chk = 'FULL';
+                                            
+                                        }
+                                     
+                                   //check ex full
+                                 
+
+                                   }
+
+                                    ?>
+                                  <?
+                                  switch ($result_count1_obj_chk) {
+                                    case 'NULL':
+                                          ?><img src="pic/No-entry.gif"><?
+                                          break;
+                                    case 'FULL':
+                                    ?><img onload="chk_o()" src="pic/OK.gif"><?
+                                    break;
+                                      
+                                      default:
+                                          ?><img src="pic/No-entry.gif"><?
+                                          break;
+                                  }
+                                     ?>
+                                </form>
+                               <form  align="center" action="new_ans.php" method="POST">
+                                  <? 
+                                    $sql_count_obj = "SELECT * FROM question INNER JOIN examination ON question.IDtest = examination.IDtest Where Discrimination = '' and Id_Issue = '$Id_Issue_SQL'";
+                                    $result_count_obj = mysql_query($sql_count_obj);
+                                   $sql_count2_obj = "SELECT * FROM question INNER JOIN examination ON question.IDtest = examination.IDtest Where Discrimination != '' and Id_Issue = '$Id_Issue_SQL'";
+                                    $result_count2_obj = mysql_query($sql_count2_obj);
+                                   
+                                    $result_count1_obj = mysql_num_rows($result_count_obj);
+                                    $result_count2_obj = mysql_num_rows($result_count2_obj);
+                                    if ($result_count1_obj == 0) {
+                                       $result_count1_obj_chk = 'NULL';
+                                      if ($result_count1_obj != $result_count2_obj) {
+                                       $result_count1_obj_chk = 'FULL';
+                                    }
+                                    }
+
+                                    ?>
+                                  <?
+                                  switch ($result_count1_obj_chk) {
+                                    case 'NULL':
+                                          ?><img src="pic/No-entry.gif"><?
+                                          break;
+                                    case 'FULL':
+                                    ?><img src="pic/OK.gif"><?
+                                    break;
+                                      
+                                      default:
+                                          ?><img src="pic/No-entry.gif"><?
+                                          break;
+                                  }
+                                     ?>
+                                </form>
+                                </td>
+
+
                                 <td width="5%" align="center" style="border: 1px solid black;">
                                      <form align="Left" action="Edit_Delete_AllTest.php" method="POST">
                                 <input type="hidden" name="subject_id" value="<?= $_POST['subject_id'] ?>" />

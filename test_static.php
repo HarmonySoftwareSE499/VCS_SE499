@@ -135,10 +135,12 @@ $subtwo_name = ""; //หัวข้อย่อย
                     <div>
                     <p>1.ข้อที่ค่อนข้างง่าย อำนาจจำแนกดี ได้แก่ข้อ</p>
                     <input required OnKeyPress="return chkNumber(this)" style="width:50%;" type="text" id="a1" name="a1"  placeholder="1 , 2 , 3 , 4 , 5 , 6 , 7 , 8 , 9 , 10"><BR>
-                    <p>2.ข้อที่ยากปานกลาง อำนาจจำแนกดีมีจำนวน</p>
+                    <p>2.ข้อที่ยากปานกลาง อำนาจจำแนกดี ได้แก่ข้อ</p>
                     <input required OnKeyPress="return chkNumber(this)" style="width:50%;" type="text" id="a2" name="a2"  placeholder="1 , 2 , 3 , 4 , 5 , 6 , 7 , 8 , 9 , 10"><BR> 
-                    <p>3.ข้อที่ค่อนข้างยาก อำนาจจำแนกดีมีจำนวน</p>
-                    <input required OnKeyPress="return chkNumber(this)" style="width:50%;" type="text" id="a3" name="a3"  placeholder="1 , 2 , 3 , 4 , 5 , 6 , 7 , 8 , 9 , 10">
+                    <p>3.ข้อที่ค่อนข้างยาก อำนาจจำแนกดี ได้แก่ข้อ</p>
+                    <input required OnKeyPress="return chkNumber(this)" style="width:50%;" type="text" id="a3" name="a3"  placeholder="1 , 2 , 3 , 4 , 5 , 6 , 7 , 8 , 9 , 10"><BR>
+                    <p>4.ข้อสอบที่ควรปรับปรุง ได้แก่ข้อ</p>
+                    <input required OnKeyPress="return chkNumber(this)" style="width:50%;" type="text" id="a4" name="a4"  placeholder="1 , 2 , 3 , 4 , 5 , 6 , 7 , 8 , 9 , 10"> 
                     </div>
                     <br>
                      <input  type="hidden" name="subject_id" value="<?= $_POST['subject_id'] ?>" />

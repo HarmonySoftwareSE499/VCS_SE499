@@ -71,40 +71,21 @@ $subtwo_name = ""; //หัวข้อย่อย
         <title><?= $maintitile_name; ?> - โรงเรียนวารีเชียงใหม่</title>
         <?php include '../mainsystem/inc_script.php'; ?>
         <!-- เปิดสคริป -->
-       <script type="text/javascript">
-        $('#myModal').on('shown.bs.modal', function () {
-        $('#myInput').focus()
-})
-
-        function ch_box(id,newid){
-            //console.log(id);
-           // console.log(newid);
-            if(document.getElementById('ch_'+id).checked==true){
-                document.getElementById("tab_data_"+id).style.backgroundColor = "#99FFCC";
-                //send data in databse 
-                $.ajax({
-                    url:"file_insert_data.php",
-                    type:"POST",
-                    data:{type:"insert",IDtest:id,Id_New_Test:newid},
-                    success:function(datareturn){
-                        console.log(datareturn);
-                    }
-
-                });
-            }else{
-                document.getElementById("tab_data_"+id).style.backgroundColor = "white";
-                   $.ajax({
-                    url:"file_delete_data.php",
-                    type:"POST",
-                    data:{type:"delete",IDtest:id,Id_New_Test:newid},
-                    success:function(datareturn){
-                        console.log(datareturn);
-                    }
-
-                });
+      <script type="text/javascript">
+        function delForm(selectDel){
+            var conf = confirm("ยืนยันการลบ ?? ");
+            if(conf){
+              $("#f_"+selectDel).submit();
             }
         }
-    </script>
+
+         function EditForm(selectEdit){
+            var conf = confirm("ยืนยันการแก้ไข ?? ");
+            if(conf){
+              $("#l_"+selectEdit).submit();
+            }
+        }
+        </script>
         <!-- สิ้นสุดสคริป -->
     </head>
     <body>
@@ -143,8 +124,7 @@ $subtwo_name = ""; //หัวข้อย่อย
     <tr>
       <th>ชนิดการค้นหา 
         <select name="ddlSelect" id="ddlSelect">
-          <option>- เลือก -</option>
-          <option value="year" <?if($_POST["ddlSelect"]=="year"){echo"selected";}?>>ปีการศึกษา</option>
+         
           <option value="obj" <?if($_POST["ddlSelect"]=="obj"){echo"selected";}?>>ตัวชี้วัด</option>
         </select>
         คำค้นหา
@@ -211,21 +191,7 @@ $strSQL .=" order  by num asc ";
 $objQuery  = mysql_query($strSQL);
 ?>
 <div>
-<script type="text/javascript">
-        function delForm(selectDel){
-            var conf = confirm("ยืนยันการลบ ?? ");
-            if(conf){
-              $("#f_"+selectDel).submit();
-            }
-        }
 
-         function EditForm(selectEdit){
-            var conf = confirm("ยืนยันการแก้ไข ?? ");
-            if(conf){
-              $("#l_"+selectEdit).submit();
-            }
-        }
-        </script>
 <table width="100%" border="1">
    <tr>
         <th width="10%">ข้อ</th>

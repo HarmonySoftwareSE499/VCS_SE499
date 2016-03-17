@@ -71,40 +71,7 @@ $subtwo_name = ""; //หัวข้อย่อย
         <title><?= $maintitile_name; ?> - โรงเรียนวารีเชียงใหม่</title>
         <?php include '../mainsystem/inc_script.php'; ?>
         <!-- เปิดสคริป -->
-       <script type="text/javascript">
-        $('#myModal').on('shown.bs.modal', function () {
-        $('#myInput').focus()
-})
-
-        function ch_box(id,newid){
-            //console.log(id);
-           // console.log(newid);
-            if(document.getElementById('ch_'+id).checked==true){
-                document.getElementById("tab_data_"+id).style.backgroundColor = "#99FFCC";
-                //send data in databse 
-                $.ajax({
-                    url:"file_insert_data.php",
-                    type:"POST",
-                    data:{type:"insert",IDtest:id,Id_New_Test:newid},
-                    success:function(datareturn){
-                        console.log(datareturn);
-                    }
-
-                });
-            }else{
-                document.getElementById("tab_data_"+id).style.backgroundColor = "white";
-                   $.ajax({
-                    url:"file_delete_data.php",
-                    type:"POST",
-                    data:{type:"delete",IDtest:id,Id_New_Test:newid},
-                    success:function(datareturn){
-                        console.log(datareturn);
-                    }
-
-                });
-            }
-        }
-    </script>
+      
         <!-- สิ้นสุดสคริป -->
     </head>
     <body>
@@ -155,11 +122,16 @@ while($objResult = mysql_fetch_array($objQuery))
 <tr><td width="10%">คัวเลือกที่ 3</td><td width="100%"><input name="c3" style="width:90%;" type="text" value="<?=$objResult['c3'];?>"><br><br></td></tr>
 <tr><td width="10%">คัวเลือกที่ 4</td><td width="100%"><input name="c4" style="width:90%;" type="text" value="<?=$objResult['c4'];?>"><br><br></td></tr>
 <tr><td width="10%">เฉลย</td><td width="100%"><input name="ans" style="width:90%;" type="text" value="<?=$objResult['ans'];?>"><br><br></td></tr>
+
+ 
+
 <tr><td width="10%">ตัวชี้วัด</td><td width="100%"><input name="obj" style="width:90%;" type="text" value="<?=$objResult['obj'];?>"><br><br></td></tr>
 </table>
         <?
         }
         ?>
+       
+
 <input type="hidden" name="subject_id" value="<?= $_POST['subject_id']; ?>" />
                             <input type="hidden" name="subject" value="<?= $_POST['subject']; ?>"/>
                             <input type="hidden" name="subject_name" value="<?= $_POST['subject_name']; ?>"/>

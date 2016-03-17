@@ -178,6 +178,7 @@ function showimage($file_name_image) {
                         rmdir($dirname);
                         return true;
                     }
+    // Get ID Target Image 
   $xmlFile2 = "Docx/word/_rels/document.xml.rels";
                     $reader2 = new XMLReader;
                     $reader2->open($xmlFile2);
@@ -366,6 +367,8 @@ foreach ($arr_all as $key => $value) {
                             <input type="hidden" name="year" value="<?= $_POST['year']; ?>"/>
                             <input type="hidden" name="classroom" value="<?= $_POST['classroom']; ?>"/>
                             <input type="hidden" name="tname" value="<?= $_POST['tname']; ?>"/> 
+                            <input type="hidden" name="type" value="<?= $_POST['type']; ?>"/>
+                            <input type="hidden" name="Id_Issue" value="<?=$_POST['Id_Issue'];?>"/>
                             <input type="submit" value="กลับสู่หน้าหลัก  ( Back )  " style="border: none;background: none;color: #2371E2;cursor: pointer;"/>
 </form>
         <?
@@ -374,8 +377,9 @@ foreach ($arr_all as $key => $value) {
     }
 
     $exc1 = explode(".",$value['a']);
-    
+    //echo $exc1[0];
     if($exc1[0] != "1"){
+
         //error
         echo "กรุณาตรวจสอบตัวเลือกที่ 1 ข้อ ".($num_q).'<BR>'; // lose question.. 
         ?>
@@ -388,6 +392,8 @@ foreach ($arr_all as $key => $value) {
                             <input type="hidden" name="year" value="<?= $_POST['year']; ?>"/>
                             <input type="hidden" name="classroom" value="<?= $_POST['classroom']; ?>"/>
                             <input type="hidden" name="tname" value="<?= $_POST['tname']; ?>"/> 
+                            <input type="hidden" name="type" value="<?= $_POST['type']; ?>"/>
+                            <input type="hidden" name="Id_Issue" value="<?=$_POST['Id_Issue'];?>"/>
                             <input type="submit" value="กลับสู่หน้าหลัก  ( Back )  " style="border: none;background: none;color: #2371E2;cursor: pointer;"/>
 </form>
         <?
@@ -408,6 +414,8 @@ foreach ($arr_all as $key => $value) {
                             <input type="hidden" name="year" value="<?= $_POST['year']; ?>"/>
                             <input type="hidden" name="classroom" value="<?= $_POST['classroom']; ?>"/>
                             <input type="hidden" name="tname" value="<?= $_POST['tname']; ?>"/> 
+                            <input type="hidden" name="type" value="<?= $_POST['type']; ?>"/>
+                            <input type="hidden" name="Id_Issue" value="<?=$_POST['Id_Issue'];?>"/>
                             <input type="submit" value="กลับสู่หน้าหลัก  ( Back )  " style="border: none;background: none;color: #2371E2;cursor: pointer;"/>
 </form>
         <?
@@ -428,6 +436,8 @@ foreach ($arr_all as $key => $value) {
                             <input type="hidden" name="year" value="<?= $_POST['year']; ?>"/>
                             <input type="hidden" name="classroom" value="<?= $_POST['classroom']; ?>"/>
                             <input type="hidden" name="tname" value="<?= $_POST['tname']; ?>"/> 
+                            <input type="hidden" name="type" value="<?= $_POST['type']; ?>"/>
+                            <input type="hidden" name="Id_Issue" value="<?=$_POST['Id_Issue'];?>"/>
                             <input type="submit" value="กลับสู่หน้าหลัก  ( Back )  " style="border: none;background: none;color: #2371E2;cursor: pointer;"/>
 </form>
         <?
@@ -448,6 +458,8 @@ foreach ($arr_all as $key => $value) {
                             <input type="hidden" name="year" value="<?= $_POST['year']; ?>"/>
                             <input type="hidden" name="classroom" value="<?= $_POST['classroom']; ?>"/>
                             <input type="hidden" name="tname" value="<?= $_POST['tname']; ?>"/> 
+                            <input type="hidden" name="type" value="<?= $_POST['type']; ?>"/>
+                            <input type="hidden" name="Id_Issue" value="<?=$_POST['Id_Issue'];?>"/>
                             <input type="submit" value="กลับสู่หน้าหลัก  ( Back )  " style="border: none;background: none;color: #2371E2;cursor: pointer;"/>
 </form>
         <?

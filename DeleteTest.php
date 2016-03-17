@@ -61,7 +61,7 @@ $subone_name = "สร้างข้อสอบฉบับใหม่ (Creat
 $subtwo_name = ""; //หัวข้อย่อย
 $IDtest = $_POST["IDtest"];
 $Subject = $_POST['subject'];
-$strSQL = "DELETE FROM test ";
+$strSQL = "DELETE FROM question ";
 $strSQL .="WHERE IDtest = '$IDtest'";
 //echo $strSQL;
 $objQuery = mysql_query($strSQL);
@@ -159,7 +159,7 @@ $objQuery = mysql_query($strSQL);
                     <td><b>ภาคเรียน</b> <span class='eng'>(Semester)</span> : <?= $_POST['term']; ?></td>
                 </tr>
                 <tr>
-                    <td><b>ปีการศึกษา</b>&nbsp;<span class="eng">(Year)</span>: <?= $_POST['year']; ?></td>
+                    <td><b>ปีการศึกษา</b>&nbsp;<span class="eng">(Year)</span>: <?= $_POST['id_issue']; ?></td>
                     <td></td>
                 </tr>
             </table>  
@@ -177,7 +177,8 @@ if($objQuery)
                             <input type="hidden" name="term" value="<?= $_POST['term']; ?>"/>
                             <input type="hidden" name="year" value="<?= $_POST['year']; ?>"/>
                             <input type="hidden" name="classroom" value="<?= $_POST['classroom']; ?>"/>
-                            <input type="hidden" name="tname" value="<?= $_POST['tname']; ?>"/> 
+                            <input type="hidden" name="tname" value="<?= $_POST['tname']; ?>"/>
+                            <input type="hidden" name="Id_Issue" value="<?=$_POST['Id_Issue'];?>"/> 
                             <input type="submit" value="กลับสู่หน้าหลัก  ( Back )  " style="border: none;background: none;color: #2371E2;cursor: pointer;"/>
 </form>
   <?

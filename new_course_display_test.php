@@ -4,11 +4,12 @@ session_start();
 <?php require_once('Connections/bmks.php'); ?>
 <?php require_once('Connections/bmksl.php'); ?>
 <?
-$login_ecode = $_SESSION["login_ecode"]; // รหัสประจำตัวบุคลากร
+ $login_ecode = $_SESSION["login_ecode"]; // รหัสประจำตัวบุคลากร
 $login_type = $_SESSION["login_type"]; // 1 คือ นักเรียนหรือผู้ปกครอง , 2 คือครู , 3 คือบุคลากร , 4 คือผู้บริหาร
 $login_name = $_SESSION["login_name"]; //ชื่อ และนามสกุลผู้ที่ login
 //กันสำหรับถ้าไม่ได้ทำการ Login
 $logper_type6r = $_SESSION["logper_type6r"];
+echo $logper_type18r = $_SESSION["logper_type18r"];
 $login_ecode = $_SESSION["login_ecode"];
 
 if ($login_ecode == "") {
@@ -52,6 +53,7 @@ mysql_select_db($database_bmksl, $bmksl);
 
 //echo $totalRows_rsnews;
 ?>
+
 <!-- สิ้นสุดหัว -->
 <?php include '../mainsystem/inc_startpage.php'; ?>
 <?
@@ -79,7 +81,11 @@ $subtwo_name = ""; //หัวข้อย่อย
         <!-- เริ่มข้อความ -->
         <center>
            
-            <h2 align="right"><a href="create_new_test.php">สร้างข้อสอบฉบับใหม่</a></h2>
+            <h2 align="right">
+            
+             <? if ($_SESSION["logper_type18r"] == 2) { ?> <a href="create_new_test.php">สร้างข้อสอบฉบับใหม่</a> <? } ?>
+
+            </h2>
             <h2>โครงสร้างเนื้อหาการเรียนรู้ <span class="eng">( Content Structure )</span></h2>  
             <br/>
             <br/>

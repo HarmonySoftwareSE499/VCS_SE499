@@ -59,9 +59,10 @@ mysql_select_db($database_bmksl, $bmksl);
 <?
 $maintitile_name = "ระบบบันทึกผลการเรียน"; //ชื่อโปรแกรม และหัวเว็บ
 $subtitile_name = "Assessment Record System"; //คำอธิบายโปรแกรม
-$subone_name = "แก้ไข/ลบข้อสอบ (Edit/Delete Examination)"; //หัวข้อหลัก
+$subone_name = "แก้ไขหัวข้อสอบ (Edit Head Examination)"; //หัวข้อหลัก
 $subtwo_name = ""; //หัวข้อย่อย
 ?>
+<!DOCTYPE html>
 <html xmlns="http://www.w3.org/1999/xhtml"
       xmlns:og="http://ogp.me/ns#"
       xmlns:fb="http://www.facebook.com/2008/fbml">
@@ -70,7 +71,7 @@ $subtwo_name = ""; //หัวข้อย่อย
         <title><?= $maintitile_name; ?> - โรงเรียนวารีเชียงใหม่</title>
         <?php include '../mainsystem/inc_script.php'; ?>
         <!-- เปิดสคริป -->
-     
+      
         <!-- สิ้นสุดสคริป -->
     </head>
     <body>
@@ -79,52 +80,49 @@ $subtwo_name = ""; //หัวข้อย่อย
         <?php include '../mainsystem/inc_befordata.php'; ?>
         <!-- เริ่มข้อความ -->
         <center>
-        <table align="center" id="head_table" style=" background: #eeeeee;padding: 15px;"> 
-            <tr>
-                <td><b>รหัสวิชา</b>
-                    <span class="eng">(Code)</span>
-                    &nbsp;:<?= $_POST['subject']; ?></td>
-                <td>
-                    <b>รายวิชา</b> <span class="eng">(Subject)</span> &nbsp;: <?= $_POST['subject_name']; ?>
-                </td>
-            </tr>
-            <tr>
-                <td><b>ประเภทวิชา</b> <span class='eng'>(Subject type)</span>&nbsp;: <?= $_SESSION['tnameCourse']; ?> 
-                </td>
-                <td><b>หน่วยกิต</b> <span class="eng">(Credit)</span>&nbsp;: <?= $_POST['unit'] ?></td>
-            </tr>
-            <tr>
-                <td><b>ภาคเรียน</b> <span class='eng'>(Semester)</span> : <?= $_POST['term']; ?></td>
-            </tr>
-            <tr>
-                <td><b>ปีการศึกษา</b>&nbsp;<span class="eng">(Year)</span>: <?= $_POST['year']; ?></td>
-                <td></td>
-            </tr>
-        </table> 
+       
 <?
- $text1 = $_POST['text1'];
- $c1 = $_POST['c1'];
- $c2 = $_POST['c2'];
-$c3 = $_POST['c3'];
-$c4 = $_POST['c4'];
-$ans = $_POST['ans'];
-$obj = $_POST['obj'];
-  $IDtest = $_POST['IDtest'];
-mysql_query("Set names 'utf8'");
-$strSQL = "UPDATE question SET ";
-$strSQL .="text1 = '".$_POST["text1"]."' ";
-$strSQL .=",c1 = '".$_POST["c1"]."' ";
-$strSQL .=",c2 = '".$_POST["c2"]."' ";
-$strSQL .=",c3 = '".$_POST["c3"]."' ";
-$strSQL .=",c4 = '".$_POST["c4"]."' ";
-$strSQL .=",ans = '".$_POST["ans"]."' ";
-$strSQL .=",obj = '".$_POST["obj"]."' ";
-$strSQL .="WHERE IDtest = '".$_POST["IDtest"]."' ";
-$objQuery = mysql_query($strSQL);
-//echo  $strSQL;
+$Id_New_Test = $_GET['Id_New_Test'];
+ $sql = "SELECT * FROM new_test where Id_New_Test = $Id_New_Test";
+$objQuery = mysql_query($sql);
 ?>
-<p><font color="RED">ทำการแก้ไขเรียบร้อยแล้ว</font></p>
-<form align="center" action="Edit_Delete_AllTest.php" method="POST" style="padding-top: 15px;">
+<?
+while($objResult = mysql_fetch_array($objQuery))
+  
+{ $chk_que1 =  explode("/9j/", $objResult["text1"]);
+
+?>
+<br>
+<form action="Edit_Save_Head_Test.php" method="POST">
+<table>
+<tr><td width="30%">ปีการศึกษา</td><td width="100%"><input name="year" size="5" style="width:90%;" type="text" value="<?=$objResult['year'];?>"><br><br></td></tr>
+<tr><td width="30%">ชนิดการสอบ</td><td width="100%"><input name="type" style="width:90%;" type="text" value="<?=$objResult['type'];?>"><br><br></td></tr>
+<tr><td width="30%">ภาคเรียน</td><td width="100%"><input name="term" style="width:90%;" type="text" value="<?=$objResult['term'];?>"><br><br></td></tr>
+<tr><td width="30%">รหัสวิชา</td><td width="100%"><input name="Subject" style="width:90%;" type="text" value="<?=$objResult['Subject'];?>"><br><br></td></tr>
+<tr><td width="30%">ชื่อวิชา</td><td width="100%"><input name="subjectname" style="width:90%;" type="text" value="<?=$objResult['subjectname'];?>"><br><br></td></tr>
+<tr><td width="30%">ระดับชั้น</td><td width="100%"><input name="level" style="width:90%;" type="text" value="<?=$objResult['level'];?>"><br><br></td></tr>
+<tr><td width="30%">จำนวนข้อ</td><td width="100%"><input name="point" style="width:90%;" type="text" value="<?=$objResult['point'];?>"><br><br></td></tr>
+<tr><td width="30%">จำนวนข้อสอบที่ครูสามารถออกได้(%)</td><td width="100%"><input name="trpoint" style="width:90%;" type="text" value="<?=$objResult['trpoint'];?>"><br><br></td></tr>
+
+<tr><td width="30%">คะแนน</td><td width="100%"><input name="score" style="width:90%;" type="text" value="<?=$objResult['score'];?>"><br><br></td></tr>
+<tr><td width="30%">เวลาสอบ </td><td width="100%"><input name="time" style="width:90%;" type="text" value="<?=$objResult['time'];?>"><br><br></td></tr>
+
+ 
+
+</table>
+        <?
+        }
+        ?>
+       
+
+<input type="hidden" name="subject_id" value="<?= $_POST['subject_id']; ?>" />
+       <input type="hidden" name="Id_New_Test" value="<?=$_GET['Id_New_Test']; ?>"/>                     
+    <input type="submit" value="บันทึก">
+   
+</form>
+      
+
+<form align="center" action="create_new_test.php" method="POST" style="padding-top: 15px;">
                             <input type="hidden" name="subject_id" value="<?= $_POST['subject_id']; ?>" />
                             <input type="hidden" name="subject" value="<?= $_POST['subject']; ?>"/>
                             <input type="hidden" name="subject_name" value="<?= $_POST['subject_name']; ?>"/>
@@ -132,7 +130,7 @@ $objQuery = mysql_query($strSQL);
                             <input type="hidden" name="term" value="<?= $_POST['term']; ?>"/>
                             <input type="hidden" name="year" value="<?= $_POST['year']; ?>"/>
                             <input type="hidden" name="classroom" value="<?= $_POST['classroom']; ?>"/>
-                            <input type="hidden" name="tname" value="<?= $_POST['tname']; ?>"/>
-                            <input type="hidden" name="Id_Issue" value="<?=$_POST['Id_Issue'];?>"/>  
-                            <input type="submit" value="กลับสู่หน้าหลัก  ( Back )  " style="border: none;background: none;color: #2371E2;cursor: pointer;"/>
+                            <input type="hidden" name="tname" value="<?= $_POST['tname']; ?>"/> 
+                            <input type="hidden" name="Id_Issue" value="<?=$_POST['Id_Issue'];?>"/> 
+                            <input type="submit" value="ยกเลิก" />
 </form>

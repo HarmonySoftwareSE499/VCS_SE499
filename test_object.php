@@ -211,7 +211,7 @@ $subtwo_name = ""; //หัวข้อย่อย
     function chkNumber(ele)
     {
     var vchar = String.fromCharCode(event.keyCode);
-    if ((vchar<'0' || vchar>'9') && (vchar != ',')) return false;
+    if ((vchar<'0' || vchar>'9') && (vchar != ',') && (vchar != '-')) return false;
     ele.onKeyPress=vchar;
     }
 </script>

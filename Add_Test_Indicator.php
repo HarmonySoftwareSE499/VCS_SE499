@@ -121,35 +121,69 @@ if (isset($_POST['btn-upload'])) {
     //mysql_query($sql);
 
         if($a1 != ""){
-    $tags = explode(',',$a1);
-//echo "string";
-foreach($tags as $key) {    
-    //echo $key."<br/>"; 
-        $sql1 = "SELECT question.obj
+         $chk_1 = strpos($a1,'-');
+           if ($chk_1 > 0) {
+              $tags = explode("-", $a1);
+              //print_r($tags);
+             $countlast = count($tags)-1;
+              $tags[$countlast];
+              //echo $tags[0];
+              //echo $tags[1];
+              //echo $tags[2];
+               $chkcount = count($tags);
+if ($chkcount = 3) {
+    # code...
+}
+if ($chkcount = 4) {
+    $chkc1 = $tags[1];
+    $chkc1 = explode(",", $chkc1);
+    $block = $chkc1[1]-$chkc1[0]-1;
+    $block = $block+$chkc1[0];
+
+    $chkc2 = $tags[2];
+    $chkc2 = explode(",", $chkc2);
+    //print_r($chkc2);
+    $block2 = $chkc2[1]-$chkc2[0]-1;
+     $block2 = $block2+$chkc2[0];
+   //echo $chkc1 = $tags[2];
+}
+              for ($i=$tags[0]; $i <= $tags[$countlast]; $i++) { 
+                  //echo $i;
+             if ($i != $block && $i != $block2) {
+                    $sql1 = "SELECT question.obj
                     FROM question
                     INNER JOIN issue_question
-                    ON question.Id_Issue=issue_question.Id_Issue where `num` = $key";
-        //$sql1 = "where `num` = $key";
-        //echo $sql1;
-        $objQuery = mysql_query($sql1);
+                    ON question.Id_Issue=issue_question.Id_Issue where `num` = $i";
+                    //$sql1 = "where `num` = $key";
+                    //echo $sql1.'<BR>'; 
+                    $objQuery = mysql_query($sql1);
        while($objResult = mysql_fetch_array($objQuery))
 {
     $obj1 = $objResult['obj'];
 }
 if(empty($obj1)){
-      	 $sql = "UPDATE  `evaulation`.`question` SET  `obj` =  '$Indicator' WHERE  `num` = $key ";
+         $sql = "UPDATE  `evaulation`.`question` SET  `obj` =  '$Indicator' WHERE  `num` = $i ";
         }
         if(!empty($obj1)){
            $strobj = $obj1.",".$Indicator ;
            $a = implode(',',array_unique(explode(',', $strobj)));
            //echo $a;
-         $sql = "UPDATE  `evaulation`.`question` SET  `obj` =  '$a'  WHERE `num` = $key ";
+         $sql = "UPDATE  `evaulation`.`question` SET  `obj` =  '$a'  WHERE `num` = $i ";
         }
 //echo $sql."<BR>";
     mysql_query($sql);
+             }
+   // $tags = explode(',',$a1);
+
    
- }
+    //echo $key."<br/>"; 
+       
+       
+   
+ 
 }
+ }
+ }    
 }
 ?>
 <br>

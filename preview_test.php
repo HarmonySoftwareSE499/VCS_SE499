@@ -57,6 +57,118 @@ $subtwo_name = ""; //หัวข้อย่อย
         <title><?= $maintitile_name; ?> - โรงเรียนวารีเชียงใหม่</title>
         <?php include '../mainsystem/inc_script.php'; ?>
         <!-- เปิดสคริป -->
+<script type="text/javascript">
+        $('#myModal').on('shown.bs.modal', function () {
+        $('#myInput').focus()
+})
+
+        function ch_box(id,newid,newsubject,newterm){
+            //console.log(id);
+           // console.log(newid);
+       
+            if(document.getElementById('ch_'+id).checked==true){
+                document.getElementById("tab_data_"+id).style.backgroundColor = "#FFCC66";
+               
+                //send data in databse 
+                $.ajax({
+                    url:"file_insert_data_ex.php",
+                    type:"POST",
+                    data:{type:"insert",IDtest:id,Id_Issue:newid,subject:newsubject,term:newterm},
+                    success:function(datareturn){
+                        console.log(datareturn);
+                         $('#use_point').html(datareturn);
+                          var use_point = parseFloat(($('#use_point').html()).replace( /[^\d\.]*/g, ''));// เรียกจำนวนข้อสอบที่เลือก
+                            console.log("---------"+use_point);
+                           
+                            var text_get_id = $('#idGetTestBuffer').val(); //text get id
+                            console.log(text_get_id);
+                            var substr_get_id =  text_get_id.split('####'); //ตัด string ด้วย #### 
+                            if(use_point==0){ //ถ้า จำนวนที่เลือกเท่ากับ 0
+                              for(var x = 0; x <= substr_get_id.length;x++){
+                                if(document.getElementById('ch_'+substr_get_id[x])){ //ตรวจสอบหาว่า id นี้มีไหม
+                                  if(document.getElementById('ch_'+substr_get_id[x]).checked!=true){  //ไม่มีการเลือกไว้  ให้ทำการ disbled
+                                    document.getElementById('ch_'+substr_get_id[x]).disabled = true;  
+                                  }
+                                }
+                              }
+                            }else{
+                              for(var x = 0; x <= substr_get_id.length;x++){
+                                if(document.getElementById('ch_'+substr_get_id[x])){  //ตรวจสอบหาว่า id นี้มีไหม
+                                  document.getElementById('ch_'+substr_get_id[x]).disabled =false;  //หากจำนวนที่เลือกได้ไม่เท่ากับ 0 ก็เปิดให้เลือกใหม่ได้ อีก
+                                }
+                              }
+                            }
+           
+                    }
+
+                });
+            }else{
+                document.getElementById("tab_data_"+id).style.backgroundColor = "white";
+                   $.ajax({
+                    url:"file_delete_data_ex.php",
+                    type:"POST",
+                    data:{type:"delete",IDtest:id,Id_Issue:newid,subject:newsubject,term:newterm},
+                    success:function(datareturn){
+                        console.log(datareturn);
+                       $('#use_point').html(datareturn);
+                        var use_point = parseFloat(($('#use_point').html()).replace( /[^\d\.]*/g, ''));// เรียกจำนวนข้อสอบที่เลือก
+                      console.log("---------"+use_point);
+                     
+                      var text_get_id = $('#idGetTestBuffer').val(); //text get id
+                      console.log(text_get_id);
+                      var substr_get_id =  text_get_id.split('####'); //ตัด string ด้วย #### 
+                      if(use_point==0){ //ถ้า จำนวนที่เลือกเท่ากับ 0
+                        for(var x = 0; x <= substr_get_id.length;x++){
+                          if(document.getElementById('ch_'+substr_get_id[x])){ //ตรวจสอบหาว่า id นี้มีไหม
+                            if(document.getElementById('ch_'+substr_get_id[x]).checked!=true){  //ไม่มีการเลือกไว้  ให้ทำการ disbled
+                              document.getElementById('ch_'+substr_get_id[x]).disabled = true;  
+                            }
+                          }
+                        }
+                      }else{
+                        for(var x = 0; x <= substr_get_id.length;x++){
+                          if(document.getElementById('ch_'+substr_get_id[x])){  //ตรวจสอบหาว่า id นี้มีไหม
+                            document.getElementById('ch_'+substr_get_id[x]).disabled =false;  //หากจำนวนที่เลือกได้ไม่เท่ากับ 0 ก็เปิดให้เลือกใหม่ได้ อีก
+                          }
+                        }
+                      }
+                       
+                    }
+
+                });
+            } 
+           
+        }
+     
+    
+    //function call disbled ..........
+    function disbleCheckbox(){
+       
+      var use_point = parseFloat(($('#use_point').html()).replace( /[^\d\.]*/g, ''));// เรียกจำนวนข้อสอบที่เลือก
+      console.log("---------"+use_point);
+     
+      var text_get_id = $('#idGetTestBuffer').val(); //text get id
+      console.log(text_get_id);
+      var substr_get_id =  text_get_id.split('####'); //ตัด string ด้วย #### 
+      if(use_point==0){ //ถ้า จำนวนที่เลือกเท่ากับ 0
+        for(var x = 0; x <= substr_get_id.length;x++){
+          if(document.getElementById('ch_'+substr_get_id[x])){ //ตรวจสอบหาว่า id นี้มีไหม
+            if(document.getElementById('ch_'+substr_get_id[x]).checked!=true){  //ไม่มีการเลือกไว้  ให้ทำการ disbled
+              document.getElementById('ch_'+substr_get_id[x]).disabled = true;  
+            }
+          }
+        }
+      }else{
+        for(var x = 0; x <= substr_get_id.length;x++){
+          if(document.getElementById('ch_'+substr_get_id[x])){  //ตรวจสอบหาว่า id นี้มีไหม
+            document.getElementById('ch_'+substr_get_id[x]).disabled =false;  //หากจำนวนที่เลือกได้ไม่เท่ากับ 0 ก็เปิดให้เลือกใหม่ได้ อีก
+          }
+        }
+      }
+    }
+    
+    </script>
+
         <script type="text/javascript" src="cssAutocomplete/jquery-1.9.0.js"></script>
         <style type="text/css">
             .paddingLeft{
@@ -69,8 +181,8 @@ $subtwo_name = ""; //หัวข้อย่อย
             }
         </style>
         <script src="cssAutocomplete/jquery-ui.js" ></script> 
-    </head>
-    <body>
+    </head> 
+    <body onload='disbleCheckbox();'>
  <?php include '../mainsystem/inc_head.php'; ?>
         <?php include '../mainsystem/inc_menu_point.php'; ?>
         <?php include '../mainsystem/inc_befordata.php'; ?>
@@ -128,7 +240,6 @@ $objQuery = mysql_query($strSQL) or die ("Error Query [".$strSQL."]");
 
 
 $Num_Rows = mysql_num_rows($objQuery);
-
 $Per_Page = 5;   // Per Page
 
 $Page = $_GET["Page"];
@@ -155,8 +266,16 @@ else
   $Num_Pages = (int)$Num_Pages;
 }
 
-$strSQL .=" order  by IDtest asc ";
+$strSQL .=" order  by IDtest ASC LIMIT $Page_Start , $Per_Page";
 $objQuery  = mysql_query($strSQL);
+
+?>
+<?
+$sql = "SELECT * from new_test WHERE Subject = '".$_POST['subject']."' AND term = '".$_POST['term']."'";
+ $mysql1 = mysql_query($sql);
+    $count_Ex_Result = mysql_fetch_array($mysql1);
+   //$obj_re = mysql_fetch_array($objQuery);
+//echo $obj_re['IDtest'];  
 ?>
 
 
@@ -182,14 +301,34 @@ $objQuery  = mysql_query($strSQL);
         <th>คำถาม&ตัวเลือก</th>
         <th>คำตอบ</th>
         <th>ตัวชี้วัด</th>
-        
+        <th>เลือก</th>
     </tr>
-
+<h1 style="font-size:27px;" id="use_point" name="use_point" align="right">ข้อสอบที่สามารถเลือกได้ <?=$count_Ex_Result['use_point'];?> ข้อ </h1>
+ 
 <?
+
+$subject = $_POST['subject'];
+$sql_id_new = "SELECT * FROM new_test where Subject = '".$_POST['subject']."'";
+$sql_id_new_re = mysql_query($sql_id_new);
+$select_idnew = mysql_fetch_array($sql_id_new_re);
+$select_idnew['Id_New_Test'];
 $i = 1;
+$text_get_ID = ''; //เก็บ Id ข้อ ไว้
 while($objResult = mysql_fetch_array($objQuery))
 {
      $chk_que1 =  explode("/9j/", $objResult["text1"]);
+
+
+      //check 
+  $sql_ch_test = "select * from evaulation.reference_test where ";
+  $sql_ch_test .=" evaulation.reference_test.Id_New_Test = '".$select_idnew['Id_New_Test']."'";
+  $sql_ch_test .=" and evaulation.reference_test.IDtest ='".$objResult['IDtest']."'";
+  $query_ch_test = mysql_query($sql_ch_test) or die(mysql_error());
+  $ch_test = false;
+  if(mysql_num_rows($query_ch_test)<>0){
+    $ch_test = true;
+
+  }
 ?>
 <?  
 
@@ -198,13 +337,15 @@ while($objResult = mysql_fetch_array($objQuery))
     // $chk_que1[0];
     //echo $chk_que1[1];
     //echo $chk_que1[2];
+//echo $objResult["IDtest"];
+$text_get_ID .=$objResult["IDtest"]."####";  //ต่อ string  id test ไว้
 ?>
-    <tr id='tab_data_<?=$objResult["IDtest"]?>'>
+    <tr  id='tab_data_<?=$objResult["IDtest"]?>'>
       
         <td width="10%" align="center"><?= $_POST['term']; ?></td>
         <td width="10%" align="center"><?= $objResult["num"] ?></td>
         <td ><?
-        $i++;
+        
                             if (strlen($objResult["text1"]) > 5000 ) {
                             
                              ?><? echo $i.".".$chk_que1[0];?><br><img style="width:100px; float:none;" src="data:image/jpg;base64,/9j/<?=$chk_que1[1].$chk_que1[2]?>"><BR><?
@@ -233,15 +374,42 @@ while($objResult = mysql_fetch_array($objQuery))
                         }
                             echo "คำตอบที่ถูกต้อง"."\t".$objResult["ans"]."<BR>";
                             echo "ตัวชี้วัด"."\t".$objResult["obj"];
+                            $i++;
                             ?></td>
  
         <td align="center"><? echo $objResult["ans"];?></td>
         <td align="center"><? echo $objResult["obj"];?></td>
+        <td align="center">
+
+         <input 
+        <?php
+        if($ch_test){
+          echo "checked='true'";
+       
+        }
+        ?>
+        onclick="ch_box('<?=$objResult["IDtest"]?>','<?=$_GET['Id_New_Test']?>','<?=$_POST['subject'];?>','<?=$_POST['term'];?>')" id ='ch_<?=$objResult["IDtest"]?>' type="checkbox" name="MemberID[]" value="<?php echo $objResult["IDtest"];?>">เลือก<br>
+        
+
+        </td>
         </tr>
+        <?
+ if($ch_test){
+  ?>
+  <script type="text/javascript">
+      document.getElementById("tab_data_"+<?=$objResult["IDtest"]?>).style.backgroundColor = "#FFCC66";
+  </script>
+  <?
+ }
+        ?>
         <?php
  }
  ?>
 </table>
+<input type='hidden' id='idGetTestBuffer' value='<?=$text_get_ID?>'/> <!-- เก็บค่า ID text เป็น Stirng  -->
+
+ 
+ 
 <form align="center" action="new_course_display_detail_test.php" method="POST" style="padding-top: 15px;">
                                     <input type="hidden" name="subject_id" value="<?= $_POST['subject_id'] ?>" />
                                     <input type="hidden" name="subject" value="<?= $_POST['subject']; ?>"/>
@@ -257,3 +425,29 @@ while($objResult = mysql_fetch_array($objQuery))
 
 
 </div>
+<br>
+Total <?php echo $Num_Rows;?> Record : <?php echo $Num_Pages;?> Page :
+<?php
+if($Prev_Page)
+{
+  echo " <a href='$_SERVER[SCRIPT_NAME]?Page=$Prev_Page'><< Back</a> ";
+}
+
+for($i=1; $i<=$Num_Pages; $i++){
+  if($i != $Page)
+  {
+    echo "[ <a href='$_SERVER[SCRIPT_NAME]?Page=$i'>$i</a> ]";
+  }
+  else
+  {
+    echo "<b> $i </b>";
+  }
+}
+if($Page!=$Num_Pages)
+{
+  echo " <a href ='$_SERVER[SCRIPT_NAME]?Page=$Next_Page'>Next>></a> ";
+}
+mysql_close($objConnect);
+?>
+</body>
+</html>

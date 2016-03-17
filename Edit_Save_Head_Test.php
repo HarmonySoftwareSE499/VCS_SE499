@@ -79,52 +79,34 @@ $subtwo_name = ""; //หัวข้อย่อย
         <?php include '../mainsystem/inc_befordata.php'; ?>
         <!-- เริ่มข้อความ -->
         <center>
-        <table align="center" id="head_table" style=" background: #eeeeee;padding: 15px;"> 
-            <tr>
-                <td><b>รหัสวิชา</b>
-                    <span class="eng">(Code)</span>
-                    &nbsp;:<?= $_POST['subject']; ?></td>
-                <td>
-                    <b>รายวิชา</b> <span class="eng">(Subject)</span> &nbsp;: <?= $_POST['subject_name']; ?>
-                </td>
-            </tr>
-            <tr>
-                <td><b>ประเภทวิชา</b> <span class='eng'>(Subject type)</span>&nbsp;: <?= $_SESSION['tnameCourse']; ?> 
-                </td>
-                <td><b>หน่วยกิต</b> <span class="eng">(Credit)</span>&nbsp;: <?= $_POST['unit'] ?></td>
-            </tr>
-            <tr>
-                <td><b>ภาคเรียน</b> <span class='eng'>(Semester)</span> : <?= $_POST['term']; ?></td>
-            </tr>
-            <tr>
-                <td><b>ปีการศึกษา</b>&nbsp;<span class="eng">(Year)</span>: <?= $_POST['year']; ?></td>
-                <td></td>
-            </tr>
-        </table> 
+ 
 <?
- $text1 = $_POST['text1'];
- $c1 = $_POST['c1'];
- $c2 = $_POST['c2'];
-$c3 = $_POST['c3'];
-$c4 = $_POST['c4'];
-$ans = $_POST['ans'];
-$obj = $_POST['obj'];
-  $IDtest = $_POST['IDtest'];
+$year = $_POST['year'];
+$type = $_POST['type'];
+$term = $_POST['term'];
+$Subject = $_POST['Subject'];
+$level = $_POST['level'];
+$score = $_POST['score'];
+$time = $_POST['time'];
+$point = $_POST['point'];
+$trpoint = $_POST['trpoint'];
 mysql_query("Set names 'utf8'");
-$strSQL = "UPDATE question SET ";
-$strSQL .="text1 = '".$_POST["text1"]."' ";
-$strSQL .=",c1 = '".$_POST["c1"]."' ";
-$strSQL .=",c2 = '".$_POST["c2"]."' ";
-$strSQL .=",c3 = '".$_POST["c3"]."' ";
-$strSQL .=",c4 = '".$_POST["c4"]."' ";
-$strSQL .=",ans = '".$_POST["ans"]."' ";
-$strSQL .=",obj = '".$_POST["obj"]."' ";
-$strSQL .="WHERE IDtest = '".$_POST["IDtest"]."' ";
+$strSQL = "UPDATE new_test SET ";
+$strSQL .="year = '".$_POST["year"]."' ";
+$strSQL .=",type = '".$_POST["type"]."' ";
+$strSQL .=",term = '".$_POST["term"]."' ";
+$strSQL .=",Subject = '".$_POST["Subject"]."' ";
+$strSQL .=",level = '".$_POST["level"]."' ";
+$strSQL .=",point = '".$_POST["point"]."' ";
+$strSQL .=",trpoint = '".$_POST["trpoint"]."' ";
+$strSQL .=",score = '".$_POST["score"]."' ";
+$strSQL .=",time = '".$_POST["time"]."' ";
+$strSQL .="WHERE Id_New_Test = '".$_POST["Id_New_Test"]."' ";
 $objQuery = mysql_query($strSQL);
-//echo  $strSQL;
+echo  $strSQL;
 ?>
 <p><font color="RED">ทำการแก้ไขเรียบร้อยแล้ว</font></p>
-<form align="center" action="Edit_Delete_AllTest.php" method="POST" style="padding-top: 15px;">
+<form align="center" action="create_new_test.php" method="POST" style="padding-top: 15px;">
                             <input type="hidden" name="subject_id" value="<?= $_POST['subject_id']; ?>" />
                             <input type="hidden" name="subject" value="<?= $_POST['subject']; ?>"/>
                             <input type="hidden" name="subject_name" value="<?= $_POST['subject_name']; ?>"/>

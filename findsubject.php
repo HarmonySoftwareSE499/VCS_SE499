@@ -23,8 +23,8 @@ if ($login_ecode == "") {
     }
 }
 
-$terms = $_POST['terms'];
-$years = $_POST['years'];
+echo $terms = $_POST['terms'];
+echo $years = $_POST['years'];
 //echo $terms;
  $strSQL ="SELECT * from subject where myear = '$years' and term = '$terms' ";
  $objQuery  = mysql_query($strSQL);

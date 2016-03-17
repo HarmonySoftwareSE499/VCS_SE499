@@ -76,18 +76,21 @@ $subtwo_name = ""; //หัวข้อย่อย
         $('#myInput').focus()
 })
 
-        function ch_box(id,newid){
+        function ch_box(id,newid,newsubject,newterm){
             //console.log(id);
            // console.log(newid);
             if(document.getElementById('ch_'+id).checked==true){
                 document.getElementById("tab_data_"+id).style.backgroundColor = "#99FFCC";
+               
                 //send data in databse 
                 $.ajax({
                     url:"file_insert_data.php",
                     type:"POST",
-                    data:{type:"insert",IDtest:id,Id_New_Test:newid},
+                    data:{type:"insert",IDtest:id,Id_New_Test:newid,subject:newsubject,term:newterm},
                     success:function(datareturn){
                         console.log(datareturn);
+                         $('#use_point').html(datareturn);
+                         //$('#show_cuse_'+id).html(datareturn);
                     }
 
                 });
@@ -96,15 +99,19 @@ $subtwo_name = ""; //หัวข้อย่อย
                    $.ajax({
                     url:"file_delete_data.php",
                     type:"POST",
-                    data:{type:"delete",IDtest:id,Id_New_Test:newid},
+                    data:{type:"delete",IDtest:id,Id_New_Test:newid,subject:newsubject,term:newterm},
                     success:function(datareturn){
                         console.log(datareturn);
+                       $('#use_point').html(datareturn);
+                       //$('#show_cuse_'+id).html(datareturn);
                     }
 
                 });
             }
         }
     </script>
+
+
         <!-- สิ้นสุดสคริป -->
     </head>
     <body>
@@ -115,26 +122,24 @@ $subtwo_name = ""; //หัวข้อย่อย
         <center>
         
          <h2>เลือกข้อสอบ <span class="eng">( Choose Test )</span></h2>
+
          <div class="panel-body">
-     <form name="frmSearch" method="post" action="choose_test.php?Id_New_Test=<?=$_GET['Id_New_Test']?>">
+         <?
+$subject = $_GET['Subject'];
+         ?>
+     <form name="frmSearch" method="post" action="choose_test.php?Id_New_Test=<?=$_GET['Id_New_Test'];?>&Subject=<? echo $subject; ?>">
   <table width="599" border="0">
     <tr>
       <th>Select 
         <select name="ddlSelect" id="ddlSelect">
           <option>- Select -</option>
-          <option value="year" <?if($_POST["ddlSelect"]=="year"){echo"selected";}?>>ปีการศึกษา</option>
+          <option value="yeardb" <?if($_POST["ddlSelect"]=="yeardb"){echo"selected";}?>>ปีการศึกษา</option>
           <option value="obj" <?if($_POST["ddlSelect"]=="obj"){echo"selected";}?>>ตัวชี้วัด</option>
           <option value="Discrimination" <?if($_POST["ddlSelect"]=="Discrimination"){echo"selected";}?>>คุณภาพข้อสอบ</option>
         </select>
         Keyword
-        <input name="txtKeyword" type="text" id="txtKeyword" value="<?=$_POST["txtKeyword"];?>">
- <input type="hidden" name="subject" value="<?= $_POST['subject']; ?>"/>
-                                    <input type="hidden" name="subject_name" value="<?= $_POST['subject_name']; ?>"/>
-                                    <input type="hidden" name="unit" value="<?= $_POST['unit']; ?>"/>
-                                    <input type="hidden" name="term" value="<?= $_POST['term']; ?>"/>
-                                    <input type="hidden" name="year" value="<?= $_POST['year']; ?>"/>
-                                    <input type="hidden" name="classroom" value="<?= $_POST['classroom']; ?>"/>
-                                    <input type="hidden" name="tname" value="<?= $_POST['tname']; ?>"/> 
+                                    <input name="txtKeyword" type="text" id="txtKeyword" value="<?=$_POST["txtKeyword"];?>">
+                                  
       <input type="submit" value="Search"></th>
     </tr>
   </table>
@@ -146,16 +151,30 @@ $subtwo_name = ""; //หัวข้อย่อย
 </div>
 </div><!--View_Test.php?Id_New_Test=<?=$_GET['Id_New_Test']?>-->
 </div>
+ <table align="center" id="head_table" style=" background: #eeeeee;padding: 15px;"> 
+                <tr>
+                    <td><b>รหัสวิชา</b>
+                        <span class="eng">(Code)</span>
+                        &nbsp;:<?= $_GET['Subject']; ?></td>
+                    <td>
+                        <b>รายวิชา</b> <span class="eng">(Subject)</span> &nbsp;: <?= $_GET['subjectname']; ?>
+                    </td>
+                    <td>
+                        <b>ภาคเรียนที่</b> <span class="eng">(term)</span> &nbsp;: <?= $_GET['term']; ?>
+                    </td>
+                </tr>
+               
+            </table>   
 <?
 mysql_query("Set names 'utf8'");
 
- $subject = $_GET['Subject'];
+
  $strSQL = "SELECT * FROM question INNER JOIN Examination ON question.IDtest=Examination.IDtest
             INNER JOIN issue_question ON issue_question.id_Issue=question.id_Issue
             WHERE issue_question.id_course  = '$subject' ";
     if($_POST["ddlSelect"] != "" and  $_POST["txtKeyword"]  != '')
     {
-      $strSQL .= " WHERE (".$_POST["ddlSelect"]." LIKE '%".$_POST["txtKeyword"]."%' ) ";
+      $strSQL .= " AND (".$_POST["ddlSelect"]." LIKE '%".$_POST["txtKeyword"]."%' ) ";
     }   
 
 
@@ -168,11 +187,35 @@ $objQuery = mysql_query($strSQL) or die ("Error Query [".$strSQL."]");
 
 
 $Num_Rows = mysql_num_rows($objQuery);
+$Per_Page = 5;   // Per Page
 
+$Page = $_GET["Page"];
+if(!$_GET["Page"])
+{
+  $Page=1;
+}
 
+$Prev_Page = $Page-1;
+$Next_Page = $Page+1;
 
-//echo $strSQL .=" order  by IDtest DESC ";
+$Page_Start = (($Per_Page*$Page)-$Per_Page);
+if($Num_Rows<=$Per_Page)
+{
+  $Num_Pages =1;
+}
+else if(($Num_Rows % $Per_Page)==0)
+{
+  $Num_Pages =($Num_Rows/$Per_Page) ;
+}
+else
+{
+  $Num_Pages =($Num_Rows/$Per_Page)+1;
+  $Num_Pages = (int)$Num_Pages;
+}
+
+$strSQL .=" order  by Examination.IDtest ASC LIMIT $Page_Start , $Per_Page";
 $objQuery  = mysql_query($strSQL);
+
 ?>
 <form align="center" action="create_new_test.php" method="POST" style="padding-top: 15px;">
                             <input type="hidden" name="subject_id" value="<?= $_POST['subject_id'] ?>" />
@@ -190,17 +233,28 @@ $objQuery  = mysql_query($strSQL);
 <div>
 <table width="100%" border="1">
    <tr>
-        <th width="10%">รหัสวิชา</th>
+        
         <th width="15%">ปีการศึกษา</th>
         <th>คำถาม&ตัวเลือก</th>
         <th>คุณภาพข้อสอบ</th>
+        <th>จำนวนครั้งที่เคยเลือก</th>
         <th>เลือก</th>
     </tr>
+    <?
+ $sql = "SELECT * from new_test WHERE Subject = '".$_GET['Subject']."' AND term = '".$_GET['term']."'";
+ $mysql1 = mysql_query($sql);
+    $count_Ex_Result = mysql_fetch_array($mysql1);
+   //$obj_re = mysql_fetch_array($objQuery);
+//echo $obj_re['IDtest'];  
+?>
+    <h1 style="font-size:27px;" id="use_point" name="use_point" align="right">ข้อสอบที่สามารถเลือกได้ <?=$count_Ex_Result['point'];?> ข้อ </h1>
+
 <?
 $i=0;
 while($objResult = mysql_fetch_array($objQuery))
   
 {
+
   $chk_que1 =  explode("/9j/", $objResult["text1"]);
   //check 
   $sql_ch_test = "select * from evaulation.reference_test where ";
@@ -215,7 +269,7 @@ while($objResult = mysql_fetch_array($objQuery))
 
 ?>
     <tr  id='tab_data_<?=$objResult["IDtest"]?>'>
-        <td align="center"><?php echo $objResult['id_course'] ;?></td>
+        
         <td align="center"><? echo $objResult['yeardb'];?></td>
         <td ><?
         $i++;
@@ -250,11 +304,10 @@ while($objResult = mysql_fetch_array($objQuery))
                             ?></td>
 
         <td align="center"><? echo $objResult['Discrimination'];?></td>
+        <td align="center">  
+        <p id="show_cuse_<?=$objResult["IDtest"]?>" name="show_cuse"><?echo $objResult['C_use'];?></p>
+        </td>
         <td align="center">
-        <?php
-
-
-        ?>
         <input 
         <?php
         if($ch_test){
@@ -262,7 +315,8 @@ while($objResult = mysql_fetch_array($objQuery))
 
         }
         ?>
-        onclick="ch_box('<?=$objResult["IDtest"]?>','<?=$_GET['Id_New_Test']?>')" id ='ch_<?=$objResult["IDtest"]?>' type="checkbox" name="MemberID[]" value="<?php echo $objResult["IDtest"];?>">เลือก<br></td>
+        onclick="ch_box('<?=$objResult["IDtest"]?>','<?=$_GET['Id_New_Test']?>','<?=$_GET['Subject'];?>','<?=$_GET['term'];?>')" id ='ch_<?=$objResult["IDtest"]?>' type="checkbox" name="MemberID[]" value="<?php echo $objResult["IDtest"];?>">เลือก<br>
+        </td>
         </tr>
         <?
  if($ch_test){
@@ -291,3 +345,29 @@ while($objResult = mysql_fetch_array($objQuery))
                             <input type="submit" value="กลับสู่หน้าหลัก  ( Back )  " style="border: none;background: none;color: #2371E2;cursor: pointer;"/>
 </form>
 </div>
+<br>
+Total <?php echo $Num_Rows;?> Record : <?php echo $Num_Pages;?> Page :
+<?php
+if($Prev_Page)
+{
+  echo " <a href='$_SERVER[SCRIPT_NAME]?Page=$Prev_Page&Id_New_Test=$_GET[Id_New_Test]&Subject=$_GET[Subject]&subjectname=$_GET[subjectname]&term=ภาคเรียนที่%201'><< Back</a> ";
+}
+
+for($i=1; $i<=$Num_Pages; $i++){
+  if($i != $Page)
+  {
+    echo "[ <a href='$_SERVER[SCRIPT_NAME]?Page=$i&Id_New_Test=$_GET[Id_New_Test]&Subject=$_GET[Subject]&subjectname=$_GET[subjectname]&term=ภาคเรียนที่%201'>$i</a> ]";
+  }
+  else
+  {
+    echo "<b> $i </b>";
+  }
+}
+if($Page!=$Num_Pages)
+{
+  echo " <a href ='$_SERVER[SCRIPT_NAME]?Page=$Next_Page&Id_New_Test=$_GET[Id_New_Test]&Subject=$_GET[Subject]&subjectname=$_GET[subjectname]&term=ภาคเรียนที่%201'>Next>></a> ";
+}
+mysql_close($objConnect);
+?>
+</body>
+</html>

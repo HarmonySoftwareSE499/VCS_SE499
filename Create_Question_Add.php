@@ -197,7 +197,6 @@ $subtwo_name = ""; //หัวข้อย่อย
     <th>ชนิดข้อสอบ</th>
     <th>เวลาที่สร้าง</th>
     <th>ผู้สร้าง</th>
-    <th>นำข้อสอบเข้า</th>
     <?
     
     while ($objResult = mysql_fetch_array($objquery)) { ?>
@@ -208,47 +207,7 @@ $subtwo_name = ""; //หัวข้อย่อย
                                    
                                     <td width="10%" style="border: 1px solid black;" align="center"><?=$objResult['Time'];?></td>
                                     <td width="10%" align="center" style="border: 1px solid black;"><?=$objResult['creater'];?></td>
-                                    <td align="center" width="10%" style="border: 1px solid black;">
-                                     <form  align="Left" action="new_test.php" method="POST">
-                                    <input type="hidden" name="subject_id" value="<?= $_POST['subject_id'] ?>" />
-                                    <input type="hidden" name="subject" value="<?= $_POST['subject']; ?>"/>
-                                    <input type="hidden" name="subject_name" value="<?= $_POST['subject_name']; ?>"/>
-                                    <input type="hidden" name="unit" value="<?= $_POST['unit']; ?>"/>
-                                    <input type="hidden" name="term" value="<?= $_POST['term']; ?>"/>
-                                    <input type="hidden" name="year" value="<?= $_POST['year']; ?>"/>
-                                    <input type="hidden" name="classroom" value="<?= $_POST['classroom']; ?>"/>
-                                    <input type="hidden" name="tname" value="<?= $_POST['tname']; ?>"/> 
-                                    <input type="hidden" name="Id_Issue" value="<?=$objResult['Id_Issue'];?>"/> 
-                                    <!--<input type="image" src="pic/add.gif" alt="Submit" style="border: none;background: none;color: #2371E2;"/>-->
-                                    <input type="submit" value="นำเข้าข้อสอบ" style="width:100%; border: 2;background: none;color: #2371E2;cursor: pointer;"/> 
-                                </form>
-                                <form  align="Left" action="new_ans.php" method="POST">
-                                    <input type="hidden" name="subject_id" value="<?= $_POST['subject_id'] ?>" />
-                                    <input type="hidden" name="subject" value="<?= $_POST['subject']; ?>"/>
-                                    <input type="hidden" name="subject_name" value="<?= $_POST['subject_name']; ?>"/>
-                                    <input type="hidden" name="unit" value="<?= $_POST['unit']; ?>"/>
-                                    <input type="hidden" name="term" value="<?= $_POST['term']; ?>"/>
-                                    <input type="hidden" name="year" value="<?= $_POST['year']; ?>"/>
-                                    <input type="hidden" name="classroom" value="<?= $_POST['classroom']; ?>"/>
-                                    <input type="hidden" name="tname" value="<?= $_POST['tname']; ?>"/> 
-                                    <input type="hidden" name="type" value="<?= $_POST['type']; ?>"/>
-                                    <input type="hidden" name="Id_Issue" value="<?=$objResult['Id_Issue'];?>"/> 
-                                    <input type="submit" value="นำเข้าเฉลย" style=" width:100%;border: 2;background: none;color: #2371E2;cursor: pointer;"/>
-                                </form>
-                                 <form align="Left" action="test_object.php" method="POST">
-                                    <input type="hidden" name="subject_id" value="<?= $_POST['subject_id'] ?>" />
-                                    <input type="hidden" name="subject" value="<?= $_POST['subject']; ?>"/>
-                                    <input type="hidden" name="subject_name" value="<?= $_POST['subject_name']; ?>"/>
-                                    <input type="hidden" name="unit" value="<?= $_POST['unit']; ?>"/>
-                                    <input type="hidden" name="term" value="<?= $_POST['term']; ?>"/>
-                                    <input type="hidden" name="year" value="<?= $_POST['year']; ?>"/>
-                                    <input type="hidden" name="classroom" value="<?= $_POST['classroom']; ?>"/>
-                                    <input type="hidden" name="tname" value="<?= $_POST['tname']; ?>"/> 
-                                    <input type="hidden" name="type" value="<?= $_POST['type']; ?>"/>
-                                    <input type="hidden" name="Id_Issue" value="<?=$objResult['Id_Issue'];?>"/> 
-                                    <input type="submit" value="กำหนดตัวชี้วัด" style="width:100%; border: 2;background: none;color: #2371E2;cursor: pointer;"/>
-                                </form>  
-                                </td>
+                                    
                                     
                                 </tr>
                              <? 
